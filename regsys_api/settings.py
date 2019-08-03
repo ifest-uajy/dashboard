@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'regsys_api.authsys',
 ]
+
+AUTH_USER_MODEL = 'authsys.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
