@@ -81,3 +81,39 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+class RegistrationHandler(models.Model):
+    """
+    Issue a token send via email to confirm their registration
+    """
+
+    user = models.OneToOneField(to=User, related_name='registration_token', on_delete=models.CASCADE)
+    token = models.CharField(max_length=32, default=generate_email_token, unique=True)
+    is_confirmed = models.BooleanField(default=False)
+    sent_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return '%s (%s)' % (self.user.full_name, self.user.email)
+
+    def send_email(self):
+
+        self.sent_at = timezone.now()
+        self.save()
+
+class ForgotPasswordHandler(models.Model):
+    """
+    Issue a token send via email to reset their password
+    """
+
+    user = models.OneToOneField(to=User, related_name='password_token', on_delete=models.CASCADE)
+    token = models.CharField(max_length=32, default=generate_email_token, unique=True)
+    is_confirmed = models.BooleanField(default=False)
+    sent_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return '%s (%s)' % (self.user.full_name, self.user.email)
+
+    def send_email(self):
+
+        self.sent_at = timezone.now()
+        self.save()
