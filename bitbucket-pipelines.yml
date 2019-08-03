@@ -8,4 +8,6 @@ pipelines:
         script:
           - pip install pipenv --upgrade
           - pipenv install --dev --deploy --system
+          - python manage.py makemigrations
+          - python manage.py migrate
           - python manage.py test
