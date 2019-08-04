@@ -2,6 +2,10 @@
 
 Registration system for an annual-event.
 
+## Information
+
+This repository available on GitHub and Bitbucket.
+
 ## The Grand Plan
 
 This will achieve a working state in production. A API to work with registration system of an event.
