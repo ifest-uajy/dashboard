@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
-from .models import User, RegistrationHandler, ForgotPasswordHandler
+from .models import User, RegistrationHandler, ForgotPasswordHandler, UserTokenManagers
 
 
 @admin.register(User)
@@ -62,3 +62,14 @@ class ForgotPasswordHandlerAdmin(admin.ModelAdmin):
 
     class Meta:
         ordering = ['-sent_at']
+
+@admin.register(UserTokenManagers)
+class UserTokenManagersAdmin(admin.ModelAdmin):
+    list_display = ['token', 'i_at', 'is_revoked', 'user']
+    list_filter = ['is_revoked']
+    readonly_fields = ['token', 'i_at', 'user']
+    autocomplete_fields = ['user']
+    search_fields = ['user__full_name', 'user__email']
+
+    class Meta:
+        ordering = ['-i_at']

@@ -1,7 +1,8 @@
 from .models import (
     User,
     RegistrationHandler,
-    ForgotPasswordHandler
+    ForgotPasswordHandler,
+    UserTokenManagers
 )
 
 from .serializers import (
@@ -14,15 +15,19 @@ from .serializers import (
     PasswordChangeRequestSerializer,
 )
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from django.contrib.auth import authenticate
-from rest_framework import status
+from django.contrib.auth import authenticate, login, logout
+from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 
 
 class GetUser(APIView):
@@ -33,49 +38,89 @@ class GetUser(APIView):
         return Response(data=response_serializer.data)
 
 
-class LoginView(APIView):
-    permission_classes = ()
+@csrf_protect
+@ensure_csrf_cookie
+@sensitive_post_parameters('password')
+@api_view(['POST'])
+def login_view(request):
+    request_serializer = LoginRequestSerializer(data=request.data)
+    request_serializer.is_valid(raise_exception=True)
 
-    def post(self, request):
-        request_serializer = LoginRequestSerializer(data=request.data)
-        request_serializer.is_valid(raise_exception=True)
+    user = authenticate(
+        email=request_serializer.validated_data['email'].lower(),
+        password=request_serializer.validated_data['password']
+    )
 
-        user = authenticate(
-            email=request_serializer.validated_data['email'].lower(),
-            password=request_serializer.validated_data['password']
-        )
-
-        if user is None:
-            return Response(
-                {
-                    'status': 'failed',
-                    'message': 'Wrong email or password.'
-                },
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-
-        if not user.is_confirmed:
-            return Response(
-                {
-                    'status': 'failed',
-                    'message': 'Account email hasn\'t been confirmed.'
-                },
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-
-        refresh = RefreshToken.for_user(user)
-
-        user.last_login = timezone.now()
-        user.save()
-
+    if user is None:
         return Response(
             {
-                'status': 'success',
-                'access_token': str(refresh.access_token),
-                'refresh_token': str(refresh),
+                'status': 'failed',
+                'message': 'Wrong email or password.'
             },
-            status=status.HTTP_200_OK
+            status=status.HTTP_401_UNAUTHORIZED
         )
+
+    if not user.is_confirmed:
+        return Response(
+            {
+                'status': 'failed',
+                'message': 'Account email hasn\'t been confirmed.'
+            },
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+
+    #refresh = RefreshToken.for_user(user)
+
+    user.last_login = timezone.now()
+    user.save()
+
+    #attempt = UserTokenManagers.objects.create(token=refresh, user=user)
+    # attempt.save()
+
+    """return Response(
+        {
+            'status': 'success',
+            'access_token': str(refresh.access_token),
+            'refresh_token': str(refresh),
+        },
+        status=status.HTTP_200_OK
+    )"""
+
+    login(request, user)
+    response_serializer = UserSerializer(request.user)
+    return Response(data=response_serializer.data)
+
+
+@csrf_protect
+@ensure_csrf_cookie
+@permission_classes((permissions.IsAuthenticated))
+@api_view(['POST'])
+def _logout_view(request):
+    logout(request)
+    return Response()
+
+
+@csrf_protect
+@ensure_csrf_cookie
+@sensitive_post_parameters('password')
+@api_view(['POST'])
+def _register_user(request):
+    serial = RegistrationRequestSerializer(data=request.data)
+    serial.is_valid(raise_exception=True)
+
+    with transaction.atomic():
+        user = User.objects.create_user(
+            email=serial.validated_data['email'].lower(),
+            password=serial.validated_data['password'],
+            full_name=serial.validated_data['full_name']
+        )
+
+        go = RegistrationHandler.objects.create(user=user)
+        go.send_email()
+
+    return Response({
+        'message': 'User has been registered, please check your email to confirm your registration.'
+    }, status = status.HTTP_201_CREATED)
 
 
 class RegistrationConfirmationView(APIView):
