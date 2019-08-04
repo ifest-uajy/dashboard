@@ -1,3 +1,6 @@
+"""
+regsys_api.authsys Views Configuration
+"""
 from rest_framework.response import Response
 from django.db import transaction
 from rest_framework.views import (APIView)
@@ -6,7 +9,7 @@ from django.contrib.auth import (authenticate, login, logout)
 from rest_framework import status
 from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
+#from django.views.decorators.debug import sensitive_post_parameters
 
 from .models import (
     User,
@@ -50,7 +53,7 @@ class LoginView(APIView):
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
-    #@method_decorator(sensitive_post_parameters('password'))
+    # @method_decorator(sensitive_post_parameters('password'))
     def post(self, request):
         request_serializer = LoginRequestSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
@@ -95,7 +98,7 @@ class LogoutView(APIView):
 
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    #@method_decorator(sensitive_post_parameters('password'))
+    # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
     def post(self, request):
         logout(request)
@@ -111,7 +114,7 @@ class RegistrationView(APIView):
 
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    #@method_decorator(sensitive_post_parameters('password'))
+    # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
     def post(self, request):
         request_serializer = RegistrationRequestSerializer(data=request.data)
@@ -143,7 +146,7 @@ class RegistrationConfirmationView(APIView):
 
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    #@method_decorator(sensitive_post_parameters('password'))
+    # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
     def get(self, request):
         token = request.GET.get('token')
@@ -231,7 +234,7 @@ class ConfirmForgotPasswordHandlerView(APIView):
 
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    #@method_decorator(sensitive_post_parameters('new_password'))
+    # @method_decorator(sensitive_post_parameters('new_password'))
     @method_decorator(never_cache)
     def get(self, request):
         token = request.GET.get('token')
@@ -330,13 +333,14 @@ class ConfirmForgotPasswordHandlerView(APIView):
             status=status.HTTP_200_OK
         )
 
+
 class ChangePasswordView(APIView):
     """
     Provides the ability to change password.
     """
-    
+
     serializer_class = PasswordChangeRequestSerializer
-    
+
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
