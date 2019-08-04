@@ -1,7 +1,9 @@
 # regsys-backend
+
 Registration system for an annual-event.
 
 ## The Grand Plan
+
 This will achieve a working state in production. A API to work with registration system of an event.
 
 1. API to handle user registration
@@ -15,11 +17,21 @@ This will achieve a working state in production. A API to work with registration
 2. Django Rest Framework
 3. React
 
+## Have done
+
+1. Authentication System
+   Custom authenticationn system has done within registration function, login function, confirm email function, reset function. Need to work later, refresh JWT token function.
+
 ## Detailed Plan
+
 ### Authentication and Authorization
+
 User will register through website and returned a JWT token to perform actions in the website.
+
 ### Mail Server
+
 After finishing registration, user will recieve onboarding email in purpose to confirm their email. User then will get promotional email that contain what events or talks that open to join.
+
 1. Onboarding email
 2. Team forming confirmation
 3. Payment reminder
@@ -27,7 +39,9 @@ After finishing registration, user will recieve onboarding email in purpose to c
 5. Cancellation email
 6. Ticket email
 7. Finalist email
+
 ### Payment
+
 There will be other dashboard like website to perform update the value of payment confirmation. This action could be done online with staff permission.
 
 ## Copyright

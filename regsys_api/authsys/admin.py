@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 from .models import User, RegistrationHandler, ForgotPasswordHandler
 
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """
@@ -32,8 +33,10 @@ class UserAdmin(DjangoUserAdmin):
         }),
     )
 
-    list_display = ('full_name', 'email', 'date_joined', 'is_confirmed', 'is_staff')
+    list_display = ('full_name', 'email', 'date_joined',
+                    'is_confirmed', 'is_staff')
     search_fields = ('full_name', 'email')
+    readonly_fields = ['date_joined', 'last_login']
     ordering = ('full_name',)
 
 
@@ -41,18 +44,19 @@ class UserAdmin(DjangoUserAdmin):
 class RegistrationHandlerAdmin(admin.ModelAdmin):
     list_display = ['user', 'token', 'is_confirmed', 'sent_at']
     list_filter = ['is_confirmed']
-    readonly_fields = ['token', 'sent_at']
+    readonly_fields = ['user', 'token', 'is_confirmed', 'sent_at']
     autocomplete_fields = ['user']
     search_fields = ['user__full_name', 'user__email']
 
     class Meta:
         ordering = ['-sent_at']
 
+
 @admin.register(ForgotPasswordHandler)
 class ForgotPasswordHandlerAdmin(admin.ModelAdmin):
     list_display = ['user', 'token', 'is_confirmed', 'sent_at']
     list_filter = ['is_confirmed']
-    readonly_fields = ['token', 'sent_at']
+    readonly_fields = ['user', 'token', 'is_confirmed', 'sent_at']
     autocomplete_fields = ['user']
     search_fields = ['user__full_name', 'user__email']
 

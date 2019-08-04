@@ -4,4 +4,5 @@
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
+    "python.pythonPath": "C:\\Users\\Vriyas\\.virtualenvs\\regsys-backend-Db4_KfVk\\Scripts\\python.exe",
 }

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(max_length=75)
     email = serializers.EmailField(read_only=True)
@@ -20,25 +21,28 @@ class UserSerializer(serializers.ModelSerializer):
             'email', 'is_staff', 'is_confirmed', 'last_login', 'date_joined',
         )
 
+
 class LoginRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
 
+
 class RegistrationRequestSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=75)
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(
+        validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField()
 
+
 class RegistrationConfirmationRequestSerializer(serializers.Serializer):
-    token = serializers.CharField(max_length=30)
+    token = serializers.CharField(max_length=32)
 
 
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 
-class PasswordResetConfirmationRequestSerializer(serializers.Serializer):
-    token = serializers.CharField(max_length=30)
+class PasswordResetConfirmationRequestSerializerPost(serializers.Serializer):
     new_password = serializers.CharField()
 
 

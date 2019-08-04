@@ -58,15 +58,18 @@ class UserRegistrationTest(TestCase):
             User.objects.create_superuser(
                 email='super@user.com', password='foo', is_superuser=False
             )
-        
+
+
 class RegistrationHandlerTest(TestCase):
 
     def test_token_different(self):
         """
         Confirmation token should be different for each user
         """
-        self.user1 = User.objects.create_user(email='normal@testing.com', password='foo')
-        self.user2 = User.objects.create_user(email='normal2@testing.com', password='foo')
+        self.user1 = User.objects.create_user(
+            email='normal@testing.com', password='foo')
+        self.user2 = User.objects.create_user(
+            email='normal2@testing.com', password='foo')
 
         attempt1 = RegistrationHandler.objects.create(user=self.user1)
         attempt2 = RegistrationHandler.objects.create(user=self.user2)
@@ -75,14 +78,17 @@ class RegistrationHandlerTest(TestCase):
         self.assertIsNotNone(attempt2.token)
         self.assertNotEqual(attempt1.token, attempt2.token)
 
+
 class ForgotPasswordHandlerTest(TestCase):
 
     def test_token_different(self):
         """
         Confirmation token should be different for each user
         """
-        self.user1 = User.objects.create_user(email='normal@testing.com', password='foo')
-        self.user2 = User.objects.create_user(email='normal2@testing.com', password='foo')
+        self.user1 = User.objects.create_user(
+            email='normal@testing.com', password='foo')
+        self.user2 = User.objects.create_user(
+            email='normal2@testing.com', password='foo')
 
         attempt1 = ForgotPasswordHandler.objects.create(user=self.user1)
         attempt2 = ForgotPasswordHandler.objects.create(user=self.user2)

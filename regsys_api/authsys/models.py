@@ -64,6 +64,7 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     """
     Custom user model for regsys_api
@@ -82,13 +83,16 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+
 class RegistrationHandler(models.Model):
     """
     Issue a token send via email to confirm their registration
     """
 
-    user = models.OneToOneField(to=User, related_name='registration_token', on_delete=models.CASCADE)
-    token = models.CharField(max_length=32, default=generate_email_token, unique=True)
+    user = models.OneToOneField(
+        to=User, related_name='registration_token', on_delete=models.CASCADE)
+    token = models.CharField(
+        max_length=32, default=generate_email_token, unique=True)
     is_confirmed = models.BooleanField(default=False)
     sent_at = models.DateTimeField(null=True, blank=True)
 
@@ -100,13 +104,16 @@ class RegistrationHandler(models.Model):
         self.sent_at = timezone.now()
         self.save()
 
+
 class ForgotPasswordHandler(models.Model):
     """
     Issue a token send via email to reset their password
     """
 
-    user = models.OneToOneField(to=User, related_name='password_token', on_delete=models.CASCADE)
-    token = models.CharField(max_length=32, default=generate_email_token, unique=True)
+    user = models.OneToOneField(
+        to=User, related_name='password_token', on_delete=models.CASCADE)
+    token = models.CharField(
+        max_length=32, default=generate_email_token, unique=True)
     is_confirmed = models.BooleanField(default=False)
     sent_at = models.DateTimeField(null=True, blank=True)
 
