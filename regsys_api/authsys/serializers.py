@@ -33,11 +33,6 @@ class RegistrationRequestSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField()
 
-
-class RegistrationConfirmationRequestSerializer(serializers.Serializer):
-    token = serializers.CharField(max_length=32)
-
-
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 

@@ -1,27 +1,13 @@
-"""
-urls.py
-
-File ini menghandle url yang digunakan oleh app authsys.
-
-"""
-
 from django.urls import path
-from rest_framework_simplejwt.views import (
-    TokenRefreshView
-)
-from .views import (
-    GetUser, _register_user, login_view, _logout_view, RegistrationConfirmationView,
-    ForgotPasswordHandlerView, ResetPasswordHandler
-)
+from .views import LoginView, RegistrationView, LogoutView, RegistrationConfirmationView, ForgotPasswordHandlerView, GetCurrentUserView, ConfirmForgotPasswordHandlerView, ChangePasswordView
 
 urlpatterns = [
-    path('', GetUser.as_view(), name='get_details'),
-    path('register/', _register_user),
-    path('login/', login_view),
-    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('confirm/', RegistrationConfirmationView.as_view(), name='confirm_email'),
-    path('reset/confirm/', ResetPasswordHandler.as_view(),
-         name='reset_password_token'),
-    path('reset/', ForgotPasswordHandlerView.as_view(), name='reset_password'),
-    path('logout/', _logout_view)
+    path('', GetCurrentUserView.as_view()),
+    path('register/', RegistrationView.as_view()),
+    path('login/', LoginView.as_view()),
+    path('confirm/', RegistrationConfirmationView.as_view()),
+    path('reset/confirm/', ConfirmForgotPasswordHandlerView.as_view()),
+    path('reset/', ForgotPasswordHandlerView.as_view()),
+    path('logout/', LogoutView.as_view()),
+    path('change-password/', ChangePasswordView.as_view()),
 ]
