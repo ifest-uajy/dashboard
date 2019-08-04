@@ -1,8 +1,22 @@
+"""
+authsys views configurations
+"""
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from django.db import transaction
+from rest_framework.views import (APIView)
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import (authenticate, login, logout)
+from rest_framework import status, permissions
+from django.utils import timezone
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
+
 from .models import (
     User,
     RegistrationHandler,
-    ForgotPasswordHandler,
-    UserTokenManagers
+    ForgotPasswordHandler
 )
 
 from .serializers import (
@@ -14,20 +28,6 @@ from .serializers import (
     PasswordResetConfirmationRequestSerializerPost,
     PasswordChangeRequestSerializer,
 )
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from django.db import transaction
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from django.contrib.auth import authenticate, login, logout
-from rest_framework import status, permissions
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.utils import timezone
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.debug import sensitive_post_parameters
-from django.views.decorators.csrf import csrf_protect
-from django.utils.decorators import method_decorator
 
 
 class GetUser(APIView):
@@ -43,6 +43,11 @@ class GetUser(APIView):
 @sensitive_post_parameters('password')
 @api_view(['POST'])
 def login_view(request):
+    """
+    Fungsi login
+    :: Parameter email
+    :: Parameter password
+    """
     request_serializer = LoginRequestSerializer(data=request.data)
     request_serializer.is_valid(raise_exception=True)
 
@@ -69,22 +74,8 @@ def login_view(request):
             status=status.HTTP_401_UNAUTHORIZED
         )
 
-    #refresh = RefreshToken.for_user(user)
-
     user.last_login = timezone.now()
     user.save()
-
-    #attempt = UserTokenManagers.objects.create(token=refresh, user=user)
-    # attempt.save()
-
-    """return Response(
-        {
-            'status': 'success',
-            'access_token': str(refresh.access_token),
-            'refresh_token': str(refresh),
-        },
-        status=status.HTTP_200_OK
-    )"""
 
     login(request, user)
     response_serializer = UserSerializer(request.user)
@@ -96,6 +87,9 @@ def login_view(request):
 @permission_classes((permissions.IsAuthenticated))
 @api_view(['POST'])
 def _logout_view(request):
+    """
+    Fungsi logout
+    """
     logout(request)
     return Response()
 
@@ -105,6 +99,12 @@ def _logout_view(request):
 @sensitive_post_parameters('password')
 @api_view(['POST'])
 def _register_user(request):
+    """
+    Fungsi registrasi
+    :: Parameter nama lengkap
+    :: Parameter email
+    :: Parameter password
+    """
     serial = RegistrationRequestSerializer(data=request.data)
     serial.is_valid(raise_exception=True)
 
@@ -115,12 +115,12 @@ def _register_user(request):
             full_name=serial.validated_data['full_name']
         )
 
-        go = RegistrationHandler.objects.create(user=user)
-        go.send_email()
+        auth_go = RegistrationHandler.objects.create(user=user)
+        auth_go.send_email()
 
     return Response({
         'message': 'User has been registered, please check your email to confirm your registration.'
-    }, status = status.HTTP_201_CREATED)
+    }, status=status.HTTP_201_CREATED)
 
 
 class RegistrationConfirmationView(APIView):

@@ -18,7 +18,7 @@ class UserAdmin(DjangoUserAdmin):
         ),
         (
             _('Membership Status'),
-            {'fields': ['is_confirmed', 'is_staff', 'is_superuser']}
+            {'fields': ['is_confirmed', 'is_staff', 'is_superuser', 'user_permissions']}
         ),
         (
             _('Membership Information'),
@@ -62,14 +62,3 @@ class ForgotPasswordHandlerAdmin(admin.ModelAdmin):
 
     class Meta:
         ordering = ['-sent_at']
-
-@admin.register(UserTokenManagers)
-class UserTokenManagersAdmin(admin.ModelAdmin):
-    list_display = ['token', 'i_at', 'is_revoked', 'user']
-    list_filter = ['is_revoked']
-    readonly_fields = ['token', 'i_at', 'user']
-    autocomplete_fields = ['user']
-    search_fields = ['user__full_name', 'user__email']
-
-    class Meta:
-        ordering = ['-i_at']

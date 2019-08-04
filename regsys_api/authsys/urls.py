@@ -1,9 +1,16 @@
+"""
+urls.py
+
+File ini menghandle url yang digunakan oleh app authsys.
+
+"""
+
 from django.urls import path
 from rest_framework_simplejwt.views import (
     TokenRefreshView
 )
 from .views import (
-    GetUser, RegisterView, _register_user, login_view, _logout_view, RegistrationConfirmationView,
+    GetUser, _register_user, login_view, _logout_view, RegistrationConfirmationView,
     ForgotPasswordHandlerView, ResetPasswordHandler
 )
 
