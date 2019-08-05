@@ -29,7 +29,6 @@ from .serializers import (
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 
-
 class GetCurrentUserView(APIView):
     """
     Provides the ability to get a user information
@@ -344,7 +343,17 @@ class ChangePasswordView(APIView):
     @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
+
     def post(self, request):
+
+        if request.user.is_anonymous:
+            return Response(
+                {
+                    'message': 'Please login to proceed.',
+                    'status': 'failed'
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
         request_serializer = PasswordChangeRequestSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
