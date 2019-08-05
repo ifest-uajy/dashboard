@@ -18,7 +18,7 @@ class UserAdmin(DjangoUserAdmin):
         ),
         (
             _('Membership Status'),
-            {'fields': ['is_confirmed', 'is_staff', 'is_superuser', 'user_permissions']}
+            {'fields': ['is_active', 'is_confirmed', 'is_staff', 'groups']}
         ),
         (
             _('Membership Information'),
@@ -36,7 +36,7 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('full_name', 'email', 'date_joined',
                     'is_confirmed', 'is_staff')
     search_fields = ('full_name', 'email')
-    readonly_fields = ['date_joined', 'last_login']
+    readonly_fields = ['date_joined', 'last_login', 'is_confirmed', 'is_staff', 'groups', 'email']
     ordering = ('full_name',)
 
 

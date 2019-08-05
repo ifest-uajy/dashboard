@@ -34,7 +34,7 @@ class GetCurrentUserView(APIView):
     Provides the ability to get a user information
     """
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def get(self, request):
@@ -49,7 +49,7 @@ class LoginView(APIView):
 
     serializer_class = LoginRequestSerializer
 
-    @method_decorator(csrf_protect)
+    ###@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     # @method_decorator(sensitive_post_parameters('password'))
@@ -95,7 +95,7 @@ class LogoutView(APIView):
     """
     permission_classes = (IsAuthenticated,)
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
@@ -111,7 +111,7 @@ class RegistrationView(APIView):
 
     serializer_class = RegistrationRequestSerializer
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
@@ -143,7 +143,7 @@ class RegistrationConfirmationView(APIView):
     Provides the ability to confirm an user registration
     """
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
@@ -200,7 +200,7 @@ class ForgotPasswordHandlerView(APIView):
     Provides the ability to obtain a reset password email.
     """
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def post(self, request):
@@ -231,7 +231,7 @@ class ConfirmForgotPasswordHandlerView(APIView):
     Provides the ability to reset password.
     """
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('new_password'))
     @method_decorator(never_cache)
@@ -340,7 +340,7 @@ class ChangePasswordView(APIView):
 
     serializer_class = PasswordChangeRequestSerializer
 
-    @method_decorator(csrf_protect)
+    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
 
