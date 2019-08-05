@@ -124,16 +124,3 @@ class ForgotPasswordHandler(models.Model):
 
         self.sent_at = timezone.now()
         self.save()
-
-class UserTokenManagers(models.Model):
-    """
-    Track all of generated refresh token of user
-    """
-
-    token = models.CharField(max_length=200, unique=True)
-    is_revoked = models.BooleanField(default=False)
-    i_at = models.DateTimeField(null=False, default=timezone.now)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '%s logged in' % self.user.email
