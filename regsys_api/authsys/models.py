@@ -10,7 +10,8 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
 
 def generate_email_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
@@ -100,7 +101,26 @@ class RegistrationHandler(models.Model):
         return '%s (%s)' % (self.user.full_name, self.user.email)
 
     def send_email(self):
+        context = {
+            'user': self.user,
+            'token': self.token
+        }
 
+        text_template = get_template('registration_email.txt')
+        html_template = get_template('registration_email.html')
+
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+
+        mail = EmailMultiAlternatives(
+            subject='Mohon Konfirmasi Alamat Email Anda',
+            body=mail_text_message,
+            to=[self.user.email]
+        )
+
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send()
+        
         self.sent_at = timezone.now()
         self.save()
 
