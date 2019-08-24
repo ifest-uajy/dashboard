@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'regsys_api.authsys',
+    'regsys_api.hackathon',
     'rest_framework',
 ]
 
