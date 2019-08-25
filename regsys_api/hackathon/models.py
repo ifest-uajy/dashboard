@@ -10,6 +10,10 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Competition Track'
+        verbose_name_plural = 'Competition Tracks'
+
 class HackathonTeams(models.Model):
 
     track = models.ForeignKey(
@@ -24,6 +28,10 @@ class HackathonTeams(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Hackathon Team'
+        verbose_name_plural = 'Hackathon Teams'
     
 class HackathonTeamsMember(models.Model):
 
@@ -37,3 +45,5 @@ class HackathonTeamsMember(models.Model):
     class Meta:
         unique_together = (('team', 'user'),)
         get_latest_by = 'created_at'
+        verbose_name = 'Team Member'
+        verbose_name_plural = 'Team Members'
