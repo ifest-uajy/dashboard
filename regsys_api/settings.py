@@ -65,7 +65,7 @@ ROOT_URLCONF = 'regsys_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,3 +150,7 @@ EMAIL_HOST_PASSWORD = '290f894d0b3a4b'
 EMAIL_PORT = '2525'
 
 DEFAULT_FROM_EMAIL = 'some.mail@inter.net'
+
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, 'dist/static'),
+]
