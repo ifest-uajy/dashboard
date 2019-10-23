@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('regsys_api.authsys.urls')),
     path('api/hackathon/', include('regsys_api.hackathon.urls')),
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^.*$', TemplateView.as_view(template_name="index.html")),
 ]
