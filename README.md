@@ -49,3 +49,9 @@ There will be other dashboard like website to perform update the value of paymen
 ## Copyright
 
 This is a source code repository for a registration system that uses in a event. You could take a look to this work but cannot do anything with this code. This code was have no license, so you could read more in [here](https://choosealicense.com/no-permission/) what could you do and don't.
+
+## Web dashboard planning
+
+1. Home
+2. Login
+3. Registrasi

@@ -1,47 +1,70 @@
 <template>
-    <div id="login">
-        <h1>Login</h1>
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
-        <input type="password" name="password" v-model="input.password" placeholder="Password" />
-        <button type="button" v-on:click="login()">Login</button>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Registrasi Peserta
+                    </div>
+                    <div class="card-body">
+                        <v-form class="mt-3" @submit.prevent="login">
+                        <v-text-field v-model="email" label="Email" type="email" autocomplete="email" required></v-text-field>
+                        <v-text-field v-model="password" label="Password" type="password" autocomplete="current-password" required></v-text-field>
+                        <v-alert v-for="error in errors" :key="error" :value="true" type="error" outline>
+                            {{ error }}
+                        </v-alert>
+                        <v-btn
+                            large
+                            block
+                            color="primary"
+                            type="submit"
+                            :loading="loading"
+                            :disabled="loading"
+                        >
+                            Login
+                        </v-btn>
+                        </v-form>
+                    </div>
+                    <div>
+                        {{output}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'Login',
-        data() {
-            return {
-                input: {
-                    username: "",
-                    password: ""
-                }
-            }
-        },
-        methods: {
-            login() {
-                if(this.input.username != "" && this.input.password != "") {
-                    if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "secure" });
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
-                } else {
-                    console.log("A username and password must be present");
-                }
-            }
-        }
-    }
-</script>
+import { mapState, mapActions } from 'vuex'
 
-<style scoped>
-    #login {
-        width: 500px;
-        border: 1px solid #CCCCCC;
-        background-color: #FFFFFF;
-        margin: auto;
-        margin-top: 200px;
-        padding: 20px;
+export default {
+    data: () => ({
+        email: '',
+        password: ''
+    }),
+    computed: {
+        ...mapState({
+            errors: state => state.authsys.errors,
+            loading: state=> state.authsys.loading
+        })
+    },
+    methods: {
+        ...mapActions({
+            loginAction: 'authsys/login',
+            clear: 'authsys/clear'
+        }),
+
+        login() {
+            this.loginAction({
+                email: this.email,
+                password: this.password,
+                router: this.$router
+            })
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        this.clear()
+        next()
     }
-</style>
+}
+</script>

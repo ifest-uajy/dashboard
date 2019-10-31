@@ -143,7 +143,7 @@ class RegistrationConfirmationView(APIView):
     Provides the ability to confirm an user registration
     """
 
-    ##@method_decorator(csrf_protect)
+    @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
