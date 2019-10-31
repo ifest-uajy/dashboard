@@ -62,7 +62,7 @@ ROOT_URLCONF = 'regsys_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'public')],
+        'DIRS': [os.path.join(BASE_DIR, 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,12 +145,7 @@ EMAIL_PORT = '2525'
 
 DEFAULT_FROM_EMAIL = 'some.mail@inter.net'
 
-# ./my_project/settings.py
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'dist'),
-    os.path.join(BASE_DIR, 'static'),
-)
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'public')
-
 STATIC_URL = '/static/'
+# Place static in the same location as webpack build files
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
+STATICFILES_DIRS = []
