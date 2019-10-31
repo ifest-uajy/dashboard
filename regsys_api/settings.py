@@ -27,7 +27,7 @@ SECRET_KEY = 'mahgv+mu_ok-%vi#xg!r8ke=pmbc#2et9q5o&f@!ah8g!qm+*('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'regsys_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'dist')],
+        'DIRS': ['dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,5 +147,5 @@ DEFAULT_FROM_EMAIL = 'some.mail@inter.net'
 
 STATIC_URL = '/static/'
 # Place static in the same location as webpack build files
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
-STATICFILES_DIRS = []
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
+STATICFILES_DIRS = [join(BASE_DIR, 'dist', 'static')]
