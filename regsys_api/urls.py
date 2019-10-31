@@ -14,13 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.views.decorators.cache import never_cache
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
+
+index_view = never_cache(TemplateView.as_view(template_name='index.html'))
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('regsys_api.authsys.urls')),
     path('api/hackathon/', include('regsys_api.hackathon.urls')),
-    url(r'^.*$', TemplateView.as_view(template_name="index.html")),
+    url(r'^.*$', index_view),
+    #path('', index_view, name='index'),
+    
 ]

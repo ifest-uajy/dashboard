@@ -1,6 +1,15 @@
 .DS_Store
-node_modules/
-/dist/
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+.venv
+.vscode
+
+# Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -12,6 +21,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-
-.venv
-**/__pycache__/**
+*.sw?
