@@ -38,21 +38,31 @@ export default {
                 commit('setLoading', true)
                 commit('resetError')
                 let response = await handle.post( '/auth/login/', { email, password })
-                console.log(response.data)
                 commit('setUser', response.data)
-                // Redirect after login
                 let redirectTo = this.loginRedirect
                 if (!redirectTo) redirectTo = { name: 'dashboard' }
                 router.push(redirectTo)
-
             } catch (e) {
-                console.log(e)
+                commit('setError', e)
             } finally {
                 commit('setLoading', false)
             }
         },
         async clear({ commit }) {
             commit('resetError')
+        },
+        async logout({ commit }) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                await handle.post('/auth/logout/', null)
+                commit('setUser', null)
+                location.reload(true)
+            } catch (e) {
+                commit('setError', e)
+            } finally {
+                commit('setLoading', false)
+            }
         }
     }
 
