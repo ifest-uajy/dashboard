@@ -6,6 +6,8 @@
                     <div class="card-header">
                         Registrasi Peserta
                     </div>
+                  {{errors}}
+                    
                     <div class="card-body">
                         <form v-on:submit.prevent="login">
 

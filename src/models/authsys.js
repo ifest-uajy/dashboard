@@ -5,7 +5,7 @@ export default {
     namespaced: true,
     state: {
         user: null,
-        errors: [],
+        errors: "",
         loading: false,
         redirectTo: null
     },
@@ -16,7 +16,7 @@ export default {
     },
     mutations: {
         setError(state, e) {
-            state.errors.push(e + '')
+            state.errors = e
         },
         resetError(state) {
             state.errors = []
@@ -43,7 +43,12 @@ export default {
                 if (!redirectTo) redirectTo = { name: 'dashboard' }
                 router.push(redirectTo)
             } catch (e) {
-                commit('setError', e)
+                if(e.response.data.message) {
+                    console.log(e.response.data.message)
+                    commit('setError', e.response.data.message)
+                } else {
+                    commit('setError', e)
+                }
             } finally {
                 commit('setLoading', false)
             }
