@@ -2,7 +2,7 @@
   <v-container>
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500">
-        <v-card-title>Registrasi Peserta</v-card-title>
+        <v-card-title>Login Peserta</v-card-title>
         <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
 
         <v-card-text>
@@ -22,6 +22,7 @@
               autocomplete="current-password"
               required
               outlined
+              :rules="passwordRules"
             ></v-text-field>
 
             <p class="font-weight-medium">
@@ -60,7 +61,10 @@ export default {
         emailRules: [
             v => !!v || "E-mail is required",
             v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-        ]
+        ],
+    passwordRules: [
+        v => !!v || "Password is required"
+    ]
     }),
       components: {
     Footer

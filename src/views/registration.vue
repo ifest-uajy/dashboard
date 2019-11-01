@@ -26,6 +26,7 @@
               autocomplete="current-password"
               required
               outlined
+              :rules="passwordRules"
             ></v-text-field>
             <v-text-field
               v-model="confirmPassword"
@@ -79,6 +80,9 @@ export default {
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+    ],
+    passwordRules: [
+        v => !!v || "Password is required"
     ]
   }),
   components: {

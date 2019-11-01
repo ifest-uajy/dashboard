@@ -4,6 +4,7 @@ regsys_api.authsys Views Configuration
 from rest_framework.response import Response
 from django.db import transaction
 from rest_framework.views import (APIView)
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import (authenticate, login, logout)
 from rest_framework import status
@@ -34,10 +35,11 @@ class GetCurrentUserView(APIView):
     Provides the ability to get a user information
     """
 
-    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def get(self, request):
+        if(request.user.is_anonymous):
+            return Response()
         response_serializer = UserSerializer(request.user)
         return Response(data=response_serializer.data)
 

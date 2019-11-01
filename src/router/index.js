@@ -6,7 +6,7 @@ import NotFoundComponent from '../views/404.vue'
 import RegistrationComponent from '../views/registration.vue'
 import DashboardComponent from '../views/dashboard.vue'
 
-import { reqLogin } from '../control/userhandle'
+import { reqLogin, reqAnonymous } from '../control/userhandle'
 
 Vue.use(VueRouter)
 
@@ -20,18 +20,59 @@ const routes = [
     component: HomeComponent
   },
   {
+    name: 'login',
     path: '/login',
-    component: LoginComponent
+    component: LoginComponent,
+    meta: {
+      title: 'Login Peserta - Informatics Festival #8',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        },
+        {
+          property: 'og:description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        }
+      ]
+    },
+    beforeEnter: reqAnonymous
   },
   {
     path: '/register',
-    component: RegistrationComponent
+    component: RegistrationComponent,
+    meta: {
+      title: 'Registrasi Peserta - Informatics Festival #8',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        },
+        {
+          property: 'og:description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        }
+      ]
+    }
   },
   {
     name: 'dashboard',
     path: '/dashboard',
     component: DashboardComponent,
-    beforeEnter: reqLogin
+    beforeEnter: reqLogin,
+    meta: {
+      title: 'Dashboard Peserta - Informatics Festival #8',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        },
+        {
+          property: 'og:description',
+          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
+        }
+      ]
+    }
   },
   {
     path: '*',

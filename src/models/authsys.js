@@ -41,7 +41,6 @@ export default {
     actions: {
         async login({ commit }, { email, password, router }) {
             try {
-                //console.log("HELL")
                 commit('setLoading', true)
                 commit('resetError')
                 let response = await handle.post( '/auth/login/', { email, password })
