@@ -139,8 +139,8 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', None)
 EMAIL_PORT = os.environ.get('EMAIL_PORT', None)
 """
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = 'b797f52964336f'
-EMAIL_HOST_PASSWORD = '290f894d0b3a4b'
+EMAIL_HOST_USER = '55ffcae6d4e2e8'
+EMAIL_HOST_PASSWORD = 'c11149bc087ab8'
 EMAIL_PORT = '2525'
 
 DEFAULT_FROM_EMAIL = 'some.mail@inter.net'

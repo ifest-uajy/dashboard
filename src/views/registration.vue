@@ -117,7 +117,11 @@ export default {
         email: this.email
       });
     }
-  }
+  },
+    beforeRouteLeave(to, from, next) {
+       this.clear()
+       next()
+    }
 };
 </script>
 

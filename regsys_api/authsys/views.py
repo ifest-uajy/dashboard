@@ -25,6 +25,7 @@ from .serializers import (
     PasswordResetRequestSerializer,
     PasswordResetConfirmationRequestSerializerPost,
     PasswordChangeRequestSerializer,
+    EmailConfirmationSerializer
 )
 
 from django.utils.decorators import method_decorator
@@ -145,14 +146,14 @@ class RegistrationConfirmationView(APIView):
     Provides the ability to confirm an user registration
     """
 
-    @method_decorator(csrf_protect)
+    #@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
-    def get(self, request):
-        token = request.GET.get('token')
+    def post(self, request):
+        request_serializer = EmailConfirmationSerializer(data=request.data)
+        
 
-        if not token:
+        if not request_serializer.is_valid(raise_exception=True):
             return Response(
                 {
                     'message': 'The confirmation link was invalid or used.',
@@ -162,7 +163,7 @@ class RegistrationConfirmationView(APIView):
             )
 
         with transaction.atomic():
-            attempt = RegistrationHandler.objects.filter(token=token).first()
+            attempt = RegistrationHandler.objects.filter(token=request_serializer.validated_data['token']).first()
 
             if attempt is None:
                 return Response(
@@ -219,13 +220,22 @@ class ForgotPasswordHandlerView(APIView):
                 attempt = ForgotPasswordHandler.objects.create(user=user)
                 attempt.send_email()
 
-        return Response(
-            {
-                'message': 'Please check using your registered email to perform password reset.',
-                'status': 'success'
-            },
-            status=status.HTTP_200_OK
-        )
+                return Response(
+                    {
+                        'message': 'Please check using your registered email to perform password reset.',
+                        'status': 'success'
+                    },
+                    status=status.HTTP_200_OK
+                )
+
+            else:
+                return Response(
+                    {
+                        'message': 'Email tidak terdaftar atau tidak valid.',
+                        'status': 'failed'
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
 
 class ConfirmForgotPasswordHandlerView(APIView):
