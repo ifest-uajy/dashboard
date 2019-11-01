@@ -5,9 +5,10 @@ export default {
     namespaced: true,
     state: {
         user: null,
-        errors: "",
+        errors: [],
         loading: false,
-        redirectTo: null
+        redirectTo: null,
+        message: [],
     },
     getters: {
         isLoggedIn(state) {
@@ -29,12 +30,18 @@ export default {
         },
         setRedirectTo(state, redirectTo) {
             state.redirectTo = redirectTo
+        },
+        setMessage(state, m) {
+            state.message = m
+        },
+        resetMessage(state) {
+            state.message = ""
         }
     },
     actions: {
         async login({ commit }, { email, password, router }) {
             try {
-                console.log("HELL")
+                //console.log("HELL")
                 commit('setLoading', true)
                 commit('resetError')
                 let response = await handle.post( '/auth/login/', { email, password })
@@ -44,8 +51,8 @@ export default {
                 router.push(redirectTo)
             } catch (e) {
                 if(e.response.data.message) {
-                    console.log(e.response.data.message)
-                    commit('setError', e.response.data.message)
+                    console.log(e.response.data)
+                    commit('setError', e.response.data)
                 } else {
                     commit('setError', e)
                 }
@@ -55,6 +62,28 @@ export default {
         },
         async clear({ commit }) {
             commit('resetError')
+            commit('resetMessage')
+        },
+        async register({commit}, {full_name, email, password}) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                commit('resetMessage')
+                let response = await handle.post('/auth/register/', {full_name, email, password})
+                if(response.status == 201) {
+                    console.log(response.data)
+                    commit('setMessage', response.data)
+                }
+            } catch (e) {
+                if(e.response.data) {
+                    console.log(e.response.data)
+                    commit('setError', e.response.data)
+                } else {
+                    commit('setError', e)
+                }
+            } finally {
+                commit('setLoading', false)
+            }
         },
         async logout({ commit }) {
             try {

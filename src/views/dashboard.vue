@@ -1,8 +1,10 @@
 <template>
-  <div id="dashboard">
-    <h1>Selamat Datang</h1>
-    <p>Halaman dashboard {{user.full_name}}</p>
+<section class="section">
+  <div class="container">
+    <h2 class="subtitle">Informatics Festival #8</h2>
+    <h1 class="title">Selamat datang, {{user.full_name}}!</h1>
   </div>
+</section>
 </template>
 
 <script>
