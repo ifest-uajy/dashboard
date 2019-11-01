@@ -55,3 +55,16 @@ This is a source code repository for a registration system that uses in a event.
 1. Home
 2. Login
 3. Registrasi
+
+Website dashboard planning saat ini:
+1. Dashboard (isi profile user, competition and workshop list)
+2. Login (done)
+3. Register (done)
+4. Reset password(done)
+
+to do:
+5. profile (vege or not uploader ktm dll)
+6. team (create team)
+7. team detail (payment and uploader)
+
+8. workshop
