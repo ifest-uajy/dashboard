@@ -54,7 +54,7 @@ class RegistrationHandlerAdmin(admin.ModelAdmin):
 
 @admin.register(ForgotPasswordHandler)
 class ForgotPasswordHandlerAdmin(admin.ModelAdmin):
-    list_display = ['user', 'token', 'is_confirmed', 'sent_at']
+    list_display = ['user', 'operating_system', 'browser', 'token', 'is_confirmed', 'sent_at']
     list_filter = ['is_confirmed']
     readonly_fields = ['user', 'token', 'is_confirmed', 'sent_at']
     autocomplete_fields = ['user']

@@ -38,6 +38,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
 
 
 class PasswordResetConfirmationRequestSerializerPost(serializers.Serializer):
+    token = serializers.CharField()
     new_password = serializers.CharField()
 
 

@@ -7,6 +7,7 @@ import RegistrationComponent from '../views/registration.vue'
 import DashboardComponent from '../views/dashboard.vue'
 import ConfirmComponent from '../views/Confirm.vue'
 import ResetPasswordComponent from '../views/ResetPassword.vue'
+import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
 
 import { reqLogin, reqAnonymous } from '../control/userhandle'
 
@@ -79,6 +80,11 @@ const routes = [
   {
     path: '/confirm/:token',
     component: ConfirmComponent,
+    beforeEnter: reqAnonymous
+  },
+  {
+    path: '/reset-password/:token',
+    component: ResetPasswordHandlerComponent,
     beforeEnter: reqAnonymous
   },
   {

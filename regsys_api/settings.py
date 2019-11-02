@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'regsys_api.authsys',
     'regsys_api.hackathon',
     'rest_framework',
+
+    'django_user_agents',
 ]
 
 AUTH_USER_MODEL = 'authsys.User'
@@ -55,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'regsys_api.urls'
@@ -138,14 +141,16 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', None)
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', None)
 EMAIL_PORT = os.environ.get('EMAIL_PORT', None)
 """
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '55ffcae6d4e2e8'
-EMAIL_HOST_PASSWORD = 'c11149bc087ab8'
-EMAIL_PORT = '2525'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = '1025'
 
-DEFAULT_FROM_EMAIL = 'some.mail@inter.net'
+DEFAULT_FROM_EMAIL = 'RegSys IFest #8 <no-reply@ifest-uajy.com>'
 
 STATIC_URL = '/static/'
 # Place static in the same location as webpack build files
 STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
 STATICFILES_DIRS = [join(BASE_DIR, 'dist', 'static')]
+
+USER_AGENTS_CACHE = 'default'

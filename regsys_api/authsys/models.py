@@ -12,6 +12,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+from django.utils.timezone import utc
+import datetime
 
 def generate_email_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
@@ -135,6 +137,12 @@ class ForgotPasswordHandler(models.Model):
 
     user = models.OneToOneField(
         to=User, related_name='password_token', on_delete=models.CASCADE)
+    browser = models.CharField(
+        max_length=100
+    )
+    operating_system = models.CharField(
+        max_length=100
+    )
     token = models.CharField(
         max_length=32, default=generate_email_token, unique=True)
     is_confirmed = models.BooleanField(default=False)
@@ -142,8 +150,36 @@ class ForgotPasswordHandler(models.Model):
 
     def __str__(self):
         return '%s (%s)' % (self.user.full_name, self.user.email)
+    
+    @property
+    def get_time_diff(self):
+        if self.sent_at:
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - self.sent_at
+            return int(timediff.total_seconds())
 
     def send_email(self):
+        context = {
+            'name': self.user.full_name,
+            'action_url': 'http://localhost:8080/reset-password/' + self.token,
+            'operating_system': self.operating_system,
+            'browser_name': self.browser
+        }
+
+        text_template = get_template('reset_email.txt')
+        html_template = get_template('reset_email.html')
+
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+
+        mail = EmailMultiAlternatives(
+            subject='Reset Password Akun Informatics Festival #8',
+            body=mail_text_message,
+            to=[self.user.email]
+        )
+
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send()
 
         self.sent_at = timezone.now()
         self.save()

@@ -1,0 +1,11 @@
+Halo, {{ user.full_name }}!
+
+Terimakasih sudah mendaftar.
+Untuk mengkonfirmasi pendaftaran akun, silahkan klik tautan dibawah ini:
+
+http://127.0.0.1:8000/api/auth/confirm/?token={{ token }}
+
+
+Salam dari kami,
+
+Panitia.

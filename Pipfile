@@ -15,6 +15,7 @@ mysqlclient = "*"
 python-dotenv = "*"
 django-webpack-loader = "*"
 whitenoise = "*"
+django-user-agents = "*"
 
 [requires]
 python_version = "3.7"

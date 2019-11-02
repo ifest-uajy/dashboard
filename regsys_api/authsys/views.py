@@ -31,6 +31,7 @@ from .serializers import (
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 
+
 class GetCurrentUserView(APIView):
     """
     Provides the ability to get a user information
@@ -211,16 +212,19 @@ class ForgotPasswordHandlerView(APIView):
         request_serializer.is_valid(raise_exception=True)
         email = request_serializer.validated_data['email'].lower()
 
+        os = request.user_agent.os.family + ' ' + request.user_agent.os.version_string
+        browser = request.user_agent.browser.family
+
         with transaction.atomic():
             user = User.objects.filter(email=email).first()
 
             if user is not None:
                 if hasattr(user, 'password_token'):
                     user.password_token.delete()
-                attempt = ForgotPasswordHandler.objects.create(user=user)
+                attempt = ForgotPasswordHandler.objects.create(user=user, browser=browser, operating_system=os)
                 attempt.send_email()
 
-                return Response(
+            return Response(
                     {
                         'message': 'Please check using your registered email to perform password reset.',
                         'status': 'success'
@@ -228,32 +232,18 @@ class ForgotPasswordHandlerView(APIView):
                     status=status.HTTP_200_OK
                 )
 
-            else:
-                return Response(
-                    {
-                        'message': 'Email tidak terdaftar atau tidak valid.',
-                        'status': 'failed'
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+class CheckConfirmPasswordTokenView(APIView):
 
-
-class ConfirmForgotPasswordHandlerView(APIView):
-    """
-    Provides the ability to reset password.
-    """
-
-    ##@method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
-    # @method_decorator(sensitive_post_parameters('new_password'))
     @method_decorator(never_cache)
-    def get(self, request):
-        token = request.GET.get('token')
 
-        if not token:
+    def post(self, request):
+        request_serializer = EmailConfirmationSerializer(data=request.data)
+
+        if not request_serializer.is_valid():
             return Response(
                 {
-                    'message': 'The confirmation link was invalid or used.',
+                    'message': 'The confirmation link was invalid.',
                     'status': 'failed'
                 },
                 status=status.HTTP_400_BAD_REQUEST
@@ -261,7 +251,7 @@ class ConfirmForgotPasswordHandlerView(APIView):
 
         with transaction.atomic():
 
-            attempt = ForgotPasswordHandler.objects.filter(token=token).first()
+            attempt = ForgotPasswordHandler.objects.filter(token=request_serializer.validated_data['token']).first()
 
             if attempt is None:
                 return Response(
@@ -272,6 +262,15 @@ class ConfirmForgotPasswordHandlerView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+            if attempt.get_time_diff > 3600 * 24:
+                return Response(
+                    {
+                        'message': 'The confirmation link was expired. Please obtain a new reset password request.',
+                        'status': 'failed'
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
             if attempt.is_confirmed:
                 return Response(
                     {
@@ -289,14 +288,23 @@ class ConfirmForgotPasswordHandlerView(APIView):
             status=status.HTTP_200_OK
         )
 
+
+class ConfirmForgotPasswordHandlerView(APIView):
+    """
+    Provides the ability to reset password.
+    """
+
+    ##@method_decorator(csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
+    # @method_decorator(sensitive_post_parameters('new_password'))
+    @method_decorator(never_cache)
     def post(self, request):
 
         request_serializer = PasswordResetConfirmationRequestSerializerPost(
             data=request.data)
         request_serializer.is_valid(raise_exception=True)
         new_password = request_serializer.validated_data['new_password']
-
-        token = request.GET.get('token')
+        token = request_serializer.validated_data['token']
 
         if not token:
             return Response(
