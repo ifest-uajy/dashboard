@@ -8,7 +8,7 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = (
-            'name', 'team_min_member', 'team_max_member'
+            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'name', 'isExpired'
         )
 
 

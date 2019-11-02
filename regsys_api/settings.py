@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'regsys_api.authsys',
     'regsys_api.hackathon',
+    'regsys_api.announcement',
     'rest_framework',
 
     'django_user_agents',
@@ -119,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 

@@ -62,13 +62,11 @@
         </v-card-text>
       </v-card>
     </v-layout>
-    <Footer />
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Footer from "../components/Footer";
 
 export default {
   data: () => ({
@@ -85,9 +83,6 @@ export default {
         v => !!v || "Password is required"
     ]
   }),
-  components: {
-    Footer
-  },
   computed: {
     isComplete() {
       return (

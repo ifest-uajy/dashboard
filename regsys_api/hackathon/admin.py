@@ -6,7 +6,7 @@ from regsys_api.authsys.models import User
 
 @admin.register(Track)
 class TrackAdmin(admin.ModelAdmin):
-    list_display = ['name', 'team_min_member', 'team_max_member']
+    list_display = ['name', 'team_min_member', 'team_max_member', 'description', 'closed_date']
 
 
 @admin.register(HackathonTeams)

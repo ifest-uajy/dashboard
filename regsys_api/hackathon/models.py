@@ -1,14 +1,27 @@
 from django.db import models
+from django.utils.timezone import utc
+import datetime
 
 from regsys_api.authsys.models import User
 
 class Track(models.Model):
     name = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+    closed_date = models.DateTimeField(null=True)
     team_max_member = models.IntegerField(default=1)
     team_min_member = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
+
+    @property
+    def isExpired(self):
+        if self.closed_date:
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            if(now > self.closed_date):
+                return True
+            else:
+                return False
 
     class Meta:
         verbose_name = 'Competition Track'

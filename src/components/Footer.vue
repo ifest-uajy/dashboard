@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute class="font-weight-medium" justify-center>
+  <v-footer class="font-weight-medium" justify-center>
     <v-container>
       <v-layout>
         <v-flex>

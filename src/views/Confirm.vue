@@ -16,19 +16,14 @@
         </v-card-text>
       </v-card>
     </v-layout>
-    <Footer />
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Footer from "../components/Footer";
 
 export default {
     data: () => ({ }),
-  components: {
-    Footer
-  },
   computed: {
     ...mapState({
       errors: state => state.authsys.errors,

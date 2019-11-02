@@ -81,6 +81,18 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     is_confirmed = models.BooleanField(default=False)
 
+    """
+    Field ini untuk kebutuhan kosumsi
+    """
+    is_vege = models.BooleanField(default=False)
+    alergic = models.CharField(max_length=120)
+
+    """
+    Field ini untuk kebutuhan legalitas peserta
+    """
+    is_buktiUploaded = models.BooleanField(default=False)
+
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
