@@ -1,70 +1,69 @@
-# regsys-backend
+# Vanilla
 
-Registration system for an annual-event.
+Vanilla adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan, seminar atau workshop. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan, memverifikasi pembayaran dan mengirimkan tiket kepada user.
 
-## The Grand Plan
-
-This will achieve a working state in production. A API to work with registration system of an event.
-
-1. API to handle user registration
-2. API to handle sending email to user
-3. API to handle user team forming (we'll use token based issued special link to invitee more user to join one created team)
-4. Api to handle talk registration
-
-## Tech Stack Plan
-
-1. Django
-2. Django Rest Framework
+## Technology Stack
+1. Django (Web Framework)
+2. Django Rest Framwork
 3. Vue
+4. MySQL
 
-## Have done
+## Features
+1. Authentication
+    - Registrasi
+    - Login
+    - Forgot password
+    - Change password
+    - Profile
+2. Competitions
+    - Create a team
+    - Join a team
+    - Team profile
+    - Team members
+    - Payment
+    - File upload
+3. Talks
+    - Join a seminar/workshop
+    - Payment
+    - Ticket/attendance confirmation
+4. Staff Dashboard
+    - Verify payment
+    - Download user uploaded files
+    - Download rekap data peserta
+    - Edit data
+5. Mailing system
+    - Welcome onboard
+    - Forgot password
+    - Team forming greetings
+    - Team forming invitations
+    - Payment needed
+    - Payment confirmed
+    - File upload needed
+    - Ticket/attendance confirmation issued
 
-1. Authentication System
-   Custom authenticationn system has done within registration function, login function, confirm email function, reset function. Need to work later, refresh JWT token function.
-2. User registration system
-3. Frontend
+## Development
+1. Using pipenv and npm `pipenv install` and `npm install`
+2. Open shell `pipenv shell`
+3. Migrate database `py manage.py makemigrations` and `py manage.py migrate`
+4. Create superuser `py manage.py createsuperuser`
+5. Collect statics for assets `py manage.py collectstatcis`
+6. Serve backend server `py manage.py runserver`
+7. Serve frontend server `npm run serve`
+8. Open `localhost:8080`
 
-## Detailed Plan
+### Dev info
+1. Frontend server: `localhost:8080`
+2. Backend api server: `localhost:8080/api/`
 
-### Authentication and Authorization
-
-User will register through website and returned a JWT token to perform actions in the website.
-
-### Mail Server
-
-After finishing registration, user will recieve onboarding email in purpose to confirm their email. User then will get promotional email that contain what events or talks that open to join.
-
-1. Onboarding email
-2. Team forming confirmation
-3. Payment reminder
-4. Payment success recipt
-5. Cancellation email
-6. Ticket email
-7. Finalist email
-
-### Payment
-
-There will be other dashboard like website to perform update the value of payment confirmation. This action could be done online with staff permission.
+## Build
+1. Using development instruction
+2. Make build bundle for frontend `npm run build`
+3. Collect statics for assets `py manage.py collectstatcis` again
+4. Ships using proxy server like: Apache or nginx
 
 ## Copyright
 
 This is a source code repository for a registration system that uses in a event. You could take a look to this work but cannot do anything with this code. This code was have no license, so you could read more in [here](https://choosealicense.com/no-permission/) what could you do and don't.
 
-## Web dashboard planning
-
-1. Home
-2. Login
-3. Registrasi
-
-Website dashboard planning saat ini:
-1. Dashboard (isi profile user, competition and workshop list)
-2. Login (done)
-3. Register (done)
-4. Reset password(done)
-
-to do:
-5. profile (vege or not uploader ktm dll)
-6. team (create team)
-7. team detail (payment and uploader)
-
-8. workshop
+## Notes
+This web app is build to fullfill the need of event registration system of Informatics Festival #8 hosted by Himaforka UAJY.
