@@ -24,7 +24,7 @@
     <v-container class="grey lighten-5 pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
-          <v-card class="pa-2" outlined height="100%" :disabled="c.isExpired">
+          <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
             <v-card-title class="mb-4">{{c.name}}</v-card-title>
 
             <v-card-subtitle class="pb-0">
@@ -53,8 +53,10 @@
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn v-if="!c.isExpired" color="green" text>Daftar</v-btn>
-              <v-btn v-if="c.isExpired" color="grey" text>Ditutup</v-btn>
+              <v-btn v-if="c.isExpired" color="grey" text>Daftar</v-btn>
+                <v-btn class="ml-2" v-if="!c.isExpired" outlined :to="`competition/`+c.slug_name" color="green">
+                Daftar
+                </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

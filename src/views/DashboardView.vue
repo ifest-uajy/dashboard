@@ -15,43 +15,41 @@
       </v-container>
 
       <v-tabs grow :show-arrows="true">
-          <v-tab to="/dashboard">
-            <div class="pr-5">
+        <v-tab to="/dashboard">
+          <div class="pr-5">
             <v-badge class="mt-2">
-              <template
-                v-if="anouncementsCount !== 0"
-                v-slot:badge
-              >{{anouncementsCount}}</template>
+              <template v-if="anouncementsCount !== 0" v-slot:badge>{{anouncementsCount}}</template>
               Pengumuman
             </v-badge>
-            </div>
-          </v-tab>
-          <v-tab to="/dashboard/competition">
-            <div class="pr-5">
+          </div>
+        </v-tab>
+        <v-tab to="/dashboard/competition">
+          <div class="pr-5">
             <v-badge class="mt-2">
-              <template
-                v-if="competitionsCount !== 0"
-                v-slot:badge
-              >{{competitionsCount}}</template>
+              <template v-if="competitionsCount !== 0" v-slot:badge>{{competitionsCount}}</template>
               Kompetisi
             </v-badge>
-            </div>
-          </v-tab>
-          <v-tab to="/dashboard/profile">
-            <div class="pr-5">
-              <v-badge class="mt-2" color="red">
-              <template
-                v-if="user.isProfileComplete !== true"
-                v-slot:badge
-              >1</template>
+          </div>
+        </v-tab>
+        <v-tab to="/dashboard/teams">
+          <div class="pr-5">
+            <v-badge class="mt-2">
+              <template v-if="teamsCount !== 0" v-slot:badge>{{teamsCount}}</template>
+              Teams
+            </v-badge>
+          </div>
+        </v-tab>
+        <v-tab to="/dashboard/profile">
+          <div class="pr-5">
+            <v-badge class="mt-2" color="red">
+              <template v-if="user.isProfileComplete !== true" v-slot:badge>!</template>
               Profil
             </v-badge>
-            </div>
-          </v-tab>
+          </div>
+        </v-tab>
       </v-tabs>
-      
-      <router-view></router-view>
 
+      <router-view class="mt-8"></router-view>
     </v-container>
   </v-layout>
 </template>
@@ -64,12 +62,14 @@ export default {
   beforeMount() {
     this.getAnouncement();
     this.getCompetition();
+    this.getTeams();
   },
   computed: {
     ...mapState({
       user: state => state.authsys.user,
       competitionsCount: state => state.competition.competitionsCount,
-      anouncementsCount: state => state.pemberitahuan.announcementsCount
+      anouncementsCount: state => state.pemberitahuan.announcementsCount,
+      teamsCount: state => state.competition.teamsCount
     })
   },
 
@@ -78,6 +78,7 @@ export default {
       logoutActions: "authsys/logout",
       getCompetition: "competition/getCompetition",
       getAnouncement: "pemberitahuan/getPemberitahuan",
+      getTeams: "competition/getTeams",
       clear: "authsys/clear"
     })
   }

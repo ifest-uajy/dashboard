@@ -12,6 +12,8 @@ import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
 import PemberitahuanComponent from "../components/Pemberitahuan.vue";
 import ProfileComponent from "../components/ProfileView";
 import CompetitionListComponent from "../components/CompetitionList";
+import CompetitionRegisterComponent from "../components/CompetitionRegister";
+import TeamListView from "../components/TeamList";
 
 import { reqLogin, reqAnonymous } from '../control/userhandle'
 
@@ -48,6 +50,7 @@ const routes = [
   {
     path: '/register',
     component: RegistrationComponent,
+    beforeEnter: reqAnonymous,
     meta: {
       title: 'Registrasi Peserta - Informatics Festival #8',
       metaTags: [
@@ -63,7 +66,6 @@ const routes = [
     }
   },
   {
-    name: 'dashboard',
     path: '/dashboard',
     component: DashboardComponent,
     beforeEnter: reqLogin,
@@ -85,6 +87,16 @@ const routes = [
         path: 'profile',
         name: 'profil',
         component: ProfileComponent,
+      },
+      {
+        path: 'teams',
+        name: 'teams',
+        component: TeamListView
+      },
+      {
+        path: 'competition/:slug',
+        name: 'register_competition',
+        component: CompetitionRegisterComponent
       }
     ]
   },

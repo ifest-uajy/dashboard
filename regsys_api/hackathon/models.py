@@ -10,6 +10,7 @@ class Track(models.Model):
     closed_date = models.DateTimeField(null=True)
     team_max_member = models.IntegerField(default=1)
     team_min_member = models.IntegerField(default=1)
+    slug_name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -33,6 +34,14 @@ class HackathonTeams(models.Model):
         to=Track, related_name='teams', on_delete=models.PROTECT)
     name = models.CharField(max_length=100, unique=True)
     institution = models.CharField(max_length=100)
+    alamat_institusi = models.CharField(max_length=500)
+    """
+    Field kontak pendamping
+    """
+
+    nama_pendamping = models.CharField(max_length=50)
+    nomor_telepon_pendamping = models.CharField(max_length=20)
+
     members = models.ManyToManyField(
         to=User, related_name='teams', through='HackathonTeamsMember')
     team_leader = models.ForeignKey(to=User, related_name='team_leader', on_delete=models.PROTECT)
