@@ -23,7 +23,7 @@ from .serializers import (
 class ListTrackView(generics.ListAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 class RegisterTeamView(views.APIView):
 

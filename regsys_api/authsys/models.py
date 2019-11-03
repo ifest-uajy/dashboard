@@ -92,12 +92,25 @@ class User(AbstractUser):
     """
     is_buktiUploaded = models.BooleanField(default=False)
 
+    """
+    Field ini untuk kontak peserta
+    """
+    id_line = models.CharField(max_length=30)
+    nomor_telepon = models.CharField(max_length=20)
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def __str__(self):
         return '%s (%s)' % (self.full_name, self.email)
+
+    @property
+    def isProfileComplete(self):
+        if(not self.is_vege or not self.alergic or not self.is_buktiUploaded):
+            return False
+        else:
+            return True
 
     objects = UserManager()
 

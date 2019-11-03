@@ -6,26 +6,62 @@
     </div>
     <v-container>
       <v-container>
-        <h2 class="display-1">Dashboard IFest #8</h2>
+        <h2 class="display-1">Dashboard</h2>
         <h1 class="title">
           Selamat datang,
           <span class="font-weight-bold">{{user.full_name}}</span>!
         </h1>
       </v-container>
 
-      <Pemberitahuan />
-
-      <CompetitionList />
-
-      <v-container>
-        <h3 class="subtitle">Profil</h3>
-        
-      </v-container>
-
-      <ProfileView />
-
+      <v-tabs grow :show-arrows=true>
+        <v-tab>
+          <div class="pr-5">
+          <v-badge class="mt-2">
+            <template
+              v-if="anouncementsCount !== 0"
+              v-slot:badge
+            >{{anouncementsCount}}</template>
+            Pengumuman
+          </v-badge>
+          </div>
+        </v-tab>
+        <v-tab>
+          <div class="pr-5">
+            <v-badge class="mt-2">
+            <template
+              v-if="competitionsCount !== 0"
+              v-slot:badge
+            >{{competitionsCount}}</template>
+            Kompetisi
+          </v-badge>
+          </div>
+        </v-tab>
+        <!--<v-tab disabled>Seminar & Workshop</v-tab>
+        <v-tab disabled>Multi Event</v-tab>-->  
+        <v-tab>
+          <div class="pr-5">
+            <v-badge class="mt-2" color="red">
+            <template
+              v-if="user.isProfileComplete !== true"
+              v-slot:badge
+            >1</template>
+            Profil
+          </v-badge>
+          </div>
+        </v-tab>
+        <v-tab-item>
+          <Pemberitahuan />
+        </v-tab-item>
+        <v-tab-item>
+          <CompetitionList />
+        </v-tab-item>
+        <!--<v-tab-item></v-tab-item>
+        <v-tab-item></v-tab-item>-->
+        <v-tab-item>
+          <ProfileView />
+        </v-tab-item>
+      </v-tabs>
     </v-container>
-    
   </v-layout>
 </template>
 
@@ -34,7 +70,7 @@ import { mapState, mapActions } from "vuex";
 
 import Pemberitahuan from "../components/Pemberitahuan.vue";
 import ProfileView from "../components/ProfileView";
-import CompetitionList from "../components/CompetitionList"
+import CompetitionList from "../components/CompetitionList";
 
 export default {
   data: () => ({}),
@@ -43,14 +79,27 @@ export default {
     ProfileView,
     CompetitionList
   },
-  computed: mapState({
-    user: state => state.authsys.user
-  }),
+  beforeMount() {
+    this.getAnouncement()
+    this.getCompetition()
+  },
+  computed: {
+    ...mapState({
+      user: state => state.authsys.user,
+      anouncements: state => state.pemberitahuan.announcements,
+      competitions: state => state.competition.competitions,
+      competitionsCount: state => state.competition.competitionsCount,
+      anouncementsCount: state => state.pemberitahuan.announcementsCount
+    })
+  },
+
   methods: {
     ...mapActions({
       logoutActions: "authsys/logout",
+      getCompetition: "competition/getCompetition",
+      getAnouncement: "pemberitahuan/getPemberitahuan",
       clear: "authsys/clear"
-    })
+    }),
   }
 };
 </script>

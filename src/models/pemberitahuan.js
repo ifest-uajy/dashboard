@@ -4,9 +4,10 @@ export default {
 
     namespaced: true,
     state: {
-        anouncements: [],
+        announcements: [],
         isLoading: false,
-        errors: []
+        errors: [],
+        announcementsCount: 0
     },
     mutations: {
         setError(state, e) {
@@ -19,19 +20,27 @@ export default {
             state.loading = load
         },
         setAnnouncement(state, m) {
-            state.anouncements = m
+            state.announcements = m
         },
         resetAnnouncement(state) {
-            state.anouncements = []
+            state.announcements = []
+        },
+        setAnnouncementCount(state, c) {
+            state.announcementsCount = c
+        },
+        resetAnnouncementCount(state) {
+            state.announcementsCount = 0
         }
     },
     actions: {
         async getPemberitahuan({ commit }) {
             try {
                 commit('setLoading', true)
+                commit('resetAnnouncementCount')
                 commit('resetError')
                 let req = await handle.get('/announcement/')
                 commit('setAnnouncement', req.data)
+                commit('setAnnouncementCount', req.data.length)
             } catch (e) {
                 commit('setError', e)
             } finally {
