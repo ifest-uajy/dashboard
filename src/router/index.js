@@ -4,10 +4,14 @@ import HomeComponent from '../views/home.vue'
 import LoginComponent from '../views/Login.vue'
 import NotFoundComponent from '../views/404.vue'
 import RegistrationComponent from '../views/registration.vue'
-import DashboardComponent from '../views/dashboard.vue'
+import DashboardComponent from '../views/DashboardView.vue'
 import ConfirmComponent from '../views/Confirm.vue'
 import ResetPasswordComponent from '../views/ResetPassword.vue'
 import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
+
+import PemberitahuanComponent from "../components/Pemberitahuan.vue";
+import ProfileComponent from "../components/ProfileView";
+import CompetitionListComponent from "../components/CompetitionList";
 
 import { reqLogin, reqAnonymous } from '../control/userhandle'
 
@@ -64,18 +68,25 @@ const routes = [
     component: DashboardComponent,
     beforeEnter: reqLogin,
     meta: {
-      title: 'Dashboard Peserta - Informatics Festival #8',
-      metaTags: [
-        {
-          name: 'description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        },
-        {
-          property: 'og:description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        }
-      ]
-    }
+      title: 'Dashboard - Informatics Festival #8'
+    },
+    children: [
+      {
+        path: '',
+        name: 'dashboard',
+        component: PemberitahuanComponent
+      },
+      {
+        path: 'competition',
+        name: 'kompetisi',
+        component: CompetitionListComponent,
+      },
+      {
+        path: 'profile',
+        name: 'profil',
+        component: ProfileComponent,
+      }
+    ]
   },
   {
     path: '/confirm/:token',
