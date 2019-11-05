@@ -1,8 +1,15 @@
 from django.db import models
 from django.utils.timezone import utc
 import datetime
+from xkcdpass import xkcd_password as xp
+
 
 from regsys_api.authsys.models import User
+
+def getxkcdpass():
+    wordfile = xp.locate_wordfile()
+    config = xp.generate_wordlist(wordfile=wordfile, min_length=5, max_length=8)
+    return (xp.generate_xkcdpassword(config, acrostic=False , delimiter="-", numwords=4))
 
 class Track(models.Model):
     name = models.CharField(max_length=100)
@@ -41,6 +48,12 @@ class HackathonTeams(models.Model):
 
     nama_pendamping = models.CharField(max_length=50)
     nomor_telepon_pendamping = models.CharField(max_length=20)
+
+    """
+    token
+    """
+
+    invitation_token = models.CharField(max_length=100, default=getxkcdpass())
 
     members = models.ManyToManyField(
         to=User, related_name='teams', through='HackathonTeamsMember')

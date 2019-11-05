@@ -49,3 +49,9 @@ class PasswordChangeRequestSerializer(serializers.Serializer):
 
 class EmailConfirmationSerializer(serializers.Serializer):
     token = serializers.CharField()
+
+class UpdateProfileSerializer(serializers.Serializer):
+    id_line = serializers.CharField()
+    nomor_telepon = serializers.CharField()
+    is_vege = serializers.BooleanField()
+    alergic = serializers.CharField()

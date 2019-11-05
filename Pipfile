@@ -16,6 +16,7 @@ python-dotenv = "*"
 django-webpack-loader = "*"
 whitenoise = "*"
 django-user-agents = "*"
+xkcdpass = "*"
 
 [requires]
 python_version = "3.7"

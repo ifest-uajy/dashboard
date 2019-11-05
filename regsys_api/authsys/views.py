@@ -25,7 +25,8 @@ from .serializers import (
     PasswordResetRequestSerializer,
     PasswordResetConfirmationRequestSerializerPost,
     PasswordChangeRequestSerializer,
-    EmailConfirmationSerializer
+    EmailConfirmationSerializer,
+    UpdateProfileSerializer
 )
 
 from django.utils.decorators import method_decorator
@@ -401,3 +402,45 @@ class ChangePasswordView(APIView):
             },
             status=status.HTTP_200_OK
         )
+
+class UpdateProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+    @method_decorator(ensure_csrf_cookie)
+    @method_decorator(never_cache)
+
+    def post(self, request):
+        if(not request.user):
+            return Response(
+                {
+                    'message': 'Error No User Supplied',
+                    'status': 'failed'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        request_serializer = UpdateProfileSerializer
+        request_serializer.is_valid(raise_exception=True)
+
+        id_line = request_serializer.validated_data['id_line']
+        nomor_telepon = request_serializer.validated_data['nomor_telepon']
+        is_vege = request_serializer.validated_data['is_vege']
+        alergic = request_serializer.validated_data['alergic']
+
+        with transaction.atomic():
+
+            current_user = request.user
+            u = User.objects.get(id=current_user.id)
+            u.id_line = id_line
+            u.nomor_telepon = nomor_telepon
+            u.is_vege = is_vege
+            u.alergic = alergic
+            u.save(['id_line', 'nomor_telepon', 'is_vege', 'alergic'])
+
+            return Response(
+                {
+                    'message': 'berhasil update profile',
+                    'status': 'success'
+                },
+                status=status.HTTP_200_OK
+            )
+

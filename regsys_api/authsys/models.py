@@ -107,7 +107,7 @@ class User(AbstractUser):
 
     @property
     def isProfileComplete(self):
-        if(not self.is_vege or not self.alergic or not self.is_buktiUploaded):
+        if(not self.is_vege or not self.alergic or not self.id_line or not self.nomor_telepon):
             return False
         else:
             return True
