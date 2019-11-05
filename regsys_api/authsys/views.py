@@ -418,9 +418,10 @@ class UpdateProfileView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        request_serializer = UpdateProfileSerializer
+        request_serializer = UpdateProfileSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
 
+        full_name = request_serializer.validated_data['full_name']
         id_line = request_serializer.validated_data['id_line']
         nomor_telepon = request_serializer.validated_data['nomor_telepon']
         is_vege = request_serializer.validated_data['is_vege']
@@ -430,17 +431,13 @@ class UpdateProfileView(APIView):
 
             current_user = request.user
             u = User.objects.get(id=current_user.id)
+            u.full_name = full_name
             u.id_line = id_line
             u.nomor_telepon = nomor_telepon
             u.is_vege = is_vege
             u.alergic = alergic
-            u.save(['id_line', 'nomor_telepon', 'is_vege', 'alergic'])
+            u.save()
 
-            return Response(
-                {
-                    'message': 'berhasil update profile',
-                    'status': 'success'
-                },
-                status=status.HTTP_200_OK
-            )
+            response_serializer = UserSerializer(u)
+            return Response(data=response_serializer.data)
 

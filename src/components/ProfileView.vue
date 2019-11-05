@@ -14,51 +14,67 @@
         <p class="subtitle-2 text--primary mb-0">{{user.email}}</p>
       </v-card-text>
       <v-card-text v-if="editing">
-        <v-form v-model="valid">
+        <v-form @submit.prevent="update">
           <v-container>
             <v-container class="px-0 grey--text text--darken-4 title">Informasi Peserta</v-container>
             <v-text-field
-              :value="user.full_name"
+              v-model="full_name"
+              required
               :counter="50"
               outlined
               label="Nama Lengkap"
-              required
             ></v-text-field>
             <v-text-field
               disabled
               :value="user.email"
               outlined
+              required
               label="Email"
-              persistent-hint="true"
+              :persistent-hint="true"
               hint="Alamat email yang didaftarkan tidak bisa diubah."
             ></v-text-field>
             <v-container class="px-0 grey--text text--darken-4 title">Kontak Peserta</v-container>
-            <v-text-field :value="user.id_line" :counter="50" outlined label="ID Line" required></v-text-field>
+            <v-text-field 
+            v-model="id_line"
+            :counter="50" outlined label="ID Line" required></v-text-field>
             <v-text-field
-              :value="user.nomor_telepon"
+            v-model="nomor_telepon"
               outlined
+              required
               prefix="+62"
               label="Nomor Telepon"
-              persistent-hint="true"
+              :persistent-hint="true"
               hint="Diutamakan untuk mengisi nomor telepon yang terhubung dengan WhatsApp."
             ></v-text-field>
             <v-container class="px-0 grey--text text--darken-4 title">Preferensi Konsumsi</v-container>
             <v-text-field
-              :value="user.alergic"
+            v-model="alergic"
               outlined
+              required
               label="Alergi"
-              persistent-hint="true"
+              :persistent-hint="true"
               hint="Isikan alergi anda terutama terhadap alergi makanan."
             ></v-text-field>
-            <v-switch :value="user.is_vege" label="Apakah anda seorang vege?"></v-switch>
+            <v-switch color="blue" 
+            v-model="is_vege"
+            :true-value="true"
+            :false-value="false"
+            required
+            label="Apakah anda seorang vege?"></v-switch>
           </v-container>
+          <v-btn
+    outlined color="green" class="mb-5 mr-5"
+              type="submit"
+              :loading="loading"
+              :disabled="loading"
+            >Register</v-btn>
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">
         <v-btn outlined class="mb-5" @click="editing = !editing">Edit Profile</v-btn>
       </v-card-actions>
       <v-card-actions v-if="editing" class="justify-center">
-        <v-btn outlined color="green" class="mb-5" @click="editing = !editing">Save</v-btn>
+        
         <v-btn outlined color="red" class="mb-5" @click="editing = !editing">Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -66,14 +82,47 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data: () => ({
-    editing: false
+    editing: false,
+    full_name: '',
+    id_line: '',
+    nomor_telepon: '',
+    alergic: '',
+    is_vege: false
   }),
   computed: mapState({
-    user: state => state.authsys.user
-  })
+    user: state => state.authsys.user,
+    loading: state => state.authsys.loading
+  }),
+  beforeMount() {
+    this.passStateToProps();
+  },
+  methods: {
+    ...mapActions({
+      updateProfile: "authsys/updateProfile",
+    }),
+
+    passStateToProps() {
+      this.full_name = this.user.full_name,
+      this.id_line = this.user.id_line,
+      this.nomor_telepon = this.user.nomor_telepon,
+      this.alergic = this.user.alergic,
+      this.is_vege = this.user.is_vege
+    },
+
+    update() {
+      this.updateProfile({
+        full_name: this.full_name,
+        id_line: this.id_line,
+        nomor_telepon: this.nomor_telepon,
+        alergic: this.alergic,
+        is_vege: this.is_vege
+      }),
+      passStateToProps();
+    }
+  }
 };
 </script>

@@ -20,7 +20,8 @@ from .views import (
     RegistrationConfirmationView,
     ForgotPasswordHandlerView, GetCurrentUserView,
     ConfirmForgotPasswordHandlerView, ChangePasswordView,
-    CheckConfirmPasswordTokenView)
+    CheckConfirmPasswordTokenView, 
+    UpdateProfileView)
 
 urlpatterns = [
     path('', GetCurrentUserView.as_view()),
@@ -32,4 +33,5 @@ urlpatterns = [
     path('reset/', ForgotPasswordHandlerView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('change-password/', ChangePasswordView.as_view()),
+    path('profile/update/', UpdateProfileView.as_view())
 ]

@@ -186,6 +186,24 @@ export default {
                 commit('setLoading', false)
             }
         },
+        async updateProfile({commit}, {full_name, id_line, nomor_telepon, alergic, is_vege}) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                commit('resetMessage')
+                let response = await handle.post('/auth/profile/update/', {full_name, id_line, nomor_telepon, alergic, is_vege})
+                commit('setUser', response.data)
+            } catch (e) {
+                if(e.response.data) {
+                    console.log(e.response.data)
+                    commit('setError', e.response.data)
+                } else {
+                    commit('setError', e)
+                }
+            } finally {
+                commit('setLoading', false)
+            }
+        },
     }
 
 }
