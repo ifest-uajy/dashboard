@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/auth/', include('regsys_api.authsys.urls')),
     path('api/hackathon/', include('regsys_api.hackathon.urls')),
     path('api/announcement/', include('regsys_api.announcement.urls')),
+    path('api/message/', include('regsys_api.messaging.urls')),
     url(r'^.*$', index_view),
     #path('', index_view, name='index'),
     

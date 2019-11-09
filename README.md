@@ -66,4 +66,4 @@ Vanilla adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna un
 This is a source code repository for a registration system that uses in a event. You could take a look to this work but cannot do anything with this code. This code was have no license, so you could read more in [here](https://choosealicense.com/no-permission/) what could you do and don't.
 
 ## Notes
-This web app is build to fullfill the need of event registration system of Informatics Festival #8 hosted by Himaforka UAJY.
+This web app is build to fullfill the need of event registration system of Informatics Festival (IFest) #8 hosted by Himaforka UAJY.

@@ -17,6 +17,7 @@ django-webpack-loader = "*"
 whitenoise = "*"
 django-user-agents = "*"
 xkcdpass = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

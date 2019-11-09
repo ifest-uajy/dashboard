@@ -58,10 +58,10 @@ class HackathonTeamsDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = HackathonTeams
         fields = (
-            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at'
+            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token'
         )
         read_only_fields = (
-            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at'
+            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token'
         )
 
 class RegisterHackathonTeamSerializer(serializers.Serializer):

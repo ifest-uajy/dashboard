@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'regsys_api.authsys',
     'regsys_api.hackathon',
     'regsys_api.announcement',
+    'regsys_api.messaging',
     'rest_framework',
 
     'django_user_agents',
@@ -85,6 +86,7 @@ WSGI_APPLICATION = 'regsys_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
@@ -93,6 +95,17 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
+    }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'regsys_db',
+        'USER': 'regsys_si',
+        'PASSWORD': 'regsys_si',
+        'HOST': 'localhost',
+        'PORT': '5432' 
     }
 }
 
@@ -142,12 +155,14 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', None)
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', None)
 EMAIL_PORT = os.environ.get('EMAIL_PORT', None)
 """
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = '1025'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'test.apollo.ifest-uajy.com'
+EMAIL_HOST_USER = 'no-reply@test.apollo.ifest-uajy.com'
+EMAIL_HOST_PASSWORD = '43mwB62gQUh4'
+EMAIL_PORT = '465'
+EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = 'RegSys IFest #8 <no-reply@ifest-uajy.com>'
+DEFAULT_FROM_EMAIL = 'Informatics Festival (IFest) #8 <no-reply@test.apollo.ifest-uajy.com>'
 
 STATIC_URL = '/static/'
 # Place static in the same location as webpack build files

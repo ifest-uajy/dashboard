@@ -32,6 +32,20 @@
                 <span class>{{c.team_leader_name}}</span>
               </p>
             </v-card-subtitle>
+            <v-card-subtitle>
+              <p class="black--text mb-2">Team Invitation Token</p>
+                  <v-text-field :id="`CopyThis-`+c.id"
+              v-model="c.invitation_token"
+              readonly
+              append-icon="mdi-content-copy"
+              @click:append="copyText(c.id, c.invitation_token)"
+              outlined
+              :persistent-hint="true"
+              hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
+              ></v-text-field>
+              <!--<v-btn @click="copyText('' + c.invitation_token)">copy</v-btn>-->
+  
+            </v-card-subtitle>
             <v-card-subtitle class="pb-0 pt-0">
               <p class="mb-0 pb-0 black--text bold">{{c.institution}}</p>
               <p class="mb-0 pb-0">{{c.track.name}}</p>
@@ -66,6 +80,24 @@ export default {
   computed: mapState({
     competitions: state => state.competition.competitions,
     teams: state => state.competition.teams
-  })
+  }),
+  methods: {
+    copyText (id, invitation_token) {
+      //async function copyToClipboard() {
+        try {
+          // 1) Copy text
+          //console.log('copyinig');
+          //await 
+          navigator.clipboard.writeText(invitation_token);
+          
+      console.log(this.$refs['CopyThis-' + id])
+          // 2) Catch errors
+        } catch (err) {
+          //console.error('Failed to copy: ', err);
+        }
+      //}
+
+    }
+  }
 };
 </script>

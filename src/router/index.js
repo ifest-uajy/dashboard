@@ -8,6 +8,7 @@ import DashboardComponent from '../views/DashboardView.vue'
 import ConfirmComponent from '../views/Confirm.vue'
 import ResetPasswordComponent from '../views/ResetPassword.vue'
 import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
+import KontakKamiView from '../views/KontakKamiView'
 
 import PemberitahuanComponent from "../components/Pemberitahuan.vue";
 import ProfileComponent from "../components/ProfileView";
@@ -29,11 +30,16 @@ const routes = [
     component: HomeComponent
   },
   {
+    name: 'kontak-kami',
+    path: '/contact',
+    component: KontakKamiView
+  },
+  {
     name: 'login',
     path: '/login',
     component: LoginComponent,
     meta: {
-      title: 'Login Peserta - Informatics Festival #8',
+      title: 'Login - Informatics Festival (IFest) #8',
       metaTags: [
         {
           name: 'description',
@@ -52,7 +58,7 @@ const routes = [
     component: RegistrationComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: 'Registrasi Peserta - Informatics Festival #8',
+      title: 'Registrasi - Informatics Festival (IFest) #8',
       metaTags: [
         {
           name: 'description',

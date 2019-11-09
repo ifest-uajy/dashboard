@@ -133,7 +133,7 @@ class RegistrationHandler(models.Model):
     def send_email(self):
         context = {
             'user': self.user,
-            'token': self.token
+            'action_url': 'http://localhost:8080/confirm/' + self.token
         }
 
         text_template = get_template('registration_email.txt')
@@ -143,13 +143,15 @@ class RegistrationHandler(models.Model):
         mail_html_message = html_template.render(context)
 
         mail = EmailMultiAlternatives(
-            subject='Mohon Konfirmasi Alamat Email Anda',
+            subject='Konfirmasi Email Akun Informatics Festival (IFest) #8',
             body=mail_text_message,
             to=[self.user.email]
         )
 
         mail.attach_alternative(mail_html_message, "text/html")
-        mail.send()
+        mail.send(
+            fail_silently=False
+        )
         
         self.sent_at = timezone.now()
         self.save()

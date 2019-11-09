@@ -1,11 +1,11 @@
-Halo, {{ user.full_name }}!
+Halo {{user.full_name}} 👋,
+Terimakasih sudah mendaftar Informatics Festival (IFest) #8. Gunakan tautan di bawah ini untuk mengkonfirmasi pendaftaran anda.
 
-Terimakasih sudah mendaftar.
-Untuk mengkonfirmasi pendaftaran akun, silahkan klik tautan dibawah ini:
+{{action_url}}
 
-http://127.0.0.1:8000/api/auth/confirm/?token={{ token }}
+Konfirmasi Email
+Cheers,
 
+Panitia Informatics Festival (IFest) #8
 
-Salam dari kami,
-
-Panitia.
+Membalas surel ini akan menempatkan pesan anda kedalam kotak masuk tidak termonitor. Silahkan gunakan halaman hubungi kami atau informasi kontak resmi kami.

@@ -17,12 +17,12 @@
         <v-form @submit.prevent="update">
           <v-container>
             <v-container class="px-0 grey--text text--darken-4 title">Informasi Peserta</v-container>
-            <v-text-field
-              v-model="full_name"
-              required
-              :counter="50"
-              outlined
-              label="Nama Lengkap"
+            <v-text-field 
+              v-model="full_name" 
+              required 
+              :counter="50" 
+              outlined 
+            label="Nama Lengkap"
             ></v-text-field>
             <v-text-field
               disabled
@@ -35,10 +35,14 @@
             ></v-text-field>
             <v-container class="px-0 grey--text text--darken-4 title">Kontak Peserta</v-container>
             <v-text-field 
-            v-model="id_line"
-            :counter="50" outlined label="ID Line" required></v-text-field>
+              v-model="id_line" 
+              :counter="50" 
+              outlined 
+              label="ID Line" 
+              required>
+            </v-text-field>
             <v-text-field
-            v-model="nomor_telepon"
+              v-model="nomor_telepon"
               outlined
               required
               prefix="+62"
@@ -48,33 +52,36 @@
             ></v-text-field>
             <v-container class="px-0 grey--text text--darken-4 title">Preferensi Konsumsi</v-container>
             <v-text-field
-            v-model="alergic"
+              v-model="alergic"
               outlined
               required
               label="Alergi"
               :persistent-hint="true"
               hint="Isikan alergi anda terutama terhadap alergi makanan."
             ></v-text-field>
-            <v-switch color="blue" 
-            v-model="is_vege"
-            :true-value="true"
-            :false-value="false"
-            required
-            label="Apakah anda seorang vege?"></v-switch>
+            <v-switch
+              color="blue"
+              v-model="is_vege"
+              :true-value="true"
+              :false-value="false"
+              required
+              label="Apakah anda seorang vege?"
+            ></v-switch>
           </v-container>
           <v-btn
-    outlined color="green" class="mb-5 mr-5"
-              type="submit"
-              :loading="loading"
-              :disabled="loading"
-            >Register</v-btn>
+            outlined
+            color="green"
+            class="mb-5 mr-5"
+            type="submit"
+            :loading="loading"
+            :disabled="loading"
+          >Register</v-btn>
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">
         <v-btn outlined class="mb-5" @click="editing = !editing">Edit Profile</v-btn>
       </v-card-actions>
       <v-card-actions v-if="editing" class="justify-center">
-        
         <v-btn outlined color="red" class="mb-5" @click="editing = !editing">Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -87,10 +94,10 @@ import { mapState, mapActions } from "vuex";
 export default {
   data: () => ({
     editing: false,
-    full_name: '',
-    id_line: '',
-    nomor_telepon: '',
-    alergic: '',
+    full_name: "",
+    id_line: "",
+    nomor_telepon: "",
+    alergic: "",
     is_vege: false
   }),
   computed: mapState({
@@ -102,15 +109,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateProfile: "authsys/updateProfile",
+      updateProfile: "authsys/updateProfile"
     }),
 
     passStateToProps() {
-      this.full_name = this.user.full_name,
-      this.id_line = this.user.id_line,
-      this.nomor_telepon = this.user.nomor_telepon,
-      this.alergic = this.user.alergic,
-      this.is_vege = this.user.is_vege
+      (this.full_name = this.user.full_name),
+        (this.id_line = this.user.id_line),
+        (this.nomor_telepon = this.user.nomor_telepon),
+        (this.alergic = this.user.alergic),
+        (this.is_vege = this.user.is_vege);
     },
 
     update() {
@@ -121,7 +128,7 @@ export default {
         alergic: this.alergic,
         is_vege: this.is_vege
       }),
-      passStateToProps();
+        passStateToProps();
     }
   }
 };
