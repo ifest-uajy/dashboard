@@ -82,3 +82,23 @@ class HackathonTeamsMember(models.Model):
         get_latest_by = 'created_at'
         verbose_name = 'Team Member'
         verbose_name_plural = 'Team Members'
+
+
+class HackathonStage(models.Model):
+
+    tracks = models.ForeignKey(to=Track, related_name='track_stages', on_delete=models.CASCADE)
+    order = models.IntegerField()
+    stage_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "{} - {}".format(self.tracks.name, self.stage_name)
+
+    class Meta:
+        ordering = ['tracks', 'order']
+
+class HackathonTask(models.Model):
+
+    stage = models.ForeignKey(to=HackathonStage, related_name='tasks', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    deadline_date = models
+    require_validation = models.BooleanField(default=False)
