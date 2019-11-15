@@ -7,7 +7,7 @@
       <v-card-text v-if="messages.message">
           <v-alert type="success" outlined>{{ messages.message }}</v-alert>
           <v-layout v-if="messages.message" justify-center>
-            <router-link to="/dashboard/competition"><v-btn color="success" dark>Login ke dashboard</v-btn></router-link>
+            <router-link to="/dashboard/competition"><v-btn color="success" dark>Lihat Tim</v-btn></router-link>
           </v-layout>
         </v-card-text>
 

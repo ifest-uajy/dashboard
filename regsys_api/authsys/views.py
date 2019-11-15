@@ -10,6 +10,7 @@ from django.contrib.auth import (authenticate, login, logout)
 from rest_framework import status
 from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from threading import Thread
 #from django.views.decorators.debug import sensitive_post_parameters
 
 from .models import (
@@ -132,7 +133,7 @@ class RegistrationView(APIView):
             )
 
             attempt = RegistrationHandler.objects.create(user=user)
-            attempt.send_email()
+            Thread(target=attempt.send_email).start()
 
         return Response(
             {
@@ -223,7 +224,7 @@ class ForgotPasswordHandlerView(APIView):
                 if hasattr(user, 'password_token'):
                     user.password_token.delete()
                 attempt = ForgotPasswordHandler.objects.create(user=user, browser=browser, operating_system=os)
-                attempt.send_email()
+                Thread(target=attempt.send_email).start()
 
             return Response(
                     {

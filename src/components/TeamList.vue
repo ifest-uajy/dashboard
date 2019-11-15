@@ -16,7 +16,7 @@
           <p class="font-weight-bold mb-0">Wah, sepertinya kamu belum mendaftar kompetisi apapun.</p>
           <p
             class="black--text text--darken-2 mb-1"
-          >Untuk dapat mulai berkompetisi lengkapi profil kamu di tab profil dan daftarkan tim kamu di tab kompetisi.</p>
+          >Untuk dapat mulai berkompetisi lengkapi profil kamu di tab profil dan daftarkan tim kamu di tab kompetisi atau gunakan kode undangan dari ketua tim kamu di form dibawah ini.</p>
         </v-alert>
       </v-content>
     </v-container>

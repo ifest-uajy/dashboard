@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'regsys_api.hackathon',
     'regsys_api.announcement',
     'regsys_api.messaging',
+    'regsys_api.uploader',
     'rest_framework',
 
     'django_user_agents',
@@ -86,27 +87,14 @@ WSGI_APPLICATION = 'regsys_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-"""
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'regsys',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'regsysc',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
-    }
-}
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'regsys_db',
-        'USER': 'regsys_si',
-        'PASSWORD': 'regsys_si',
-        'HOST': 'localhost',
-        'PORT': '5432' 
     }
 }
 
@@ -150,20 +138,18 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
-"""
-EMAIL_HOST = os.environ.get('EMAIL_HOST', None)
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', None)
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', None)
-EMAIL_PORT = os.environ.get('EMAIL_PORT', None)
-"""
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'test.apollo.ifest-uajy.com'
-EMAIL_HOST_USER = 'no-reply@test.apollo.ifest-uajy.com'
-EMAIL_HOST_PASSWORD = '43mwB62gQUh4'
-EMAIL_PORT = '465'
-EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = 'Informatics Festival (IFest) #8 <no-reply@test.apollo.ifest-uajy.com>'
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.ifest-uajy.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'no-reply@ifest-uajy.com'
+EMAIL_HOST_PASSWORD = '6o5V&YAioAvn'
+
+DEFAULT_FROM_EMAIL = 'Informatics Festival (IFest) #8 <no-reply@ifest-uajy.com>'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 # Place static in the same location as webpack build files
@@ -171,3 +157,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
 STATICFILES_DIRS = [join(BASE_DIR, 'dist', 'static')]
 
 USER_AGENTS_CACHE = 'default'
+

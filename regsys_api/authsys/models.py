@@ -79,6 +79,8 @@ class User(AbstractUser):
 
     full_name = models.CharField(max_length=100)
     email = models.EmailField(_('email address'), unique=True)
+    nomor_id = models.CharField(max_length=50)
+    tanggal_lahir = models.DateField(default=None, null=True)
     is_confirmed = models.BooleanField(default=False)
 
     """
@@ -97,6 +99,11 @@ class User(AbstractUser):
     """
     id_line = models.CharField(max_length=30)
     nomor_telepon = models.CharField(max_length=20)
+
+    """
+    Field upload KTM
+    """
+    #link_file = models.UUIDField(default=None)
 
 
     USERNAME_FIELD = 'email'

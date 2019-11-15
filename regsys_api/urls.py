@@ -29,7 +29,8 @@ urlpatterns = [
     path('api/hackathon/', include('regsys_api.hackathon.urls')),
     path('api/announcement/', include('regsys_api.announcement.urls')),
     path('api/message/', include('regsys_api.messaging.urls')),
+    path('api/file/', include('regsys_api.uploader.urls')),
     url(r'^.*$', index_view),
     #path('', index_view, name='index'),
     
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
