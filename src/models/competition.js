@@ -94,6 +94,25 @@ export default {
                 commit('setLoading', false)
             }
         },
+        async joinTeam({commit}, {token}) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                let response = await handle.post(
+                    'hackathon/teams/join/',
+                    {token}
+                )
+                console.log(response.data)
+                if(response.status == 201) {
+                    console.log(response.data)
+                    commit('setMessage', response.data)
+                }
+            } catch (e) {
+                commit('setError', e.response.data)
+            } finally {
+                commit('setLoading', false)
+            }
+        },
         async getTeams({commit}) {
             try {
                 commit('setLoading', true)

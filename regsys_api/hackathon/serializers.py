@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from regsys_api.authsys.models import User
-from .models import Track, HackathonTeams, HackathonTeamsMember
+from .models import Track, HackathonTeams, HackathonTeamsMember, HackathonTask, TaskResponse
 from regsys_api.authsys.serializers import UserSerializer
 
 class TrackSerializer(serializers.ModelSerializer):
@@ -9,9 +9,16 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = (
-            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'name', 'isExpired', 'slug_name'
+            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'name', 'isExpired', 'slug_name', 'biaya_pendaftaran'
         )
 
+class HackathonTaskSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = HackathonTask
+        fields = (
+            'name', 'deadline', 'order', 'task_type'
+        )
 
 class HackathonTeamsMemberSerializer(serializers.ModelSerializer):
 
@@ -55,13 +62,17 @@ class HackathonTeamsDetailSerializer(serializers.ModelSerializer):
     )
     team_members = HackathonTeamsMemberSerializer(many=True, read_only=True)
 
+    current_task = HackathonTaskSerializer(read_only=True)
+
+    task_list = HackathonTaskSerializer(many=True)
+
     class Meta:
         model = HackathonTeams
         fields = (
-            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token'
+            'task_list', 'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token', 'current_task', 'bisa_up_task'
         )
         read_only_fields = (
-            'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token'
+            'task_list', 'id', 'track', 'name', 'team_leader_name', 'institution', 'is_blacklisted', 'team_members', 'created_at', 'invitation_token', 'current_task', 'bisa_up_task'
         )
 
 class RegisterHackathonTeamSerializer(serializers.Serializer):
@@ -75,3 +86,6 @@ class RegisterHackathonTeamSerializer(serializers.Serializer):
 class AddHackathonTeamMemberSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
+
+class JoinTeamSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length=50)

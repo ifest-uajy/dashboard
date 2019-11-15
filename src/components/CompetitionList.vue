@@ -45,9 +45,29 @@
                   {{c.team_min_member}} - {{c.team_max_member}} orang
                 </span>
                 <span v-if="c.team_min_member === c.team_max_member">
-                  <v-avatar left>
+                  <span v-if="c.team_min_member === 1">
+                    <v-avatar left>
                     <v-icon>mdi-account</v-icon>
-                  </v-avatar>Individual
+                    </v-avatar>Individual
+                  </span>
+                  <span v-if="c.team_min_member !== 1">
+                    <v-avatar left>
+                    <v-icon>mdi-account</v-icon>
+                    </v-avatar>{{c.team_min_member}} orang
+                  </span>
+                </span>
+              </v-chip>
+
+              <v-chip color="blue accent-3 mb-3" outlined>
+                <span v-if="c.biaya_pendaftaran !== 0">
+                  <v-avatar left>
+                  <v-icon>mdi-coins</v-icon>
+                </v-avatar>Rp. {{formatPrice(c.biaya_pendaftaran)}}
+                </span>
+                <span v-if="c.biaya_pendaftaran === 0">
+                  <v-avatar left>
+                  <v-icon>mdi-coins</v-icon>
+                </v-avatar>Gratis
                 </span>
               </v-chip>
             </v-card-subtitle>
@@ -58,6 +78,39 @@
                 Daftar
                 </v-btn>
             </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-card class="pa-2 pb-5" outlined >
+            <v-card-title class="mb-4">Sudah punya invitation code?</v-card-title>
+
+            <v-card-text v-if="messages.message">
+          <v-alert type="success" outlined>{{ messages.message }}</v-alert>
+          <v-layout v-if="messages.message" justify-center>
+            <router-link to="/dashboard/competition"><v-btn color="success" dark>Lihat Tim</v-btn></router-link>
+          </v-layout>
+        </v-card-text>
+
+        <v-card-text v-if="errors.message" class="pb-0 mb-0">
+          <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
+        </v-card-text>
+
+      <v-form v-if="!messages.message" ref="form" @submit.prevent="joinTeamHandler">
+        <v-container>
+          <v-text-field v-model="token" outlined label="Token" required></v-text-field>
+                      <v-btn
+              large
+              block
+              color="primary"
+              type="submit"
+              :error="errors.token"
+              :error-messages="errors.token"
+            >Join</v-btn>
+        </v-container>
+      </v-form>
+
+
+
           </v-card>
         </v-col>
       </v-row>
@@ -74,14 +127,37 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import moment from "moment";
 export default {
+  data: () => ({
+    token: ''
+  }),
   computed: mapState({
-    competitions: state => state.competition.competitions
+    competitions: state => state.competition.competitions,
+    errors: state => state.competition.errors,
+    messages: state => state.competition.messages,
+    loading: state => state.competition.loading
   }),
   methods: {
-    moment
+    moment,
+    formatPrice(value) {
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+    ...mapActions({
+      joinTeam: "competition/joinTeam",
+      clear: "competition/clear"
+    }),
+    joinTeamHandler() {
+      this.joinTeam({
+        token: this.token
+      });
+    }
+  },
+    beforeRouteLeave(to, from, next) {
+       this.clear()
+       next()
   }
 };
 </script>

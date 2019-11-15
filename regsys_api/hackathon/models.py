@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.timezone import utc
 import datetime
+from django.utils import timezone
 from xkcdpass import xkcd_password as xp
-
 
 from regsys_api.authsys.models import User
 
@@ -13,11 +13,12 @@ def getxkcdpass():
 
 class Track(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
+    description = models.TextField()
     closed_date = models.DateTimeField(null=True)
     team_max_member = models.IntegerField(default=1)
     team_min_member = models.IntegerField(default=1)
     slug_name = models.CharField(max_length=50)
+    biaya_pendaftaran = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -32,8 +33,32 @@ class Track(models.Model):
                 return False
 
     class Meta:
-        verbose_name = 'Competition Track'
-        verbose_name_plural = 'Competition Tracks'
+        verbose_name = 'Kompetisi'
+        verbose_name_plural = 'Kompetisi'
+
+class HackathonTask(models.Model):
+
+    FILE_SUBMISSION = 'upload file'
+    ANNOUNCEMENT = 'pengumuman'
+    TYPE_CHOICES = (
+        (FILE_SUBMISSION, 'Uploader File'),
+        (ANNOUNCEMENT, 'Pengumuman')
+    )
+
+    order = models.IntegerField()
+    track = models.ForeignKey(to=Track, related_name='tracks', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    deadline = models.DateTimeField(null=True)
+    task_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    require_validation = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{} - {}".format(self.track, self.name)
+
+
+    class Meta:
+        verbose_name = 'Task Lomba'
+        verbose_name_plural = 'Task Lomba'
 
 class HackathonTeams(models.Model):
 
@@ -55,6 +80,8 @@ class HackathonTeams(models.Model):
 
     invitation_token = models.CharField(max_length=100, default=getxkcdpass())
 
+    current_task = models.ForeignKey(to=HackathonTask, related_name='active', on_delete=models.PROTECT)
+
     members = models.ManyToManyField(
         to=User, related_name='teams', through='HackathonTeamsMember')
     team_leader = models.ForeignKey(to=User, related_name='team_leader', on_delete=models.PROTECT)
@@ -64,10 +91,37 @@ class HackathonTeams(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def sudah_selesai_current_task(self):
+        current_task_count = self.current_task
+        update_current_task_count = self.task_response.filter(task=self.current_task, status=TaskResponse.DONE)
+        return current_task_count == update_current_task_count
+
+    @property
+    def task_list(self):
+        return HackathonTask.objects.filter(track=self.track).all()
+
+    @property
+    def jumlah_member(self):
+        return self.members.count()
+
+    @property
+    def bisa_up_task(self):
+        if(self.members.count() == self.track.team_min_member):
+            return True
+        else:
+            return False
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and not hasattr(self, 'current_task'):
+            self.current_task = HackathonTask.objects.filter(track=self.track).first()
+
+        super(HackathonTeams, self).save(*args, **kwargs)
+
     class Meta:
-        verbose_name = 'Hackathon Team'
-        verbose_name_plural = 'Hackathon Teams'
-    
+        verbose_name = 'Tim'
+        verbose_name_plural = 'Tim'
+
 class HackathonTeamsMember(models.Model):
 
     team = models.ForeignKey(to=HackathonTeams, related_name='team_members', on_delete=models.CASCADE)
@@ -80,25 +134,47 @@ class HackathonTeamsMember(models.Model):
     class Meta:
         unique_together = (('team', 'user'),)
         get_latest_by = 'created_at'
-        verbose_name = 'Team Member'
-        verbose_name_plural = 'Team Members'
+        verbose_name = 'Anggota Tim'
+        verbose_name_plural = 'Anggota Tim'
 
 
-class HackathonStage(models.Model):
+class TaskResponse(models.Model):
 
-    tracks = models.ForeignKey(to=Track, related_name='track_stages', on_delete=models.CASCADE)
-    order = models.IntegerField()
-    stage_name = models.CharField(max_length=50)
+    WAITING = 'menunggu_verifikasi'
+    DONE = 'selesai'
+    REJECTED = 'ditolak'
+    STATUS_CHOICES = (
+        (WAITING, 'Menunggu Verifikasi'),
+        (DONE, 'Selesai'),
+        (REJECTED, 'Ditolak'),
+    )
+
+    task = models.ForeignKey(to=HackathonTask, related_name='task_response', on_delete=models.PROTECT)
+    team = models.ForeignKey(to=HackathonTeams, related_name='task_response', on_delete=models.CASCADE)
+    response = models.TextField()
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES)
+    updated_at = models.DateTimeField(default=timezone.now)
+    file_path = models.UUIDField(null=True, blank=True)
+    announcement_title = models.CharField(max_length=50, null=True, blank=True)
+    announcement_desc = models.TextField(null=True, blank=True)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{} - {}".format(self.tracks.name, self.stage_name)
+        return "{} - {}".format(self.task.name, self.team.name)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None and (self.status is None or self.status == ''):
+            if self.task.requires_validation:
+                self.status = self.WAITING
+                self.is_verified = False
+            else:
+                self.status = self.DONE
+                self.is_verified = True
+        
+        super(TaskResponse, self).save(*args, **kwargs)
+    
     class Meta:
-        ordering = ['tracks', 'order']
-
-class HackathonTask(models.Model):
-
-    stage = models.ForeignKey(to=HackathonStage, related_name='tasks', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    deadline_date = models
-    require_validation = models.BooleanField(default=False)
+        unique_together = (('task', 'team'),)
+        get_latest_by = 'created_at'
+        verbose_name = 'Respon Task Tim'
+        verbose_name_plural = 'Respon Task Tim'

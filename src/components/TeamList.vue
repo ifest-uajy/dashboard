@@ -23,7 +23,7 @@
 
     <v-container class="grey lighten-5 pt-0">
       <v-row style="background: #fff">
-        <v-col v-for="c in teams" :key="c.id" cols="12" sm="4">
+        <v-col v-for="c in teams" :key="c.id" cols="12" sm="6">
           <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
             <v-card-title>{{c.name}}</v-card-title>
             <v-card-subtitle class="pb-0">
@@ -57,6 +57,50 @@
                       <span v-if="c.team_leader_name == u.user">(Ketua Tim)</span>
                     </p>
                 </v-content>
+            </v-card-subtitle>
+            <v-card-subtitle>
+              Task Kompetisi
+              
+              <br/>
+              Tugas tim sekarang adalah {{c.current_task.name}} dengan batas submission pada 
+              {{moment(String(c.current_task.deadline)).format("DD MMMM YYYY HH:MM")}}
+
+
+            </v-card-subtitle>
+
+            <v-card-subtitle>
+
+<v-stepper v-for="task in c.task_list" :key="task.order" vertical>
+    <v-stepper-step :step="task.order" :complete="c.current_task.order > task.order">
+      {{task.name}}
+      <small v-if="task.task_type === 'upload file'" class="mt-2">Task Deadline: {{moment(String(task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
+      
+          
+      
+      
+
+    </v-stepper-step>
+
+<v-stepper-content :step="task.order" v-if="c.current_task.order === task.order">
+
+      <v-card color="grey lighten-1" class="mb-12" height="200px">
+
+      <span v-if="c.current_task.order === task.order">
+
+        SHOW THIS TO UP PROPO
+
+      </span>
+      <span v-if="c.current_task.order > task.order">
+
+        Task ini sudah selese
+
+      </span>
+      </v-card>
+    </v-stepper-content>
+
+  </v-stepper>
+
+
             </v-card-subtitle>
           </v-card>
         </v-col>
@@ -97,7 +141,8 @@ export default {
         }
       //}
 
-    }
+    },
+    moment,
   }
 };
 </script>

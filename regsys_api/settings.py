@@ -138,13 +138,14 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
-
+"""
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'mail.ifest-uajy.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'no-reply@ifest-uajy.com'
 EMAIL_HOST_PASSWORD = '6o5V&YAioAvn'
+"""
 
 DEFAULT_FROM_EMAIL = 'Informatics Festival (IFest) #8 <no-reply@ifest-uajy.com>'
 

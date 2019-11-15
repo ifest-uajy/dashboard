@@ -17,7 +17,8 @@ from .serializers import (
     HackathonTeamsSerializer,
     TrackSerializer,
     RegisterHackathonTeamSerializer,
-    AddHackathonTeamMemberSerializer
+    AddHackathonTeamMemberSerializer,
+    JoinTeamSerializer
 )
 
 class ListTrackView(generics.ListAPIView):
@@ -83,3 +84,59 @@ class GetTeamUserView(generics.ListAPIView):
 
     def get_queryset(self):
         return HackathonTeams.objects.filter(team_members__user=self.request.user)
+
+
+class JoinTeam(views.APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, **extra_fields):
+        request_serializer = JoinTeamSerializer(data=request.data)
+
+        request_serializer.is_valid(raise_exception=True)
+
+        token = request_serializer.validated_data['token']
+
+        team = HackathonTeams.objects.filter(
+            invitation_token=token
+        ).first()
+
+        if not team:
+            return Response(
+                    {
+                        'message': 'Tim tidak di temukan.',
+                        'status': 'failed',
+                    },
+                    status=status.HTTP_404_NOT_FOUND
+                )
+        
+        if HackathonTeamsMember.objects.filter(team__track=team.track, user=request.user).exists():
+                return Response(
+                    {
+                        'message': 'Anda telah bergabung dalam kompetisi ini.',
+                        'status': 'failed',
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED
+                    
+                )
+
+        if team.jumlah_member == team.track.team_max_member:
+            return Response(
+                {
+                    'message': 'Maaf tim ini sudah penuh',
+                    'status': 'failed'
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        HackathonTeamsMember.objects.create(
+                team=team,
+                user=request.user
+            )
+
+        return Response(
+                    {
+                        'message': 'Anda sudah terdaftar.',
+                        'status': 'success',
+                    },
+                    status=status.HTTP_201_CREATED
+                )
