@@ -35,6 +35,17 @@ class RegisterTeamView(views.APIView):
         request_serializer = RegisterHackathonTeamSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
 
+        user = User.objects.filter(email=request.user.email).first()
+
+        if user.isProfileComplete is False:
+            return Response(
+                    {
+                        'message': 'Profil anda belum lengkap untuk membuat tim.',
+                        'status': 'failed',
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+
         slug = request_serializer.validated_data['slug_name']
         track = Track.objects.filter(slug_name=slug).first()
 
@@ -94,6 +105,17 @@ class JoinTeam(views.APIView):
         request_serializer = JoinTeamSerializer(data=request.data)
 
         request_serializer.is_valid(raise_exception=True)
+
+        user = User.objects.filter(email=request.user.email).first()
+
+        if user.isProfileComplete is False:
+            return Response(
+                    {
+                        'message': 'Profil anda belum lengkap untuk bergabung kedalam tim.',
+                        'status': 'failed',
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
 
         token = request_serializer.validated_data['token']
 

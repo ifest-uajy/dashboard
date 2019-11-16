@@ -125,7 +125,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
     #response = TaskResponseSerializer(source='task_response', many=True, read_only=True)
     
-    #current_task = HackathonTaskSerializer(read_only=True)
+    current_task = HackathonTaskSerializer(read_only=True)
 
     #task_list = HackathonTaskSerializer(many=True)
 
@@ -134,7 +134,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'kompetisi', 'nama', 'asal', 'alamat', 'ketua', 'pembimbing', 'anggota',
-            'token', 'ditangguhkan', 'created_at', 'tasks', # 'current_task', 'tasks'
+            'token', 'ditangguhkan', 'created_at', 'tasks', 'current_task', # 'tasks'
         )
 
     #def get_info_task(self, obj):

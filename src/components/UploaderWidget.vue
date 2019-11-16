@@ -1,18 +1,39 @@
 <template>
   <v-flex>
     <v-form @submit.prevent="sumbitFile">
-      <v-flex class="mb-5">
-        <vue-dropzone
+      <v-flex>
+        <v-flex class="mb-5"> 
+          <vue-dropzone
           ref="dropzone"
           id="dropzone"
+          v-if="response.status !== 'selesai'"
           :options="dropOptions"
         />
-        <span v-for="resp in task_response_list" :key="resp.task_id">
+        </v-flex>
+        <div v-if="response.length !== 0">
+          File berhasil diunggah: <b>{{moment(String(response.updated_at)).format("DD MMMM YYYY HH:MM")}}</b> (UTC+7)
+          <br/>
+          <a :href="downloadUrl" class="body-link" target="_blank">Unduh file</a>
+        </div>
+        <div v-else>Belum ada file diunggah.</div>
 
-          {{resp.task.name}}
-          {{resp.status}}
-
-        </span>
+        <br />
+        <v-alert
+          v-if="response.length !== 0 && response.status === 'ditolak'"
+          :value="true"
+          type="error"
+          outlined prominent
+        >
+          File yang anda upload tidak sesuai dengan kriteria. Silahkan upload ulang atau hubungi pihak panitia untuk informasi lebih lanjut.
+        </v-alert>
+        <v-alert
+          v-if="response.length !== 0 && response.status === 'menunggu_verifikasi'"
+          :value="true"
+          type="info"
+          outlined prominent
+        >
+          Panitia akan memverifikasi file yang anda upload. <br/> Mohon tunggu dalam waktu <b>1 x 24</b> jam.
+        </v-alert>
         <v-alert v-if="dropzoneError" :value="true" type="error" outline>{{ dropzoneError }}</v-alert>
       </v-flex>
     </v-form>
@@ -21,9 +42,10 @@
 
 <script>
 import vue2Dropzone from 'vue2-dropzone'
+import moment from "moment";
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 export default {
-  props: ['task', 'task_response_list'],
+  props: ['task', 'response'],
   components: {
     vueDropzone: vue2Dropzone
   },
@@ -39,6 +61,9 @@ export default {
         dropzoneError: null,
       }
     },
+    methods: {
+      moment
+    }
 }
 </script>
 

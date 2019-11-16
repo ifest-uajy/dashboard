@@ -33,74 +33,68 @@
               </p>
             </v-card-subtitle>
             <v-card-subtitle>
-              <p class="black--text mb-2">Team Invitation Token</p>
-                  <v-text-field :id="`CopyThis-`+c.id"
-              v-model="c.token"
-              readonly
-              append-icon="mdi-content-copy"
-              @click:append="copyText(c.id, c.token)"
-              outlined
-              :persistent-hint="true"
-              hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
+              <h2 class="black--text mb-2">Informasi Tim</h2>
+
+              <h3>{{c.kompetisi.name}}</h3>
+
+              <p class="black--text mb-1 mt-4">Nama Tim</p>
+              <v-text-field readonly v-model="c.nama" outlined></v-text-field>
+
+              <p class="black--text mb-1">Asal Institusi</p>
+              <v-text-field readonly v-model="c.asal" outlined></v-text-field>
+
+              <p class="black--text mb-1">Token Tim</p>
+              <v-text-field
+                :id="`CopyThis-`+c.id"
+                v-model="c.token"
+                readonly
+                append-icon="mdi-content-copy"
+                @click:append="copyText(c.id, c.token)"
+                outlined
+                :persistent-hint="true"
+                hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
               ></v-text-field>
               <!--<v-btn @click="copyText('' + c.invitation_token)">copy</v-btn>-->
-  
-            </v-card-subtitle>
-            <v-card-subtitle class="pb-0 pt-0">
-              <p class="mb-0 pb-0 black--text bold">{{c.asal}}</p>
-              <p class="mb-0 pb-0">{{c.kompetisi.name}}</p>
             </v-card-subtitle>
             <v-card-subtitle>
-              <p class="black--text mb-1">Anggota Tim</p>
-                <v-content class="px-0" v-for="u in c.anggota" :key="u">
-                    <p class="mb-0">{{u}}
-                      <span v-if="c.ketua == u">(Ketua Tim)</span>
-                    </p>
-                </v-content>
+              <h2 class="black--text mb-2">Anggota Tim</h2>
+              <v-content class="px-0" v-for="u in c.anggota" :key="u">
+                <p class="mb-0">
+                  {{u}}
+                  <span v-if="c.ketua == u">(Ketua Tim)</span>
+                </p>
+              </v-content>
             </v-card-subtitle>
             <v-card-subtitle>
-              Task Kompetisi
-              
-              <br/>
-              <!-- Tugas tim sekarang adalah {{c.current_task.name}} dengan batas submission pada 
-              {{moment(String(c.current_task.deadline)).format("DD MMMM YYYY HH:MM")}} -->
+              <h2 class="black--text mb-1">Task Lomba</h2>
+              <p
+                class="mt-2"
+              >Dibawah ini adalah task-task yang harus diselesaikan oleh tim untuk mengikuti kompetisi.</p>
 
+              <v-stepper vertical>
+                
+                <div v-for="task in c.tasks" :key="task.task.order">
+                <v-stepper-step
+                  :step="task.task.order"
+                  :complete="task.task.order < c.current_task.order"
+                >
+                  {{task.task.name}}
+                  <small
+                    v-if="task.task.task_type === 'upload file'"
+                    class="mt-2"
+                  >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
+                </v-stepper-step>
 
-            </v-card-subtitle>
-
-            <v-card-subtitle>
-
-<v-stepper v-for="task in c.task_list" :key="task.order" vertical>
-    <v-stepper-step :step="task.order" :complete="c.current_task.order > task.order">
-      {{task.name}}
-      <small v-if="task.task_type === 'upload file'" class="mt-2">Task Deadline: {{moment(String(task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
-      
-          
-      
-      
-
-    </v-stepper-step>
-
-<v-stepper-content :step="task.order" v-if="c.current_task.order === task.order">
-
-      <!-- <v-card outlined class="px-5" min-height="200px"> -->
-
-      <span v-if="c.current_task.order === task.order">
-
-        <UploaderWidget :task="task" :task_response_list="c.task_response_list"/>
-
-      </span>
-      <span v-if="c.current_task.order > task.order">
-
-        Task ini sudah selese
-
-      </span>
-      <!-- </v-card> -->
-    </v-stepper-content>
-
-  </v-stepper>
-
-
+                <v-stepper-content
+                  :step="task.task.order"
+                  :complete="task.task.order < c.current_task.order"
+                >
+                  <span v-if="task.task.order === c.current_task.order">
+                    <UploaderWidget :task="task.task" :response="task.response" />
+                  </span>
+                </v-stepper-content>
+                </div>
+              </v-stepper>
             </v-card-subtitle>
           </v-card>
         </v-col>
@@ -120,7 +114,7 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
-import UploaderWidget from './UploaderWidget.vue'
+import UploaderWidget from "./UploaderWidget.vue";
 export default {
   computed: mapState({
     competitions: state => state.competition.competitions,
@@ -130,23 +124,22 @@ export default {
     UploaderWidget
   },
   methods: {
-    copyText (id, invitation_token) {
+    copyText(id, invitation_token) {
       //async function copyToClipboard() {
-        try {
-          // 1) Copy text
-          //console.log('copyinig');
-          //await 
-          navigator.clipboard.writeText(invitation_token);
-          
-      console.log(this.$refs['CopyThis-' + id])
-          // 2) Catch errors
-        } catch (err) {
-          //console.error('Failed to copy: ', err);
-        }
-      //}
+      try {
+        // 1) Copy text
+        //console.log('copyinig');
+        //await
+        navigator.clipboard.writeText(invitation_token);
 
+        console.log(this.$refs["CopyThis-" + id]);
+        // 2) Catch errors
+      } catch (err) {
+        //console.error('Failed to copy: ', err);
+      }
+      //}
     },
-    moment,
+    moment
   }
 };
 </script>

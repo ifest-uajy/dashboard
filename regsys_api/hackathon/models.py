@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import utc
 import datetime
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from xkcdpass import xkcd_password as xp
 
 from regsys_api.authsys.models import User
@@ -171,7 +172,13 @@ class TaskResponse(models.Model):
                 self.status = self.DONE
                 self.is_verified = True
 
-        super(TaskResponse, self).save(*args, **kwargs)    
+            #if self.task.track.pk != self.team.track.pk:
+                #raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
+            #else:
+        
+        super(TaskResponse, self).save(*args, **kwargs)
+
+            
     
     class Meta:
         unique_together = (('task', 'team'),)
