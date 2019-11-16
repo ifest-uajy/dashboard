@@ -25,19 +25,21 @@
       <v-row style="background: #fff">
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
           <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
-            <v-card-title class="mb-4">{{c.name}}</v-card-title>
+            <v-card-title class="mb-3">
+              <span class="wordBreak">{{c.name}}</span>
+            </v-card-title>
 
             <v-card-subtitle class="pb-0">
               <p>{{c.description}}</p>
 
-              <v-chip class="mr-2 mb-3" outlined color="blue">
+              <v-chip class="mr-2 mb-3" outlined color="black">
                 <v-avatar left>
                   <v-icon>mdi-calendar</v-icon>
                 </v-avatar>
                 {{moment(String(c.closed_date)).format("DD MMMM YYYY")}}
               </v-chip>
 
-              <v-chip color="pink accent-3 mb-3" outlined>
+              <v-chip color="black accent-3 mb-3" outlined>
                 <span v-if="c.team_min_member !== c.team_max_member">
                   <v-avatar left>
                     <v-icon>mdi-account-group</v-icon>
@@ -59,16 +61,16 @@
                 </span>
               </v-chip>
 
-              <v-chip color="blue accent-3 mb-3" outlined>
+              <v-chip color="black mb-3" outlined>
                 <span v-if="c.biaya_pendaftaran !== 0">
                   <v-avatar left>
-                    <v-icon>mdi-coins</v-icon>
+                    <v-icon>mdi-cash</v-icon>
                   </v-avatar>
                   Rp. {{formatPrice(c.biaya_pendaftaran)}}
                 </span>
                 <span v-if="c.biaya_pendaftaran === 0">
                   <v-avatar left>
-                    <v-icon>mdi-coins</v-icon>
+                    <v-icon>mdi-cash</v-icon>
                   </v-avatar>Gratis
                 </span>
               </v-chip>
@@ -81,31 +83,27 @@
                 v-if="!c.isExpired"
                 outlined
                 :to="`competition/`+c.slug_name"
-                color="green"
+                color="black"
               >Daftar</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
           <v-card class="pa-2 pb-5" outlined>
-            <v-card-title class="mb-4">Sudah punya invitation code?</v-card-title>
+            <v-card-title>Punya invitation token?</v-card-title>
 
             <v-card-text v-if="messages.message">
               <v-alert type="success" outlined>{{ messages.message }}</v-alert>
               <v-layout v-if="messages.message" justify-center>
-                <router-link to="/dashboard/competition">
+                <router-link to="/dashboard/teams">
                   <v-btn color="success" dark>Lihat Tim</v-btn>
                 </router-link>
               </v-layout>
             </v-card-text>
 
-            <v-card-text v-if="errors.message" class="pb-0 mb-0">
-              <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
-            </v-card-text>
-
             <v-form v-if="!messages.message" ref="form" @submit.prevent="joinTeamHandler">
               <v-container>
-                <v-text-field v-model="token" outlined label="Token" required></v-text-field>
+                <v-text-field v-model="token" outlined label="Token" required :rules="tokenRules"></v-text-field>
                 <v-btn
                   large
                   block
@@ -113,9 +111,19 @@
                   type="submit"
                   :error="errors.token"
                   :error-messages="errors.token"
-                >Join</v-btn>
+                  :disabled="!isTokenFilled"
+                >Gabung</v-btn>
               </v-container>
             </v-form>
+
+            <v-card-text>
+              Gunakan invitation token yang diberikan oleh ketua tim untuk bergabung dalam satu tim.
+            </v-card-text>
+
+            <v-card-text v-if="errors.message" class="pb-0 mb-0">
+              <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
+            </v-card-text>
+
           </v-card>
         </v-col>
       </v-row>
@@ -136,14 +144,20 @@ import { mapState, mapActions } from "vuex";
 import moment from "moment";
 export default {
   data: () => ({
-    token: ""
+    token: "",
+    tokenRules: [v => !!v || "Token diperlukan"]
   }),
-  computed: mapState({
-    competitions: state => state.competition.competitions,
-    errors: state => state.competition.errors,
-    messages: state => state.competition.messages,
-    loading: state => state.competition.loading
-  }),
+  computed: {
+    isTokenFilled() {
+      return this.token;
+    },
+    ...mapState({
+      competitions: state => state.competition.competitions,
+      errors: state => state.competition.errors,
+      messages: state => state.competition.messages,
+      loading: state => state.competition.loading
+    })
+  },
   methods: {
     moment,
     formatPrice(value) {
@@ -154,10 +168,11 @@ export default {
       joinTeam: "competition/joinTeam",
       clear: "competition/clear"
     }),
-    joinTeamHandler() {
+    joinTeamHandler(e) {
       this.joinTeam({
         token: this.token
       });
+      this.$refs.form.reset()
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -166,3 +181,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.wordBreak{
+  word-break: normal !important;
+}
+</style>

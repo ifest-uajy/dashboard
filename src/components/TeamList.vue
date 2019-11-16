@@ -117,7 +117,7 @@ import UploaderWidget from "./UploaderWidget.vue";
 export default {
   computed: mapState({
     competitions: state => state.competition.competitions,
-    teams: state => state.competition.teams
+    teams: state => state.competition.teams,
   }),
   components: {
     UploaderWidget
@@ -138,7 +138,7 @@ export default {
       }
       //}
     },
-    moment
-  }
+    moment,
+  },
 };
 </script>
