@@ -8,10 +8,14 @@
           <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
           <v-alert v-if="errors.message" type="error" outlined>{{errors.message}}</v-alert>
           <v-layout v-if="messages.message" justify-center>
-            <router-link to="/login"><v-btn color="success" dark>Login ke dashboard</v-btn></router-link>
+            <router-link to="/login">
+              <v-btn color="success" dark>Login ke dashboard</v-btn>
+            </router-link>
           </v-layout>
           <v-layout v-if="errors.message" justify-center>
-            <router-link to="/"><v-btn color="error" dark>Kembali</v-btn></router-link>
+            <router-link to="/">
+              <v-btn color="error" dark>Kembali</v-btn>
+            </router-link>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -23,7 +27,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-    data: () => ({ }),
+  data: () => ({}),
   computed: {
     ...mapState({
       errors: state => state.authsys.errors,
@@ -35,17 +39,17 @@ export default {
     ...mapActions({
       confirmToken: "authsys/confirm",
       clear: "authsys/clear"
-    }),
+    })
   },
   beforeMount() {
-      console.log(this.$route.params.token),
+    console.log(this.$route.params.token),
       this.confirmToken({
-        token: this.$route.params.token,
-      })
-    },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
-    }
+        token: this.$route.params.token
+      });
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
 };
 </script>

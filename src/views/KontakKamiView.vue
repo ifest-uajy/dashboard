@@ -7,9 +7,14 @@
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
-            <v-text-field v-model="full_name" label="Nama Lengkap" outlined :error="errors.full_name"
+            <v-text-field
+              v-model="full_name"
+              label="Nama Lengkap"
+              outlined
+              :error="errors.full_name"
               :error-messages="errors.nama_pengirim"
-              :rules="rulesNama"></v-text-field>
+              :rules="rulesNama"
+            ></v-text-field>
             <v-text-field
               v-model="email"
               label="Email"
@@ -20,11 +25,7 @@
               :error="errors.email"
               :error-messages="errors.email_pengirim"
             ></v-text-field>
-            <v-textarea v-model="pesan"
-            :error-messages="errors.pesan"
-            outlined
-            :rules="rulesPesan"
-            ></v-textarea>
+            <v-textarea v-model="pesan" :error-messages="errors.pesan" outlined :rules="rulesPesan"></v-textarea>
             <v-btn
               large
               block
@@ -35,14 +36,15 @@
               :disabled="!isComplete"
             >Kirim</v-btn>
           </v-form>
-          <br/>
-          Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
+          <br />Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
           Panitia akan berusaha secepat mungkin untuk membalas pesan anda.
         </v-card-text>
         <v-card-text>
           <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
           <v-layout v-if="messages.message" justify-center>
-            <router-link to="/"><v-btn color="success" dark>Kembali ke Dashboard</v-btn></router-link>
+            <router-link to="/">
+              <v-btn color="success" dark>Kembali ke Dashboard</v-btn>
+            </router-link>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -56,25 +58,19 @@ import { mapState, mapActions } from "vuex";
 export default {
   data: () => ({
     btnDisabled: true,
-    full_name: '',
-    email: '',
-    pesan: '',
+    full_name: "",
+    email: "",
+    pesan: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
-    rulesNama: [
-      v => !!v || 'Nama Lengkap harus diisi.'
-    ],
-    rulesPesan: [
-      v => !!v || 'Pesan harus diisi.'
-    ]
+    rulesNama: [v => !!v || "Nama Lengkap harus diisi."],
+    rulesPesan: [v => !!v || "Pesan harus diisi."]
   }),
   computed: {
     isComplete() {
-      return (
-        this.full_name && this.email && this.pesan
-      );
+      return this.full_name && this.email && this.pesan;
     },
     ...mapState({
       errors: state => state.msgHandle.errors,
@@ -96,10 +92,10 @@ export default {
       });
     }
   },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
-    }
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
 };
 </script>
 

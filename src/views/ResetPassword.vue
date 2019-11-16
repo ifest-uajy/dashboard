@@ -32,9 +32,11 @@
           </v-form>
         </v-card-text>
         <v-card-text>
-             <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-              <v-layout v-if="messages.message" justify-center>
-            <router-link to="/"><v-btn color="success" dark>Kembali ke halaman utama</v-btn></router-link>
+          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
+          <v-layout v-if="messages.message" justify-center>
+            <router-link to="/">
+              <v-btn color="success" dark>Kembali ke halaman utama</v-btn>
+            </router-link>
           </v-layout>
           <v-alert v-if="errors.message" type="error" outlined>{{ errors.message }}</v-alert>
         </v-card-text>
@@ -43,44 +45,44 @@
   </v-container>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 
 export default {
-    data: () => ({
-        email: '',
-        emailRules: [
-            v => !!v || "E-mail is required",
-            v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-        ],
-    }),
-    computed: {
-        ...mapState({
-            messages: state => state.authsys.message,
-            errors: state => state.authsys.errors,
-            loading: state=> state.authsys.loading
-        })
-    },
-    methods: {
-        validEmail: function (email) {
+  data: () => ({
+    email: "",
+    emailRules: [
+      v => !!v || "E-mail is required",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+    ]
+  }),
+  computed: {
+    ...mapState({
+      messages: state => state.authsys.message,
+      errors: state => state.authsys.errors,
+      loading: state => state.authsys.loading
+    })
+  },
+  methods: {
+    validEmail: function(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     },
-        ...mapActions({
-            resetAction: 'authsys/reset',
-            clear: 'authsys/clear'
-        }),
+    ...mapActions({
+      resetAction: "authsys/reset",
+      clear: "authsys/clear"
+    }),
 
-        resetPassword() {
-            this.resetAction({
-                email: this.email,
-                password: this.password,
-                router: this.$router
-            })
-        }
-    },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
+    resetPassword() {
+      this.resetAction({
+        email: this.email,
+        password: this.password,
+        router: this.$router
+      });
     }
-}
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
+};
 </script>

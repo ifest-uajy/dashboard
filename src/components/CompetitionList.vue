@@ -1,6 +1,6 @@
 <template>
-  <v-container class="px-0 mx-0" >
-  <!--   <v-container class="mb-0 pb-0">
+  <v-container class="px-0 mx-0">
+    <!--   <v-container class="mb-0 pb-0">
      <v-badge class="mb-5">
         <template
           v-if="Object.keys(competitions).length !== 0"
@@ -9,7 +9,7 @@
         <h3 class="subtitle pb-0 mb-0">Kompetisi</h3>
       </v-badge>
     </v-container>
--->
+    -->
     <v-container v-if="Object.keys(competitions).length === 0">
       <v-content>
         <v-alert prominent outlined>
@@ -47,13 +47,14 @@
                 <span v-if="c.team_min_member === c.team_max_member">
                   <span v-if="c.team_min_member === 1">
                     <v-avatar left>
-                    <v-icon>mdi-account</v-icon>
+                      <v-icon>mdi-account</v-icon>
                     </v-avatar>Individual
                   </span>
                   <span v-if="c.team_min_member !== 1">
                     <v-avatar left>
-                    <v-icon>mdi-account</v-icon>
-                    </v-avatar>{{c.team_min_member}} orang
+                      <v-icon>mdi-account</v-icon>
+                    </v-avatar>
+                    {{c.team_min_member}} orang
                   </span>
                 </span>
               </v-chip>
@@ -61,56 +62,60 @@
               <v-chip color="blue accent-3 mb-3" outlined>
                 <span v-if="c.biaya_pendaftaran !== 0">
                   <v-avatar left>
-                  <v-icon>mdi-coins</v-icon>
-                </v-avatar>Rp. {{formatPrice(c.biaya_pendaftaran)}}
+                    <v-icon>mdi-coins</v-icon>
+                  </v-avatar>
+                  Rp. {{formatPrice(c.biaya_pendaftaran)}}
                 </span>
                 <span v-if="c.biaya_pendaftaran === 0">
                   <v-avatar left>
-                  <v-icon>mdi-coins</v-icon>
-                </v-avatar>Gratis
+                    <v-icon>mdi-coins</v-icon>
+                  </v-avatar>Gratis
                 </span>
               </v-chip>
             </v-card-subtitle>
 
             <v-card-actions>
               <v-btn v-if="c.isExpired" color="grey" text>Daftar</v-btn>
-                <v-btn class="ml-2" v-if="!c.isExpired" outlined :to="`competition/`+c.slug_name" color="green">
-                Daftar
-                </v-btn>
+              <v-btn
+                class="ml-2"
+                v-if="!c.isExpired"
+                outlined
+                :to="`competition/`+c.slug_name"
+                color="green"
+              >Daftar</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
-          <v-card class="pa-2 pb-5" outlined >
+          <v-card class="pa-2 pb-5" outlined>
             <v-card-title class="mb-4">Sudah punya invitation code?</v-card-title>
 
             <v-card-text v-if="messages.message">
-          <v-alert type="success" outlined>{{ messages.message }}</v-alert>
-          <v-layout v-if="messages.message" justify-center>
-            <router-link to="/dashboard/competition"><v-btn color="success" dark>Lihat Tim</v-btn></router-link>
-          </v-layout>
-        </v-card-text>
+              <v-alert type="success" outlined>{{ messages.message }}</v-alert>
+              <v-layout v-if="messages.message" justify-center>
+                <router-link to="/dashboard/competition">
+                  <v-btn color="success" dark>Lihat Tim</v-btn>
+                </router-link>
+              </v-layout>
+            </v-card-text>
 
-        <v-card-text v-if="errors.message" class="pb-0 mb-0">
-          <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
-        </v-card-text>
+            <v-card-text v-if="errors.message" class="pb-0 mb-0">
+              <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
+            </v-card-text>
 
-      <v-form v-if="!messages.message" ref="form" @submit.prevent="joinTeamHandler">
-        <v-container>
-          <v-text-field v-model="token" outlined label="Token" required></v-text-field>
-                      <v-btn
-              large
-              block
-              color="primary"
-              type="submit"
-              :error="errors.token"
-              :error-messages="errors.token"
-            >Join</v-btn>
-        </v-container>
-      </v-form>
-
-
-
+            <v-form v-if="!messages.message" ref="form" @submit.prevent="joinTeamHandler">
+              <v-container>
+                <v-text-field v-model="token" outlined label="Token" required></v-text-field>
+                <v-btn
+                  large
+                  block
+                  color="primary"
+                  type="submit"
+                  :error="errors.token"
+                  :error-messages="errors.token"
+                >Join</v-btn>
+              </v-container>
+            </v-form>
           </v-card>
         </v-col>
       </v-row>
@@ -131,7 +136,7 @@ import { mapState, mapActions } from "vuex";
 import moment from "moment";
 export default {
   data: () => ({
-    token: ''
+    token: ""
   }),
   computed: mapState({
     competitions: state => state.competition.competitions,
@@ -142,8 +147,8 @@ export default {
   methods: {
     moment,
     formatPrice(value) {
-        let val = (value/1).toFixed(2).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     ...mapActions({
       joinTeam: "competition/joinTeam",
@@ -155,9 +160,9 @@ export default {
       });
     }
   },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
   }
 };
 </script>

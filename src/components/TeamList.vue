@@ -72,27 +72,26 @@
               >Dibawah ini adalah task-task yang harus diselesaikan oleh tim untuk mengikuti kompetisi.</p>
 
               <v-stepper vertical>
-                
                 <div v-for="task in c.tasks" :key="task.task.order">
-                <v-stepper-step
-                  :step="task.task.order"
-                  :complete="task.task.order < c.current_task.order"
-                >
-                  {{task.task.name}}
-                  <small
-                    v-if="task.task.task_type === 'upload file'"
-                    class="mt-2"
-                  >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
-                </v-stepper-step>
+                  <v-stepper-step
+                    :step="task.task.order"
+                    :complete="task.task.order < c.current_task.order"
+                  >
+                    {{task.task.name}}
+                    <small
+                      v-if="task.task.task_type === 'upload file'"
+                      class="mt-2"
+                    >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
+                  </v-stepper-step>
 
-                <v-stepper-content
-                  :step="task.task.order"
-                  :complete="task.task.order < c.current_task.order"
-                >
-                  <span v-if="task.task.order === c.current_task.order">
-                    <UploaderWidget :task="task.task" :response="task.response" />
-                  </span>
-                </v-stepper-content>
+                  <v-stepper-content
+                    :step="task.task.order"
+                    :complete="task.task.order < c.current_task.order"
+                  >
+                    <span v-if="task.task.order === c.current_task.order">
+                      <UploaderWidget :task="task.task" :response="task.response" />
+                    </span>
+                  </v-stepper-content>
                 </div>
               </v-stepper>
             </v-card-subtitle>

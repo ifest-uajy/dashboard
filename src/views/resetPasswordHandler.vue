@@ -7,7 +7,7 @@
 
         <v-card-text v-if="hideBoxes">
           <v-form ref="form" @submit.prevent="resetPassword">
-                        <v-text-field
+            <v-text-field
               v-model="password"
               label="Password"
               type="password"
@@ -39,13 +39,17 @@
           </v-form>
         </v-card-text>
         <v-card-text>
-             <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-              <v-layout v-if="messages.message" justify-center>
-            <router-link to="/login/"><v-btn color="success" dark>Login ke dashboard</v-btn></router-link>
+          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
+          <v-layout v-if="messages.message" justify-center>
+            <router-link to="/login/">
+              <v-btn color="success" dark>Login ke dashboard</v-btn>
+            </router-link>
           </v-layout>
           <v-alert v-if="errors.message" type="error" outlined>{{ errors.message }}</v-alert>
           <v-layout v-if="errors.message" justify-center>
-            <router-link to="/"><v-btn color="error" dark>Kembali ke halaman utama</v-btn></router-link>
+            <router-link to="/">
+              <v-btn color="error" dark>Kembali ke halaman utama</v-btn>
+            </router-link>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -53,56 +57,52 @@
   </v-container>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 
 export default {
-    data: () => ({
-        password: '',
-        confirmPassword: '',
-        passwordRules: [
-        v => !!v || "Password is required"
-    ]
+  data: () => ({
+    password: "",
+    confirmPassword: "",
+    passwordRules: [v => !!v || "Password is required"]
+  }),
+  computed: {
+    hideBoxes() {
+      if (this.errors.message || this.messages.message) return false;
+      else return true;
+    },
+    ...mapState({
+      messages: state => state.authsys.message,
+      errors: state => state.authsys.errors,
+      loading: state => state.authsys.loading
+    })
+  },
+  methods: {
+    validPassword(password, current) {
+      if (password === current && password && current) return true;
+    },
+    ...mapActions({
+      resetAction: "authsys/checkTokenReset",
+      setPassword: "authsys/resetPassword",
+      clear: "authsys/clear"
     }),
-    computed: {
-      hideBoxes() {
-        if(this.errors.message || this.messages.message)
-          return false;
-        else return true;
-      },
-        ...mapState({
-            messages: state => state.authsys.message,
-            errors: state => state.authsys.errors,
-            loading: state=> state.authsys.loading
-        })
-    },
-    methods: {
-      validPassword(password, current) {
-        if(password === current && password && current)
-          return true
-      },
-        ...mapActions({
-            resetAction: 'authsys/checkTokenReset',
-            setPassword: 'authsys/resetPassword',
-            clear: 'authsys/clear'
-        }),
 
-        resetPassword() {
-            this.setPassword({
-                token: this.$route.params.token,
-                new_password: this.password,
-                router: this.$router
-            })
-        }
-    },  
-    beforeMount() {
-      console.log(this.$route.params.token),
-      this.resetAction({
+    resetPassword() {
+      this.setPassword({
         token: this.$route.params.token,
-      })
-    },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
+        new_password: this.password,
+        router: this.$router
+      });
     }
-}
+  },
+  beforeMount() {
+    console.log(this.$route.params.token),
+      this.resetAction({
+        token: this.$route.params.token
+      });
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
+};
 </script>

@@ -7,20 +7,19 @@
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
-            <v-text-field 
-              v-model="full_name" 
-              label="Nama Lengkap" 
+            <v-text-field
+              v-model="full_name"
+              label="Nama Lengkap"
               outlined
               hint="Isi dengan mengunakan singkatan sedikit mungkin."
               :error="errors.full_name"
               :error-messages="errors.full_name"
-              :rules="nameRequired">
-            </v-text-field>
+              :rules="nameRequired"
+            ></v-text-field>
             <v-text-field
               v-model="email"
               label="Email Aktif"
               type="email"
-             
               hint="Gunakan alamat email aktif untuk kepentingan konfirmasi pendaftaran akun."
               required
               :rules="emailRules"
@@ -66,7 +65,9 @@
         <v-card-text>
           <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
           <v-layout v-if="messages.message" justify-center>
-            <router-link to="/login"><v-btn color="success" dark>Login ke dashboard</v-btn></router-link>
+            <router-link to="/login">
+              <v-btn color="success" dark>Login ke dashboard</v-btn>
+            </router-link>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -88,12 +89,8 @@ export default {
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
-    passwordRules: [
-        v => !!v || "Password is required"
-    ],
-    nameRequired: [
-        v => !!v || "Nama diperlukan"
-    ]
+    passwordRules: [v => !!v || "Password is required"],
+    nameRequired: [v => !!v || "Nama diperlukan"]
   }),
   computed: {
     isComplete() {
@@ -125,10 +122,10 @@ export default {
       });
     }
   },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
-    }
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
 };
 </script>
 

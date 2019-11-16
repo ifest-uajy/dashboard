@@ -72,10 +72,10 @@ export default {
             commit('resetError')
             commit('resetMessage')
         },
-        async register({commit}, { 
-            slug_name, name, team_institution, 
-            alamat_institution, nama_pembimbing, 
-            no_telp_pembimbing 
+        async register({ commit }, {
+            slug_name, name, team_institution,
+            alamat_institution, nama_pembimbing,
+            no_telp_pembimbing
         }) {
             try {
                 commit('setLoading', true)
@@ -84,7 +84,7 @@ export default {
                     'hackathon/register/',
                     { slug_name, name, team_institution, alamat_institution, nama_pembimbing, no_telp_pembimbing }
                 )
-                if(response.status == 201) {
+                if (response.status == 201) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
@@ -94,16 +94,16 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async joinTeam({commit}, {token}) {
+        async joinTeam({ commit }, { token }) {
             try {
                 commit('setLoading', true)
                 commit('resetError')
                 let response = await handle.post(
                     'hackathon/teams/join/',
-                    {token}
+                    { token }
                 )
                 console.log(response.data)
-                if(response.status == 201) {
+                if (response.status == 201) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
@@ -113,7 +113,7 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async getTeams({commit}) {
+        async getTeams({ commit }) {
             try {
                 commit('setLoading', true)
                 commit('resetteamsCount')

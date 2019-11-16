@@ -10,8 +10,10 @@
     -->
     <v-content v-for="a in announcements" :key="a.id">
       <v-alert prominent outlined :type="(a.type)">
-        <p class="font-weight-bold mb-0 ">{{a.title}}</p>
-        <p class="mb-1 grey--text text--darken-4 caption">Issued by {{a.issuer}} on {{moment(String(a.issued_at)).format("DD MMMM YYYY hh:mm A ")}}</p>
+        <p class="font-weight-bold mb-0">{{a.title}}</p>
+        <p
+          class="mb-1 grey--text text--darken-4 caption"
+        >Issued by {{a.issuer}} on {{moment(String(a.issued_at)).format("DD MMMM YYYY hh:mm A ")}}</p>
         <p class="black--text text--darken-2 mb-1">{{a.message}}</p>
       </v-alert>
     </v-content>
@@ -35,6 +37,6 @@ export default {
   }),
   methods: {
     moment
-  },
+  }
 };
 </script>

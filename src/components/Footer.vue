@@ -27,7 +27,7 @@
 
 <style scoped>
 .LinkToHome {
-    text-decoration-line: unset
+  text-decoration-line: unset;
 }
 .footer-text {
   font-weight: bolder;

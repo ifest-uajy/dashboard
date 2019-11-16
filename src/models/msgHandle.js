@@ -26,7 +26,7 @@ export default {
         },
     },
     actions: {
-        async send({ commit}, {
+        async send({ commit }, {
             nama_pengirim, email_pengirim, pesan
         }) {
             try {
@@ -34,11 +34,13 @@ export default {
                 commit('resetErrors')
                 commit('resetMessages')
                 let req = await handle.post('/message/send/',
-                    {nama_pengirim,
-                    email_pengirim,
-                    pesan}
+                    {
+                        nama_pengirim,
+                        email_pengirim,
+                        pesan
+                    }
                 )
-                if(req.status===200) {
+                if (req.status === 200) {
                     commit('setMessages', req.data)
                 }
             } catch (e) {

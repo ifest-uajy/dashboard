@@ -43,14 +43,14 @@ export default {
             try {
                 commit('setLoading', true)
                 commit('resetError')
-                let response = await handle.post( '/auth/login/', { email, password })
+                let response = await handle.post('/auth/login/', { email, password })
                 commit('setUser', response.data)
                 let redirectTo = this.loginRedirect
                 if (!redirectTo) redirectTo = { name: 'dashboard' }
                 router.push(redirectTo)
                 location.reload(true)
             } catch (e) {
-                if(e.response.data.message) {
+                if (e.response.data.message) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -64,18 +64,18 @@ export default {
             commit('resetError')
             commit('resetMessage')
         },
-        async register({commit}, {full_name, email, password}) {
+        async register({ commit }, { full_name, email, password }) {
             try {
                 commit('setLoading', true)
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/register/', {full_name, email, password})
-                if(response.status == 201) {
+                let response = await handle.post('/auth/register/', { full_name, email, password })
+                if (response.status == 201) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -98,19 +98,19 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async confirm({commit}, {token}) {
+        async confirm({ commit }, { token }) {
             try {
                 commit('setLoading', true)
                 console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/confirm/', {token})
-                if(response.status == 202) {
+                let response = await handle.post('/auth/confirm/', { token })
+                if (response.status == 202) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -120,19 +120,19 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async reset({commit}, {email}) {
+        async reset({ commit }, { email }) {
             try {
                 commit('setLoading', true)
                 console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/reset/', {email})
-                if(response.status == 200) {
+                let response = await handle.post('/auth/reset/', { email })
+                if (response.status == 200) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -142,19 +142,19 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async checkTokenReset({commit}, {token}) {
+        async checkTokenReset({ commit }, { token }) {
             try {
                 commit('setLoading', true)
                 console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/reset/check/', {token})
-                if(response.status == 200) {
+                let response = await handle.post('/auth/reset/check/', { token })
+                if (response.status == 200) {
                     console.log(response.data)
                     //commit('setMessage', response.data)
                 }
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -164,19 +164,19 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async resetPassword({commit}, {token, new_password}) {
+        async resetPassword({ commit }, { token, new_password }) {
             try {
                 commit('setLoading', true)
                 console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/reset/confirm/', {token, new_password})
-                if(response.status == 200) {
+                let response = await handle.post('/auth/reset/confirm/', { token, new_password })
+                if (response.status == 200) {
                     console.log(response.data)
                     commit('setMessage', response.data)
                 }
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
@@ -186,15 +186,15 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async updateProfile({commit}, {full_name, id_line, nomor_telepon, alergic, is_vege}) {
+        async updateProfile({ commit }, { full_name, id_line, nomor_telepon, alergic, is_vege }) {
             try {
                 commit('setLoading', true)
                 commit('resetError')
                 commit('resetMessage')
-                let response = await handle.post('/auth/profile/update/', {full_name, id_line, nomor_telepon, alergic, is_vege})
+                let response = await handle.post('/auth/profile/update/', { full_name, id_line, nomor_telepon, alergic, is_vege })
                 commit('setUser', response.data)
             } catch (e) {
-                if(e.response.data) {
+                if (e.response.data) {
                     console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {

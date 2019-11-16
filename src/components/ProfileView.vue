@@ -17,13 +17,7 @@
         <v-form @submit.prevent="update">
           <v-container>
             <v-container class="px-0 grey--text text--darken-4 title">Informasi Peserta</v-container>
-            <v-text-field 
-              v-model="full_name" 
-              required 
-              :counter="50" 
-              outlined 
-            label="Nama Lengkap"
-            ></v-text-field>
+            <v-text-field v-model="full_name" required :counter="50" outlined label="Nama Lengkap"></v-text-field>
             <v-text-field
               disabled
               :value="user.email"
@@ -34,13 +28,7 @@
               hint="Alamat email yang didaftarkan tidak bisa diubah."
             ></v-text-field>
             <v-container class="px-0 grey--text text--darken-4 title">Kontak Peserta</v-container>
-            <v-text-field 
-              v-model="id_line" 
-              :counter="50" 
-              outlined 
-              label="ID Line" 
-              required>
-            </v-text-field>
+            <v-text-field v-model="id_line" :counter="50" outlined label="ID Line" required></v-text-field>
             <v-text-field
               v-model="nomor_telepon"
               outlined

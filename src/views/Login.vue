@@ -51,49 +51,44 @@
   </v-container>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 
 export default {
-    data: () => ({
-        email: '',
-        password: '',
-        emailRules: [
-            v => !!v || "E-mail is required",
-            v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-        ],
-    passwordRules: [
-        v => !!v || "Password is required"
-    ]
+  data: () => ({
+    email: "",
+    password: "",
+    emailRules: [
+      v => !!v || "E-mail is required",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+    ],
+    passwordRules: [v => !!v || "Password is required"]
+  }),
+  computed: {
+    isComplete() {
+      return this.email && this.password;
+    },
+    ...mapState({
+      errors: state => state.authsys.errors,
+      loading: state => state.authsys.loading
+    })
+  },
+  methods: {
+    ...mapActions({
+      loginAction: "authsys/login",
+      clear: "authsys/clear"
     }),
-    computed: {
-            isComplete() {
-      return (
-        this.email &&
-        this.password
-      );
-    },
-        ...mapState({
-            errors: state => state.authsys.errors,
-            loading: state=> state.authsys.loading
-        })
-    },
-    methods: {
-        ...mapActions({
-            loginAction: 'authsys/login',
-            clear: 'authsys/clear'
-        }),
 
-        login() {
-            this.loginAction({
-                email: this.email,
-                password: this.password,
-                router: this.$router
-            })
-        }
-    },
-    beforeRouteLeave(to, from, next) {
-       this.clear()
-       next()
+    login() {
+      this.loginAction({
+        email: this.email,
+        password: this.password,
+        router: this.$router
+      });
     }
-}
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clear();
+    next();
+  }
+};
 </script>

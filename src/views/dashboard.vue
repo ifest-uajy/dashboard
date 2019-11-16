@@ -13,40 +13,31 @@
         </h1>
       </v-container>
 
-      <v-tabs grow :show-arrows=true>
+      <v-tabs grow :show-arrows="true">
         <v-tab>
           <div class="pr-5">
-          <v-badge class="mt-2">
-            <template
-              v-if="anouncementsCount !== 0"
-              v-slot:badge
-            >{{anouncementsCount}}</template>
-            Pengumuman
-          </v-badge>
+            <v-badge class="mt-2">
+              <template v-if="anouncementsCount !== 0" v-slot:badge>{{anouncementsCount}}</template>
+              Pengumuman
+            </v-badge>
           </div>
         </v-tab>
         <v-tab>
           <div class="pr-5">
             <v-badge class="mt-2">
-            <template
-              v-if="competitionsCount !== 0"
-              v-slot:badge
-            >{{competitionsCount}}</template>
-            Kompetisi
-          </v-badge>
+              <template v-if="competitionsCount !== 0" v-slot:badge>{{competitionsCount}}</template>
+              Kompetisi
+            </v-badge>
           </div>
         </v-tab>
         <!--<v-tab disabled>Seminar & Workshop</v-tab>
-        <v-tab disabled>Multi Event</v-tab>-->  
+        <v-tab disabled>Multi Event</v-tab>-->
         <v-tab>
           <div class="pr-5">
             <v-badge class="mt-2" color="red">
-            <template
-              v-if="user.isProfileComplete !== true"
-              v-slot:badge
-            >1</template>
-            Profil
-          </v-badge>
+              <template v-if="user.isProfileComplete !== true" v-slot:badge>1</template>
+              Profil
+            </v-badge>
           </div>
         </v-tab>
         <v-tab-item>
@@ -80,8 +71,8 @@ export default {
     CompetitionList
   },
   beforeMount() {
-    this.getAnouncement()
-    this.getCompetition()
+    this.getAnouncement();
+    this.getCompetition();
   },
   computed: {
     ...mapState({
@@ -99,7 +90,7 @@ export default {
       getCompetition: "competition/getCompetition",
       getAnouncement: "pemberitahuan/getPemberitahuan",
       clear: "authsys/clear"
-    }),
+    })
   }
 };
 </script>
