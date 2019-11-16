@@ -3,7 +3,7 @@
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500">
         <v-card-title>Reset Password</v-card-title>
-        <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
+        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="resetPassword">

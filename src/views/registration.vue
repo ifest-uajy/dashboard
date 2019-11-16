@@ -3,16 +3,25 @@
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500">
         <v-card-title>Registrasi Peserta</v-card-title>
-        <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
+        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
-            <v-text-field v-model="full_name" label="Name" outlined               :error="errors.full_name"
-              :error-messages="errors.full_name"></v-text-field>
+            <v-text-field 
+              v-model="full_name" 
+              label="Nama Lengkap" 
+              outlined
+              hint="Isi dengan mengunakan singkatan sedikit mungkin."
+              :error="errors.full_name"
+              :error-messages="errors.full_name"
+              :rules="nameRequired">
+            </v-text-field>
             <v-text-field
               v-model="email"
-              label="Email"
+              label="Email Aktif"
               type="email"
+             
+              hint="Gunakan alamat email aktif untuk kepentingan konfirmasi pendaftaran akun."
               required
               :rules="emailRules"
               outlined
@@ -51,7 +60,7 @@
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
-            >Register</v-btn>
+            >Daftar</v-btn>
           </v-form>
         </v-card-text>
         <v-card-text>
@@ -81,6 +90,9 @@ export default {
     ],
     passwordRules: [
         v => !!v || "Password is required"
+    ],
+    nameRequired: [
+        v => !!v || "Nama diperlukan"
     ]
   }),
   computed: {

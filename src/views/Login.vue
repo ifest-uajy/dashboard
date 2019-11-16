@@ -3,7 +3,7 @@
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500">
         <v-card-title>Login Peserta</v-card-title>
-        <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
+        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
 
         <v-card-text>
           <v-form ref="form" @submit.prevent="login">
@@ -40,7 +40,7 @@
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
-            >Register</v-btn>
+            >Masuk</v-btn>
           </v-form>
         </v-card-text>
         <v-card-text>

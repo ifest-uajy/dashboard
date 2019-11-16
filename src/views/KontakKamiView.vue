@@ -2,13 +2,14 @@
   <v-container>
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500">
-        <v-card-title>Kontak Kami</v-card-title>
-        <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
+        <v-card-title>Hubungi Kami</v-card-title>
+        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
-            <v-text-field v-model="full_name" label="Name" outlined :error="errors.full_name"
-              :error-messages="errors.nama_pengirim"></v-text-field>
+            <v-text-field v-model="full_name" label="Nama Lengkap" outlined :error="errors.full_name"
+              :error-messages="errors.nama_pengirim"
+              :rules="rulesNama"></v-text-field>
             <v-text-field
               v-model="email"
               label="Email"
@@ -21,17 +22,22 @@
             ></v-text-field>
             <v-textarea v-model="pesan"
             :error-messages="errors.pesan"
-            outlined=""
+            outlined
+            :rules="rulesPesan"
             ></v-textarea>
             <v-btn
               large
               block
+              label="Pesan"
               color="primary"
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
-            >Register</v-btn>
+            >Kirim</v-btn>
           </v-form>
+          <br/>
+          Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
+          Panitia akan berusaha secepat mungkin untuk membalas pesan anda.
         </v-card-text>
         <v-card-text>
           <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
@@ -57,6 +63,12 @@ export default {
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
+    rulesNama: [
+      v => !!v || 'Nama Lengkap harus diisi.'
+    ],
+    rulesPesan: [
+      v => !!v || 'Pesan harus diisi.'
+    ]
   }),
   computed: {
     isComplete() {
