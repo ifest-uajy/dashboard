@@ -8,14 +8,14 @@
             <span style="color: #c51104; font-size: 1.5em; vertical-align:middle;">❤</span>
             by
             <strong>CBIS 3.0</strong>
-            © {{ new Date().getFullYear() }}
+            |&nbsp;Hak Cipta © {{ new Date().getFullYear() }}
             <a
               href="https://ifest-uajy.com"
               target="_blank"
               rel="noopener noreferrer"
               class="LinkToHome"
             >
-              <strong>Informatics Festival #8</strong>
+              <span class="footer-text">Informatics Festival (IFest) #8</span>
             </a>
           </p>
         </v-flex>
@@ -28,5 +28,9 @@
 <style scoped>
 .LinkToHome {
     text-decoration-line: unset
+}
+.footer-text {
+  font-weight: bolder;
+  color: #212121;
 }
 </style>
