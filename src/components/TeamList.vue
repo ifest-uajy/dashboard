@@ -24,21 +24,21 @@
     <v-container class="grey lighten-5 pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in teams" :key="c.id" cols="12" sm="6">
-          <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
-            <v-card-title>{{c.name}}</v-card-title>
+          <v-card class="pa-2 pb-5" outlined :disabled="c.kompetisi.isExpired">
+            <v-card-title>{{c.nama}}</v-card-title>
             <v-card-subtitle class="pb-0">
               <p>
                 by
-                <span class>{{c.team_leader_name}}</span>
+                <span class>{{c.ketua}}</span>
               </p>
             </v-card-subtitle>
             <v-card-subtitle>
               <p class="black--text mb-2">Team Invitation Token</p>
                   <v-text-field :id="`CopyThis-`+c.id"
-              v-model="c.invitation_token"
+              v-model="c.token"
               readonly
               append-icon="mdi-content-copy"
-              @click:append="copyText(c.id, c.invitation_token)"
+              @click:append="copyText(c.id, c.token)"
               outlined
               :persistent-hint="true"
               hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
@@ -47,14 +47,14 @@
   
             </v-card-subtitle>
             <v-card-subtitle class="pb-0 pt-0">
-              <p class="mb-0 pb-0 black--text bold">{{c.institution}}</p>
-              <p class="mb-0 pb-0">{{c.track.name}}</p>
+              <p class="mb-0 pb-0 black--text bold">{{c.asal}}</p>
+              <p class="mb-0 pb-0">{{c.kompetisi.name}}</p>
             </v-card-subtitle>
             <v-card-subtitle>
               <p class="black--text mb-1">Anggota Tim</p>
-                <v-content class="px-0" v-for="u in c.team_members" :key="u.id">
-                    <p class="mb-0">{{u.user}}
-                      <span v-if="c.team_leader_name == u.user">(Ketua Tim)</span>
+                <v-content class="px-0" v-for="u in c.anggota" :key="u">
+                    <p class="mb-0">{{u}}
+                      <span v-if="c.ketua == u">(Ketua Tim)</span>
                     </p>
                 </v-content>
             </v-card-subtitle>
@@ -62,8 +62,8 @@
               Task Kompetisi
               
               <br/>
-              Tugas tim sekarang adalah {{c.current_task.name}} dengan batas submission pada 
-              {{moment(String(c.current_task.deadline)).format("DD MMMM YYYY HH:MM")}}
+              <!-- Tugas tim sekarang adalah {{c.current_task.name}} dengan batas submission pada 
+              {{moment(String(c.current_task.deadline)).format("DD MMMM YYYY HH:MM")}} -->
 
 
             </v-card-subtitle>
@@ -83,11 +83,11 @@
 
 <v-stepper-content :step="task.order" v-if="c.current_task.order === task.order">
 
-      <v-card color="grey lighten-1" class="mb-12" height="200px">
+      <!-- <v-card outlined class="px-5" min-height="200px"> -->
 
       <span v-if="c.current_task.order === task.order">
 
-        SHOW THIS TO UP PROPO
+        <UploaderWidget :task="task" :task_response_list="c.task_response_list"/>
 
       </span>
       <span v-if="c.current_task.order > task.order">
@@ -95,7 +95,7 @@
         Task ini sudah selese
 
       </span>
-      </v-card>
+      <!-- </v-card> -->
     </v-stepper-content>
 
   </v-stepper>
@@ -120,11 +120,15 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import UploaderWidget from './UploaderWidget.vue'
 export default {
   computed: mapState({
     competitions: state => state.competition.competitions,
     teams: state => state.competition.teams
   }),
+  components: {
+    UploaderWidget
+  },
   methods: {
     copyText (id, invitation_token) {
       //async function copyToClipboard() {

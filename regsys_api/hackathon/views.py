@@ -15,6 +15,7 @@ from .serializers import (
     HackathonTeamsDetailSerializer,
     HackathonTeamsMemberSerializer,
     HackathonTeamsSerializer,
+    TeamDetailSerializer,
     TrackSerializer,
     RegisterHackathonTeamSerializer,
     AddHackathonTeamMemberSerializer,
@@ -80,7 +81,7 @@ class RegisterTeamView(views.APIView):
 
 class GetTeamUserView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = HackathonTeamsDetailSerializer
+    serializer_class = TeamDetailSerializer
 
     def get_queryset(self):
         return HackathonTeams.objects.filter(team_members__user=self.request.user)

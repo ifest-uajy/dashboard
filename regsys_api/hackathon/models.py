@@ -55,7 +55,6 @@ class HackathonTask(models.Model):
     def __str__(self):
         return "{} - {}".format(self.track, self.name)
 
-
     class Meta:
         verbose_name = 'Task Lomba'
         verbose_name_plural = 'Task Lomba'
@@ -102,9 +101,13 @@ class HackathonTeams(models.Model):
         return HackathonTask.objects.filter(track=self.track).all()
 
     @property
+    def task_response_list(self):
+        return TaskResponse.objects.filter(team=self).all()
+
+    @property
     def jumlah_member(self):
         return self.members.count()
-
+        
     @property
     def bisa_up_task(self):
         if(self.members.count() == self.track.team_min_member):
@@ -154,9 +157,6 @@ class TaskResponse(models.Model):
     response = models.TextField()
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
     updated_at = models.DateTimeField(default=timezone.now)
-    file_path = models.UUIDField(null=True, blank=True)
-    announcement_title = models.CharField(max_length=50, null=True, blank=True)
-    announcement_desc = models.TextField(null=True, blank=True)
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):
@@ -170,8 +170,8 @@ class TaskResponse(models.Model):
             else:
                 self.status = self.DONE
                 self.is_verified = True
-        
-        super(TaskResponse, self).save(*args, **kwargs)
+
+        super(TaskResponse, self).save(*args, **kwargs)    
     
     class Meta:
         unique_together = (('task', 'team'),)

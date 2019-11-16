@@ -5,7 +5,7 @@ from .models import (
     HackathonTeamsMember,  # done
     HackathonTeams,  # done
     TaskResponse,
-    Track  # done
+    Track,  # done
 )
 from regsys_api.authsys.models import User
 
@@ -26,7 +26,7 @@ class HackathonUserAdmin(admin.ModelAdmin):
 @admin.register(TaskResponse)
 class TaskResponseAdmin(admin.ModelAdmin):
     list_display = [
-        'task', 'team', 'response', 'status', 'updated_at', 'announcement_title', 'announcement_desc', 'file_path', 'is_verified'
+        'task', 'team', 'response', 'status', 'updated_at', 'is_verified'
     ]
 
     ordering = ['updated_at']
@@ -39,7 +39,6 @@ class HackathonTaskAdmin(admin.ModelAdmin):
     ]
 
     ordering = ['track', 'order', '-deadline']
-
 
 @admin.register(HackathonTeams)
 class HackathonTeamAdmin(admin.ModelAdmin):
