@@ -9,7 +9,15 @@ class MessageAdmin(admin.ModelAdmin):
         'nama_pengirim',
         'email_pengirim',
         'pesan',
-        'recieved_at'
+        'recieved_at',
+        'replied'
     ]
 
-    ordering = ['recieved_at']
+    ordering = ['-recieved_at', '-replied']
+
+    readonly_fields = [
+        'nama_pengirim',
+        'email_pengirim',
+        'pesan',
+        'recieved_at'
+    ]
