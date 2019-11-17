@@ -166,7 +166,7 @@ class TaskResponse(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None and (self.status is None or self.status == ''):
-            if self.task.requires_validation:
+            if self.task.require_validation:
                 self.status = self.WAITING
                 self.is_verified = False
             else:

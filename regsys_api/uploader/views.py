@@ -14,7 +14,7 @@ from regsys_api.authsys.models import User
 class PersonalUploadFileView(APIView):
     parser_clases = (FileUploadParser,)
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         if request.user.is_anonymous:
             return Response(
                 {
@@ -24,7 +24,7 @@ class PersonalUploadFileView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
-        file_obj = request.FILES['filename']
+        file_obj = request.FILES['file']
         
         if(file_obj):
             instance = PersonalUploadFile(

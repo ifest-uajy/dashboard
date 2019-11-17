@@ -87,7 +87,7 @@
                 class="mt-2"
               >Dibawah ini adalah task-task yang harus diselesaikan oleh tim untuk mengikuti kompetisi.</p>
 
-              <v-stepper vertical>
+              <v-stepper vertical v-model="c.current_task.order">
                 <div v-for="task in c.tasks" :key="task.task.order">
                   <v-stepper-step
                     :step="task.task.order"
@@ -97,7 +97,7 @@
                     <small
                       v-if="task.task.task_type === 'upload file'"
                       class="mt-2"
-                    >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY HH:MM")}}</small>
+                    >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY hh:mm A")}}</small>
                   </v-stepper-step>
 
                   <v-stepper-content
@@ -105,7 +105,7 @@
                     :complete="task.task.order < c.current_task.order"
                   >
                     <span v-if="task.task.order === c.current_task.order">
-                      <UploaderWidget :task="task.task" :response="task.response" />
+                      <UploaderWidget :hidden="task.task.task_type !== 'upload file'" :task="task.task" :response="task.response" :team="c"/>
                     </span>
                   </v-stepper-content>
                 </div>

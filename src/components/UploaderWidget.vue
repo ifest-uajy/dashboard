@@ -2,23 +2,29 @@
   <v-flex>
     <v-form @submit.prevent="sumbitFile">
       <v-flex>
-        <v-flex class="mb-5">
+        <v-flex>
           <vue-dropzone
+          class="mb-5"
             ref="dropzone"
             id="dropzone"
             v-if="response.status !== 'selesai'"
             :options="dropOptions"
+            @vdropzone-file-added="uploadFile"
+            @vdropzone-success="uploadSuccess"
+            @vdropzone-error="uploadError"
+            @vdropzone-complete="uploadComplete"
+            :hidden="response.length !== 0"
           />
         </v-flex>
         <div v-if="response.length !== 0">
           File berhasil diunggah:
-          <b>{{moment(String(response.updated_at)).format("DD MMMM YYYY HH:MM")}}</b> (UTC+7)
+          <b>{{moment(String(response.updated_at)).format("DD MMMM YYYY hh:mm A")}}</b>
           <br />
           <a :href="downloadUrl" class="body-link" target="_blank">Unduh file</a>
         </div>
         
-        <div v-else>Belum ada file diunggah.</div>
-        <div v-html="task.deskripsi"></div>
+        <div v-else>Belum ada file diunggah.<br/></div>
+        <div class="mt-3" v-if="response.length !== 0 && response.status === 'menunggu_verifikasi'" v-html="task.deskripsi"></div>
 
         <br />
         <v-alert
@@ -39,7 +45,7 @@
           <br />Mohon tunggu dalam waktu
           <b>1 x 24</b> jam.
         </v-alert>
-        <v-alert v-if="dropzoneError" :value="true" type="error" outline>{{ dropzoneError }}</v-alert>
+        <v-alert v-if="dropzoneError" :value="true" type="error" outlined>{{ dropzoneError }}</v-alert>
       </v-flex>
     </v-form>
   </v-flex>
@@ -47,19 +53,21 @@
 
 <script>
 import vue2Dropzone from "vue2-dropzone";
+import { mapState, mapActions } from 'vuex'
+import Cookies from 'js-cookie'
 import moment from "moment";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 export default {
-  props: ["task", "response"],
+  props: ["task", "response", "team"],
   components: {
     vueDropzone: vue2Dropzone
   },
   data: function() {
     return {
       dropOptions: {
-        url: "https://httpbin.org/post",
+        url: "/api/file/upload/",
         maxFiles: 1,
-        maxFilesize: 10,
+        //maxFilesize: 10,
         addRemoveLinks: true,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File"
       },
@@ -67,7 +75,41 @@ export default {
     };
   },
   methods: {
-    moment
+    moment,
+    ...mapActions({
+    addTaskResponse: 'competition/postTaskResponse',
+  }),
+    uploadFile: function () {
+      this.dropzoneError = null
+    },
+    uploadSuccess: function (file, response) {
+      this.addTaskResponse({
+        team_id: this.team.id,
+        task_id: this.task.id,
+        response: response.message,
+      }),
+      vm.$forceUpdate();
+    },
+    uploadError: function (file, message, xhr) {
+      this.dropzoneError = message
+    },
+    uploadComplete: function (file) {
+      this.$refs.dropzone.removeAllFiles(true)
+    }
+  },
+  computed: {
+    downloadUrl: function () {
+      if(this.response.length == 0) return false
+      return "/api/file/download/" + this.response.response + '/'
+    },
+  },
+  mounted: function () {
+    this.$refs.dropzone.setOption(
+      'headers',
+      {
+        'X-CSRFToken': Cookies.get('csrftoken')
+      }
+    )
   }
 };
 </script>

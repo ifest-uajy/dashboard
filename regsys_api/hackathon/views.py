@@ -8,7 +8,9 @@ from regsys_api.authsys.models import User
 from .models import (
     Track,
     HackathonTeams,
-    HackathonTeamsMember
+    HackathonTeamsMember,
+    HackathonTask,
+    TaskResponse
 )
 
 from .serializers import (
@@ -19,7 +21,9 @@ from .serializers import (
     TrackSerializer,
     RegisterHackathonTeamSerializer,
     AddHackathonTeamMemberSerializer,
-    JoinTeamSerializer
+    JoinTeamSerializer,
+    PostTaskResponseSerializer,
+    TaskResponseSerializer
 )
 
 class ListTrackView(generics.ListAPIView):
@@ -163,3 +167,60 @@ class JoinTeam(views.APIView):
                     },
                     status=status.HTTP_201_CREATED
                 )
+
+    
+class addTaskResponse(views.APIView):
+    
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request):
+
+        request_serializer = PostTaskResponseSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+
+        team = get_object_or_404(
+            HackathonTeams.objects.all(),
+            id = request_serializer.validated_data['team_id'],
+            team_members__user=self.request.user
+        )
+
+        task = get_object_or_404(
+            HackathonTask.objects.all(),
+            id = request_serializer.validated_data['task_id'],
+        )
+
+        response = request_serializer.validated_data['response']
+
+        if team.bisa_up_task and not team.is_blacklisted:
+
+            if task.require_validation:
+                task_response_status = TaskResponse.WAITING
+                task_done = False
+            else:
+                task_response_status = TaskResponse.DONE
+                task_done = True
+
+            new_response = TaskResponse.objects.update_or_create(
+                task = task,
+                team = team,
+                defaults={
+                    'response': response,
+                    'status': task_response_status,
+                    'updated_at': timezone.now(),
+                    'is_verified': task_done,
+                }
+            )
+
+            response_serializer = TaskResponseSerializer(new_response[0])
+
+            return Response(
+                data=response_serializer.data, status=status.HTTP_201_CREATED
+            )
+        
+        else:
+            return Response(
+                {
+                    'message': 'Error task lomba tidak berhasil dibuat.',
+                    'status': 'failed'
+                }, status=status.HTTP_403_FORBIDDEN
+            )

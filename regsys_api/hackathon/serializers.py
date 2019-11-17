@@ -56,13 +56,14 @@ class TaskResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskResponse
         fields = ('task_id', 'response', 'status', 'updated_at', 'is_verified')
+        read_only_fields = ('task_id', )
 
 class HackathonTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HackathonTask
         fields = (
-            'name', 'deadline', 'deskripsi', 'order', 'task_type'
+            'id', 'name', 'deadline', 'deskripsi', 'order', 'task_type'
         )
 
 class HackathonTeamsDetailSerializer(serializers.ModelSerializer):
@@ -198,3 +199,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             json.dumps(list(HackathonTaskSerializer(queryset, many=True).data))
         )
         """
+
+class PostTaskResponseSerializer(serializers.Serializer):
+    team_id = serializers.CharField(max_length=10)
+    task_id = serializers.CharField(max_length=10)
+    response = serializers.CharField(max_length=500)

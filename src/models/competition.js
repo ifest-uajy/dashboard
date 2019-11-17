@@ -127,6 +127,25 @@ export default {
                 commit('setLoading', false)
             }
         },
+        async postTaskResponse({commit}, {team_id, task_id, response}) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                let resp = await handle.post(
+                    '/hackathon/teams/task/add/',
+                    { team_id, task_id, response }
+                )
+                console.log(resp.data)
+                if (resp.status == 201) {
+                    console.log(resp.data)
+                    commit('setMessage', resp.data)
+                }   
+            } catch (e) {
+                commit('setError', e)
+            } finally {
+                commit('setLoading', false)
+            }
+        }
     }
 
 }
