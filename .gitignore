@@ -24,3 +24,6 @@ yarn-error.log*
 *.sw?
 
 /media
+
+**/__pycache__/**
+*.pyc
