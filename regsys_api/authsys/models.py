@@ -140,7 +140,7 @@ class RegistrationHandler(models.Model):
     def send_email(self):
         context = {
             'user': self.user,
-            'action_url': 'http://localhost:8080/confirm/' + self.token
+            'action_url': 'https://dashboard.ifest-uajy.com/confirm/' + self.token
         }
 
         text_template = get_template('registration_email.txt')
@@ -195,7 +195,7 @@ class ForgotPasswordHandler(models.Model):
     def send_email(self):
         context = {
             'name': self.user.full_name,
-            'action_url': 'http://localhost:8080/reset-password/' + self.token,
+            'action_url': 'https://dashboard.ifest-uajy.com/reset-password/' + self.token,
             'operating_system': self.operating_system,
             'browser_name': self.browser
         }
