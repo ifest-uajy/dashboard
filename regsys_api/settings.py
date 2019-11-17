@@ -25,11 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY', 'A secret a long secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOST = [
-    '127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com'
-]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com']
 
 
 # Application definition
