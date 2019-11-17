@@ -58,14 +58,30 @@
             </v-card-subtitle>
             <v-card-subtitle>
               <h2 class="black--text mb-2">Anggota Tim</h2>
-              <v-content class="px-0" v-for="u in c.anggota" :key="u">
-                <p class="mb-0">
-                  {{u}}
-                  <span v-if="c.ketua == u">(Ketua Tim)</span>
-                </p>
+              <p
+                class="mt-2"
+              >Dibawah ini daftar anggota dalam tim ini. Untuk menambahkan anggota berikan token diatas ke teman anda dan join melalui menu kompetisi.
+              Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.</p>
+              <v-content class="px-0 black--text  ">
+                <ol>
+                  <li v-for="u in c.anggota" :key="u" class="mb-0">
+                  <span v-if="c.ketua == u"><b>{{u}} - Team Leader</b></span>
+                  <span v-else>{{u}}</span>
+                </li>
+                </ol>
               </v-content>
+          <v-alert
+          v-if="!c.task_permission"
+          type="error"
+          outlined
+          prominent
+          class="mt-4"
+          dense
+        >Anda tidak bisa mengerjakan tugas sebelum anggota tim lengkap. 
+        <b>Minimal {{c.kompetisi.team_min_member}} orang diperlukan untuk 1 tim dalam kompetisi ini.</b></v-alert>
+
             </v-card-subtitle>
-            <v-card-subtitle>
+            <v-card-subtitle :hidden="!c.task_permission">
               <h2 class="black--text mb-1">Task Lomba</h2>
               <p
                 class="mt-2"
