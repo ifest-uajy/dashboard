@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY', 'A secret a long secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', True) == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com']
 
@@ -150,13 +150,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', None)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 STATIC_URL = '/static/'
-# Place static in the same location as webpack build files
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
-STATICFILES_DIRS = [join(BASE_DIR, 'dist', 'static')]
-
-USER_AGENTS_CACHE = 'default'
-
+MEDIA_URL = '/media/'
+STATICFILES_DIRS = [BASE_DIR+"/assets/"]
+STATIC_ROOT = '/home/ifesthim/dashboard.ifest-uajy.com/static/'
+MEDIA_ROOT = '/home/ifesthim/dashboard.ifest-uajy.com/media/'
