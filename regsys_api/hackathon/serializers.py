@@ -127,6 +127,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     
     current_task = HackathonTaskSerializer(read_only=True)
 
+    task_permission = serializers.BooleanField(source='bisa_up_task')
+
     #task_list = HackathonTaskSerializer(many=True)
 
     class Meta:
@@ -134,7 +136,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'kompetisi', 'nama', 'asal', 'alamat', 'ketua', 'pembimbing', 'anggota',
-            'token', 'ditangguhkan', 'created_at', 'tasks', 'current_task', # 'tasks'
+            'token', 'ditangguhkan', 'created_at', 'tasks', 'current_task', 'task_permission' # 'tasks'
         )
 
     #def get_info_task(self, obj):

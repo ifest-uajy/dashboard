@@ -111,7 +111,7 @@ class HackathonTeams(models.Model):
         
     @property
     def bisa_up_task(self):
-        if(self.members.count() == self.track.team_min_member):
+        if(self.members.count() >= self.track.team_min_member):
             return True
         else:
             return False
