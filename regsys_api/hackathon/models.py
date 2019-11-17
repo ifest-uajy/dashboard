@@ -49,6 +49,7 @@ class HackathonTask(models.Model):
     order = models.IntegerField()
     track = models.ForeignKey(to=Track, related_name='tracks', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    deskripsi = models.TextField()
     deadline = models.DateTimeField(null=True)
     task_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     require_validation = models.BooleanField(default=False)

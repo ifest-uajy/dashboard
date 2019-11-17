@@ -62,7 +62,7 @@ class HackathonTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = HackathonTask
         fields = (
-            'name', 'deadline', 'order', 'task_type'
+            'name', 'deadline', 'deskripsi', 'order', 'task_type'
         )
 
 class HackathonTeamsDetailSerializer(serializers.ModelSerializer):

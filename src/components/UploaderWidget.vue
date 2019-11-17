@@ -16,7 +16,9 @@
           <br />
           <a :href="downloadUrl" class="body-link" target="_blank">Unduh file</a>
         </div>
+        
         <div v-else>Belum ada file diunggah.</div>
+        <div v-html="task.deskripsi"></div>
 
         <br />
         <v-alert
