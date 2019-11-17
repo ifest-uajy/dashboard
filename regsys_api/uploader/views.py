@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
-
 from rest_framework.parsers import FileUploadParser
 from .models import PersonalUploadFile
 from rest_framework.response import Response
@@ -16,6 +15,15 @@ class PersonalUploadFileView(APIView):
     parser_clases = (FileUploadParser,)
 
     def put(self, request, format=None):
+        if request.user.is_anonymous:
+            return Response(
+                {
+                    'message': 'Login needed to upload files',
+                    'status': 'failed',
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
         file_obj = request.FILES['filename']
         
         if(file_obj):
@@ -31,7 +39,7 @@ class PersonalUploadFileView(APIView):
 
             return Response(
                 {
-                    'message': 'File anda berhasil di upload, terimakasih.',
+                    'message': instance.id,
                     'status': 'success',
                 },
                 status=status.HTTP_200_OK
@@ -39,7 +47,7 @@ class PersonalUploadFileView(APIView):
         else:
             return Response(
                 {
-                    'message': 'File anda tidak berhasil di upload, terimakasih.',
+                    'message': 'File anda tidak berhasil di upload.',
                     'status': 'failed',
                 },
                 status=status.HTTP_400_BAD_REQUEST
@@ -47,20 +55,42 @@ class PersonalUploadFileView(APIView):
 
 class getDownloadView(APIView):
     def get(self, request, **kwargs):
-        fileID = self.kwargs['file_id']
-        #queryset = PersonalUploadFile.objects.filter(uploaded_by=request.user)
-        uploaded_file = get_object_or_404(PersonalUploadFile, id=fileID)
-        #filename_baru = str(uuid.uuid1()) + ' ' + uploaded_file.original_filename
-        response = HttpResponse(uploaded_file.file.open('rb'), content_type=uploaded_file.content_type)
-        #response['Content-Disposition'] = 'inline; filename=' + uploaded_file.original_filename
-        if not request.user:
+        if request.user.is_anonymous:
             return Response(
                 {
-                    'message': 'Anda tidak memiliki ijin untuk mengunduh file ini. Pastikan ada memiliki kredensial yang tepat.',
+                    'message': 'Login needed to download files',
                     'status': 'failed',
                 },
                 status=status.HTTP_401_UNAUTHORIZED
             )
+        
+        fileID = self.kwargs['file_id']
+
+        try:
+            uuid.UUID(fileID, version=4)
+        except ValueError:
+            return Response(
+                {
+                    'message': 'File tidak ditemukan',
+                    'status': 'failed'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        #queryset = PersonalUploadFile.objects.filter(uploaded_by=request.user)
+        try:
+            uploaded_file = get_object_or_404(PersonalUploadFile, id=fileID)
+        except:
+            return Response(
+                {
+                    'message': 'File tidak ditemukan',
+                    'status': 'failed'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        filename_baru = uploaded_file.original_filename
+        response = HttpResponse(uploaded_file.file.open('rb'), content_type=uploaded_file.content_type)
+        response['Content-Disposition'] = 'inline; filename=' + uploaded_file.original_filename
         
         return response
         
