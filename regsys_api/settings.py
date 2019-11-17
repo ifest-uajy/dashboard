@@ -11,7 +11,7 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,12 +22,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mahgv+mu_ok-%vi#xg!r8ke=pmbc#2et9q5o&f@!ah8g!qm+*('
+SECRET_KEY = os.getenv('SECRET_KEY', 'A secret a long secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', True)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOST = [
+    '127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com'
+]
 
 
 # Application definition
@@ -90,11 +92,11 @@ WSGI_APPLICATION = 'regsys_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'regsysc',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', 'regsysc'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASS', None),
+        'HOST': os.getenv('DB_HOST', 'localhost'),   # Or an IP Address that your DB is hosted on
+        'PORT': os.getenv('DB_PORT', 3306),
     }
 }
 
@@ -138,16 +140,17 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
-"""
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.ifest-uajy.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'no-reply@ifest-uajy.com'
-EMAIL_HOST_PASSWORD = '6o5V&YAioAvn'
-"""
 
-DEFAULT_FROM_EMAIL = 'Informatics Festival (IFest) #8 <no-reply@ifest-uajy.com>'
+
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', None)
+EMAIL_HOST = os.getenv('EMAIL_HOST', None)
+EMAIL_PORT = os.getenv('EMAIL_PORT', None)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
+
+
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', None)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
