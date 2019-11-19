@@ -105,7 +105,7 @@
                     :complete="task.task.order < c.current_task.order"
                   >
                     <span v-if="task.task.order === c.current_task.order">
-                      <UploaderWidget :hidden="task.task.task_type !== 'upload file'" :task="task.task" :response="task.response" :team="c"/>
+                      <UploaderWidget :hidden="task.task.task_type !== 'file_uploader' && task.task.task_type !== 'payment_verification'" :task="task.task" :response="task.response" :team="c"/>
                     </span>
                   </v-stepper-content>
                 </div>
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import moment from "moment";
 import UploaderWidget from "./UploaderWidget.vue";
 export default {

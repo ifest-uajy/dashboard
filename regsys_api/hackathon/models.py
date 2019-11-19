@@ -4,8 +4,12 @@ import datetime
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from xkcdpass import xkcd_password as xp
+import json
+
+from threading import Thread
 
 from regsys_api.authsys.models import User
+import requests
 
 def getxkcdpass():
     wordfile = xp.locate_wordfile()
@@ -39,10 +43,12 @@ class Track(models.Model):
 
 class HackathonTask(models.Model):
 
-    FILE_SUBMISSION = 'upload file'
+    FILE_SUBMISSION = 'file_uploader'
+    PAYMENT_SUBMISSION = 'payment_verification'
     ANNOUNCEMENT = 'pengumuman'
     TYPE_CHOICES = (
-        (FILE_SUBMISSION, 'Uploader File'),
+        (FILE_SUBMISSION, 'File Uploader'),
+        (PAYMENT_SUBMISSION, 'Verifikasi Pembayaran'),
         (ANNOUNCEMENT, 'Pengumuman')
     )
 
@@ -179,8 +185,6 @@ class TaskResponse(models.Model):
         
         super(TaskResponse, self).save(*args, **kwargs)
 
-            
-    
     class Meta:
         unique_together = (('task', 'team'),)
         get_latest_by = 'created_at'

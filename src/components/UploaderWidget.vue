@@ -7,13 +7,12 @@
           class="mb-5"
             ref="dropzone"
             id="dropzone"
-            v-if="response.status !== 'selesai'"
+            :hidden="response.status === 'selesai'"
             :options="dropOptions"
             @vdropzone-file-added="uploadFile"
             @vdropzone-success="uploadSuccess"
             @vdropzone-error="uploadError"
             @vdropzone-complete="uploadComplete"
-            :hidden="response.length !== 0"
           />
         </v-flex>
         <div v-if="response.length !== 0">
@@ -62,8 +61,8 @@ export default {
   components: {
     vueDropzone: vue2Dropzone
   },
-  data: function() {
-    return {
+  data: () => ({
+    loading: false,
       dropOptions: {
         url: "/api/file/upload/",
         maxFiles: 1,
@@ -72,12 +71,12 @@ export default {
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File"
       },
       dropzoneError: null
-    };
-  },
+  }),
   methods: {
     moment,
     ...mapActions({
     addTaskResponse: 'competition/postTaskResponse',
+    getTeams: "competition/getTeams",
   }),
     uploadFile: function () {
       this.dropzoneError = null
@@ -88,7 +87,9 @@ export default {
         task_id: this.task.id,
         response: response.message,
       }),
-      vm.$forceUpdate();
+      this.loading = true;
+      this.getTeams();
+      this.loading = false;
     },
     uploadError: function (file, message, xhr) {
       this.dropzoneError = message

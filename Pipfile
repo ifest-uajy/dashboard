@@ -14,6 +14,7 @@ django-rest-framework = "*"
 python-dotenv = "*"
 django-user-agents = "*"
 xkcdpass = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
