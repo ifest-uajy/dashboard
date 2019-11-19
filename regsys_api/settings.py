@@ -155,3 +155,4 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [BASE_DIR+"/assets/"]
 STATIC_ROOT = '/home/ifesthim/dashboard.ifest-uajy.com/static/'
 MEDIA_ROOT = '/home/ifesthim/dashboard.ifest-uajy.com/media/'
+

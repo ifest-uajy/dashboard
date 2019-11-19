@@ -36,7 +36,7 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('full_name', 'email', 'date_joined',
                     'is_confirmed', 'is_staff')
     search_fields = ('full_name', 'email')
-    readonly_fields = ['date_joined', 'last_login', 'is_confirmed', 'is_staff', 'groups', 'email']
+    readonly_fields = ['date_joined', 'last_login', 'is_confirmed', 'email']
     ordering = ('full_name',)
 
 
