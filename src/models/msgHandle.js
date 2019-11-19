@@ -49,6 +49,10 @@ export default {
                 commit('setLoading', false)
             }
         },
+        async clear({ commit }) {
+            commit('resetErrors')
+            commit('resetMessages')
+        },
     }
 
 }

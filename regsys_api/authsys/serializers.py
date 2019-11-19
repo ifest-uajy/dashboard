@@ -14,9 +14,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            'id',
             'full_name', 'email',
             'is_staff', 'is_confirmed', 'last_login', 'date_joined', 'isProfileComplete',
-            'is_vege', 'alergic', 'is_buktiUploaded', 'id_line', 'nomor_telepon'
+            'is_vege', 'alergic', 'is_buktiUploaded', 'id_line', 'nomor_telepon',
+            'nomor_id', 'id_line', 'tanggal_lahir'
+            
         )
         read_only_fields = (
             'email', 'is_staff', 'is_confirmed', 'last_login', 'date_joined',
@@ -31,7 +34,7 @@ class LoginRequestSerializer(serializers.Serializer):
 class RegistrationRequestSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=75)
     email = serializers.EmailField(
-        validators=[UniqueValidator(queryset=User.objects.all())])
+        validators=[UniqueValidator(queryset=User.objects.all(), message="Alamat email ini sudah terdaftar.")])
     password = serializers.CharField()
 
 class PasswordResetRequestSerializer(serializers.Serializer):

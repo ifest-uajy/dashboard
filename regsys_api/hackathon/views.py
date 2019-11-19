@@ -18,6 +18,7 @@ from .models import (
 
 from .serializers import (
     HackathonTeamsDetailSerializer,
+    AdminTeamDetailSerializer,
     HackathonTeamsMemberSerializer,
     HackathonTeamsSerializer,
     TeamDetailSerializer,
@@ -33,6 +34,13 @@ class ListTrackView(generics.ListAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
     permission_classes = (IsAuthenticated,)
+
+class ListHackathonTeams(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = HackathonTeamsSerializer
+    
+    def get_queryset(self):
+        return HackathonTeams.objects.filter(track__slug_name=self.kwargs['slug'])
 
 class RegisterTeamView(views.APIView):
 
@@ -177,6 +185,7 @@ class addTaskResponse(views.APIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self, request):
+        
 
         request_serializer = PostTaskResponseSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
@@ -227,3 +236,30 @@ class addTaskResponse(views.APIView):
                     'status': 'failed'
                 }, status=status.HTTP_403_FORBIDDEN
             )
+
+class GetTeamById(views.APIView):
+    
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, **kwargs):
+
+        user = User.objects.filter(email=request.user.email).first()
+
+        if user.is_staff is False:
+            return Response(
+                {
+                    'message': 'Error route for staff.',
+                    'status': 'failed'
+                }, status=status.HTTP_403_FORBIDDEN
+            )
+
+        team = get_object_or_404(
+            HackathonTeams.objects.all(),
+            id = self.kwargs['id']
+        )
+
+        response_serializer = AdminTeamDetailSerializer(team)
+
+        return Response(
+            data=response_serializer.data, status=status.HTTP_200_OK
+        )

@@ -1,16 +1,16 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500">
-        <v-card-title>Hubungi Kami</v-card-title>
-        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
+      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
+        <v-card-title class="title_card_cloverleaf mt-7">Kontak Kami</v-card-title>
+        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
 
-        <v-card-text v-if="!messages.message">
+        <v-card-text v-if="!messages.message" class="mb-5">
           <v-form ref="form" @submit.prevent="register">
             <v-text-field
               v-model="full_name"
               label="Nama Lengkap"
-              outlined
+              
               :error="errors.full_name"
               :error-messages="errors.nama_pengirim"
               :rules="rulesNama"
@@ -21,29 +21,31 @@
               type="email"
               required
               :rules="emailRules"
-              outlined
+              
               :error="errors.email"
               :error-messages="errors.email_pengirim"
             ></v-text-field>
-            <v-textarea v-model="pesan" :error-messages="errors.pesan" outlined :rules="rulesPesan"></v-textarea>
+            <v-textarea 
+              label="Pesan"
+            v-model="pesan" :error-messages="errors.pesan" :rules="rulesPesan" class="mb-3"></v-textarea>
             <v-btn
               large
               block
-              label="Pesan"
               color="primary"
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
+              
             >Kirim</v-btn>
           </v-form>
           <br />Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
           Panitia akan berusaha secepat mungkin untuk membalas pesan anda.
         </v-card-text>
-        <v-card-text>
-          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-          <v-layout v-if="messages.message" justify-center>
+        <v-card-text class="mt-5" v-if="messages.message">
+          <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>
+          <v-layout justify-center class="mb-5">
             <router-link to="/">
-              <v-btn color="success" dark>Kembali ke Dashboard</v-btn>
+              <v-btn color="success" dark>Kembali ke Halaman Utama</v-btn>
             </router-link>
           </v-layout>
         </v-card-text>
@@ -107,5 +109,29 @@ export default {
   margin: 10vh auto;
   min-height: 100vh;
   max-height: 100vh;
+}
+
+.card_cloverleaf {
+  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  outline: none;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.title_card_cloverleaf {
+  font-size: 20pt;
+  margin-top: 10px;
+}
+
+.subtitle_card_cloverleaf {
+  font-size: 15pt;
+}
+
+.link_clover {
+  text-decoration: unset !important;
+}
+
+.link_clover:hover {
+  color: cornflowerblue;
 }
 </style>

@@ -9,6 +9,7 @@ import ConfirmComponent from '../views/Confirm.vue'
 import ResetPasswordComponent from '../views/ResetPassword.vue'
 import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
 import KontakKamiView from '../views/KontakKamiView'
+import changePasswordComponent from '../views/changePassword.vue'
 
 import PemberitahuanComponent from "../components/Pemberitahuan.vue";
 import ProfileComponent from "../components/ProfileView";
@@ -27,6 +28,7 @@ const routes = [
   },
   {
     path: '/',
+    title: 'Informatics Festival (IFest) #8',
     component: HomeComponent
   },
   {
@@ -76,7 +78,7 @@ const routes = [
     component: DashboardComponent,
     beforeEnter: reqLogin,
     meta: {
-      title: 'Dashboard - Informatics Festival #8'
+      title: 'Dashboard - Informatics Festival (IFest) #8'
     },
     children: [
       {
@@ -103,6 +105,11 @@ const routes = [
         path: 'competition/:slug',
         name: 'register_competition',
         component: CompetitionRegisterComponent
+      },
+      {
+        path: "profile/changepassword",
+        name: "changepassword",
+        component: changePasswordComponent
       }
     ]
   },

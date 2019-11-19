@@ -1,16 +1,15 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500">
-        <v-card-title>Registrasi Peserta</v-card-title>
-        <v-card-subtitle>Informatics Festival (IFest) #8</v-card-subtitle>
-
-        <v-card-text v-if="!messages.message">
-          <v-form ref="form" @submit.prevent="register">
+      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
+        <v-card-title class="title_card_cloverleaf mt-7">Registrasi</v-card-title>
+        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
+        <v-card-text v-if="!messages.message" class="mb-7">
+          <v-form ref="form" @submit.prevent="register" >
             <v-text-field
               v-model="full_name"
               label="Nama Lengkap"
-              outlined
+              
               hint="Isi dengan mengunakan singkatan sedikit mungkin."
               :error="errors.full_name"
               :error-messages="errors.full_name"
@@ -23,7 +22,7 @@
               hint="Gunakan alamat email aktif untuk kepentingan konfirmasi pendaftaran akun."
               required
               :rules="emailRules"
-              outlined
+              
               :error="errors.email"
               :error-messages="errors.email"
             ></v-text-field>
@@ -33,24 +32,25 @@
               type="password"
               autocomplete="current-password"
               required
-              outlined
+              
               :rules="passwordRules"
             ></v-text-field>
             <v-text-field
               v-model="confirmPassword"
               label="Confirm Password"
               type="password"
+              class="mb-3"
               required
               :rules="[(v) => !!v || 'Confirm Password cannot be empty', (v) => v === password || 'Password does not match']"
-              outlined
+              
             ></v-text-field>
 
             <p class="font-weight-medium">
-              <router-link to="/reset-password">Lupa password?</router-link>
+              <router-link to="/reset-password" class="link_clover">Lupa password?</router-link>
             </p>
-            <p class="font-weight-medium">
-              <router-link to="/login">Sudah punya akun?</router-link>
-            </p>
+            <!-- <p class="font-weight-medium">
+              <router-link to="/login" class="link_clover">Sudah punya akun?</router-link>
+            </p> -->
 
             <v-btn
               large
@@ -62,9 +62,9 @@
             >Daftar</v-btn>
           </v-form>
         </v-card-text>
-        <v-card-text>
-          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-          <v-layout v-if="messages.message" justify-center>
+        <v-card-text class="mt-5" v-if="messages.message">
+          <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>
+          <v-layout justify-center class="mb-5">
             <router-link to="/login">
               <v-btn color="success" dark>Login ke dashboard</v-btn>
             </router-link>
@@ -137,5 +137,29 @@ export default {
   margin: 10vh auto;
   min-height: 100vh;
   max-height: 100vh;
+}
+
+.card_cloverleaf {
+  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  outline: none;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.title_card_cloverleaf {
+  font-size: 20pt;
+  margin-top: 10px;
+}
+
+.subtitle_card_cloverleaf {
+  font-size: 15pt;
+}
+
+.link_clover {
+  text-decoration: unset !important;
+}
+
+.link_clover:hover {
+  color: cornflowerblue;
 }
 </style>

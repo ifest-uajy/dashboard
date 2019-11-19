@@ -25,26 +25,83 @@ class HackathonTeamsMemberSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    email = serializers.ReadOnlyField(
+        source="user.email",
+        read_only=True
+    )
+
+    nomor_id = serializers.ReadOnlyField(
+        source="user.nomor_id",
+        read_only=True
+    )
+
+    tanggal_lahir = serializers.ReadOnlyField(
+        source="user.tanggal_lahir",
+        read_only=True
+    ) 
+
+    is_confirmed = serializers.ReadOnlyField(
+        source="user.is_confirmed",
+        read_only=True
+    ) 
+
+    is_vege = serializers.ReadOnlyField(
+        source="user.is_vege",
+        read_only=True
+    ) 
+
+    alergic = serializers.ReadOnlyField(
+        source="user.alergic",
+        read_only=True
+    ) 
+
+    last_login = serializers.ReadOnlyField(
+        source="user.last_login",
+        read_only=True
+    )
+
+    date_joined = serializers.ReadOnlyField(
+        source="user.date_joined",
+        read_only=True
+    )
+
+    nomor_telepon = serializers.ReadOnlyField(
+        source="user.nomor_telepon",
+        read_only=True
+    ) 
+
+    id_line = serializers.ReadOnlyField(
+        source="user.id_line",
+        read_only=True
+    ) 
+
     class Meta:
         model = HackathonTeamsMember
-        fields = ('nama', )
+        fields = ('nama', 'email', 'nomor_id', 'tanggal_lahir', 'is_vege', 'alergic', 'id_line', 'nomor_telepon', 
+        'is_confirmed', 'date_joined', 'last_login')
 
 class HackathonTeamsSerializer(serializers.ModelSerializer):
 
-    track = TrackSerializer(read_only=True)
+    #track = TrackSerializer(read_only=True)
     team_leader_name = serializers.SlugRelatedField(
         source='team_leader',
         slug_field='full_name',
         read_only=True,
     )
 
+    team_leader_email = serializers.SlugRelatedField(
+        source='team_leader',
+        slug_field='email',
+        read_only=True,
+    )
+
     class Meta:
         model = HackathonTeams
         fields = (
-            'id', 'name', 'track', 'team_leader_name', 'institution', 'is_blacklisted'
+            'id', 'name', 'team_leader_name', 'team_leader_email', 'institution', 'is_blacklisted'
         )
         read_only_fields = (
-            'id', 'track', 'team_leader_name', 'institution', 'is_blacklisted'
+            'id', 'team_leader_name', 'team_leader_email', 'institution', 'is_blacklisted'
         
         )
 
@@ -204,3 +261,94 @@ class PostTaskResponseSerializer(serializers.Serializer):
     team_id = serializers.CharField(max_length=10)
     task_id = serializers.CharField(max_length=10)
     response = serializers.CharField(max_length=500)
+
+
+class AdminTeamDetailSerializer(serializers.ModelSerializer):
+
+    #kompetisi = TrackSerializer(source='track', read_only=True)
+
+    nama = serializers.CharField(source='name', read_only=True)
+    asal = serializers.CharField(source='institution', read_only=True)
+    alamat = serializers.CharField(source='alamat_institusi')
+
+    ketua = serializers.SlugRelatedField(
+        source='team_leader', slug_field='full_name', queryset=User.objects.all()
+    )
+    pembimbing = serializers.SerializerMethodField('get_info_pembimbing')
+    anggota = HackathonTeamsMemberSerializer(source='team_members', many=True)
+    #anggota = serializers.SerializerMethodField('get_info_anggota')
+    
+    token = serializers.CharField(source='invitation_token', read_only=True)
+    ditangguhkan = serializers.BooleanField(source='is_blacklisted', read_only=True)
+
+    tasks = serializers.SerializerMethodField('get_info_task')
+
+    #response = TaskResponseSerializer(source='task_response', many=True, read_only=True)
+    
+    current_task = HackathonTaskSerializer(read_only=True)
+
+    task_permission = serializers.BooleanField(source='bisa_up_task')
+
+    #task_list = HackathonTaskSerializer(many=True)
+
+    class Meta:
+        model = HackathonTeams
+        fields = (
+            'id',
+            'nama', 'asal', 'alamat', 'ketua', 'pembimbing', 'anggota',
+            'token', 'ditangguhkan', 'created_at', 'tasks', 'current_task', 'task_permission' # 'tasks'
+        )
+
+    #def get_info_task(self, obj):
+    #    tasks = TaskResponse.objects.filter(team=obj).all()
+    #    return HackathonTaskSerializer(tasks, many=True)
+
+    def get_info_pembimbing(self, obj):
+        return {
+            'nama': obj.nama_pendamping,
+            'telepon': obj.nomor_telepon_pendamping
+        }
+
+    def get_info_task(self, obj):
+        data = []
+        queryset = HackathonTask.objects.filter(track=obj.track)
+
+        list_qs = list(queryset.values())
+
+        json_list_all = json.loads("[]")
+
+        for e in queryset:
+
+            json_list = json.loads(
+            '{"task" : [], "response": []}'
+            )
+
+            qs_response = TaskResponse.objects.filter(team=obj, task=e).first()
+
+            if qs_response:
+
+                json_list["task"] = json.loads(
+                        json.dumps(HackathonTaskSerializer(e).data)
+                    )
+                
+                
+                json_list["response"] = json.loads(
+                        json.dumps(TaskResponseSerializer(qs_response).data)
+                    )
+
+            else:
+                json_list["task"] = json.loads(
+                        json.dumps(HackathonTaskSerializer(e).data)
+                    )
+                
+
+            json_list_all.append(json_list)
+
+        return json_list_all
+"""
+    def get_info_task(self, obj):
+        queryset = HackathonTask.objects.filter(track=obj.track)
+        return json.loads(
+            json.dumps(list(HackathonTaskSerializer(queryset, many=True).data))
+        )
+        """

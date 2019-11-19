@@ -204,6 +204,24 @@ export default {
                 commit('setLoading', false)
             }
         },
+        async changePassword({commit}, {password, new_password}) {
+            try {
+                commit('setLoading', true)
+                commit('resetError')
+                commit('resetMessage')
+                let response = await handle.post('/auth/change-password/', {password, new_password})
+                commit('setMessage', response.data)
+
+            } catch (e) {
+                if(e.response.data) {
+                    commit('setError', e.response.data)
+                } else {
+                    commit('setError', e)
+                }
+            } finally {
+                commit('setLoading', false)
+            }
+        }
     }
 
 }

@@ -15,6 +15,7 @@ python-dotenv = "*"
 django-user-agents = "*"
 xkcdpass = "*"
 requests = "*"
+multiprocessing = "*"
 
 [requires]
 python_version = "3.7"
