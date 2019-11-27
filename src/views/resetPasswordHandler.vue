@@ -1,11 +1,12 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500">
-        <v-card-title>Reset Password</v-card-title>
-        <v-card-subtitle>Informatics Festival #8</v-card-subtitle>
+      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
+        <v-card-title class="title_card_cloverleaf mt-7">Reset Password</v-card-title>
+        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
 
-        <v-card-text v-if="hideBoxes">
+
+        <v-card-text v-if="hideBoxes" class="mb-6">
           <v-form ref="form" @submit.prevent="resetPassword">
             <v-text-field
               v-model="password"
@@ -13,7 +14,7 @@
               type="password"
               autocomplete="current-password"
               required
-              outlined
+              
               :rules="passwordRules"
             ></v-text-field>
             <v-text-field
@@ -21,11 +22,12 @@
               label="Confirm Password"
               type="password"
               required
+              class="mb-5"
               :rules="[(v) => !!v || 'Confirm Password cannot be empty', (v) => v === password || 'Password does not match']"
-              outlined
+              
             ></v-text-field>
-            <p class="font-weight-medium">
-              <router-link to="/register">Belum punya akun?</router-link>
+            <p class="font-weight-medium" >
+              <router-link to="/register" class="link_clover">Belum punya akun?</router-link>
             </p>
 
             <v-btn
@@ -38,17 +40,19 @@
             >Register</v-btn>
           </v-form>
         </v-card-text>
-        <v-card-text>
-          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-          <v-layout v-if="messages.message" justify-center>
+        <v-card-text v-if="messages.message" class="mt-5">
+          <v-alert  type="success"  class="mb-8" outlined>{{ messages.message }}</v-alert>
+          <v-layout  justify-center>
             <router-link to="/login/">
-              <v-btn color="success" dark>Login ke dashboard</v-btn>
+              <v-btn color="success" class="mb-5" dark>Login ke dashboard</v-btn>
             </router-link>
           </v-layout>
-          <v-alert v-if="errors.message" type="error" outlined>{{ errors.message }}</v-alert>
-          <v-layout v-if="errors.message" justify-center>
-            <router-link to="/">
-              <v-btn color="error" dark>Kembali ke halaman utama</v-btn>
+        </v-card-text>
+        <v-card-text v-if="errors.message" class="mt-5">
+          <v-alert type="error"  class="mb-8" outlined>{{ errors.message }}</v-alert>
+          <v-layout justify-center>
+            <router-link to="/" >
+              <v-btn color="error"  class="mb-5" dark>Kembali ke halaman utama</v-btn>
             </router-link>
           </v-layout>
         </v-card-text>
@@ -106,3 +110,30 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+.card_cloverleaf {
+  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  outline: none;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.title_card_cloverleaf {
+  font-size: 20pt;
+  margin-top: 10px;
+}
+
+.subtitle_card_cloverleaf {
+  font-size: 15pt;
+}
+
+.link_clover {
+  text-decoration: unset !important;
+}
+
+.link_clover:hover {
+  color: cornflowerblue;
+}
+</style>

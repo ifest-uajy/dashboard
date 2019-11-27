@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="container">
-      <h1 class="header_big">RegSys v1.0.0</h1>
       <h2 class="subheader_big">Informatics Festival (IFest) #8</h2>
       <p class="font-weight-medium">
         <router-link to="/register" class="link_clover">Register</router-link>

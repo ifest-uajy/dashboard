@@ -1,6 +1,6 @@
 <template>
     <v-app id="main" style="background: #fff">
-        <v-content>
+        <v-content class="content">
             <router-view />
         </v-content>
         <Footer />
@@ -22,3 +22,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+#main {
+    clear: both;
+}
+</style>
