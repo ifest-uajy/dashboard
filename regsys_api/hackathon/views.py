@@ -97,6 +97,8 @@ class RegisterTeamView(views.APIView):
                 user=request.user
             )
 
+            Thread(target=new_team.send_email).start()
+
             return Response(
                     {
                         'message': 'Tim anda sudah terdaftar.',
@@ -211,6 +213,7 @@ class addTaskResponse(views.APIView):
             else:
                 task_response_status = TaskResponse.DONE
                 task_done = True
+                
 
             new_response = TaskResponse.objects.update_or_create(
                 task = task,

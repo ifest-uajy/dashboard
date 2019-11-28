@@ -432,7 +432,7 @@ color: #57606f;
 
 <body>
 <span class="preheader">
-  Terimakasih sudah melakukan pembayaran. Pembayaran kamu akan diverifikasi oleh pihak panitia.
+  Terimakasih sudah melalukan pembayaran, pembayaran ada akan sudah kami verifikasi.
 </span>
 <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
     <tr>
@@ -453,8 +453,34 @@ color: #57606f;
                 <tr>
                   <td class="content-cell">
                     <h1>Halo {{nama_tim}} 👋,</h1>
-                    <p>Terimakasih sudah melakukan pembayaran untuk pendaftaran {{nama_acara}} atas nama {{nama_tim}}. <strong>
-                      Pembayaran akan segera kami konfirmasi dalam waktu 1x24 jam.
+                    <p>Pembayaran kamu untuk pendaftaran {{nama_acara}} atas nama {{nama_tim}} sudah di konfirmasi. <br><br><strong>Detail Pembayaran
+                      <table style="table-layout: fixed; width: 100% ;">
+                        <tr>
+                          <td sytle="width: 25%;">
+                            Nama Event
+                          </td>
+                          <td sytle="width: 75%;">
+                            {{nama_acara}}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td sytle="width: 25%;">
+                            Atas Nama
+                          </td>
+                          <td sytle="width: 75%;">
+                            {{nama_tim}}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td sytle="width: 25%;">
+                            Jumlah
+                          </td>
+                          <td sytle="width: 75%;">
+                            {{jumlah}}
+                          </td>
+                        </tr>
+                      </table>
+                      <br>
                       </strong></p>
                     <p>Cheers,
                       <br>

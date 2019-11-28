@@ -132,6 +132,30 @@ class HackathonTeams(models.Model):
 
         super(HackathonTeams, self).save(*args, **kwargs)
 
+    def send_email(self):
+        context = {
+            'nama_tim' : self.name,
+            'nama_kompetisi': self.track.name,
+            'token': self.invitation_token,
+            'harga': self.track.biaya_pendaftaran,
+            'title': 'Pendaftaran {} - IFest #8'.format(self.track.name)
+        }
+        
+        text_template = get_template('selamat_datang.html')
+        html_template = get_template('selamat_datang.html')
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+        mail = EmailMultiAlternatives(
+            subject='Pendaftaran {} - IFest #8'.format(self.track.name),
+            body=mail_text_message,
+            to=[self.team_leader.email]
+        )
+        
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send(
+            fail_silently=False
+        )
+
     class Meta:
         verbose_name = 'Tim'
         verbose_name_plural = 'Tim'
@@ -193,9 +217,8 @@ class TaskResponse(models.Model):
     
     def send_email_p(self):
         context = {
-            'name' : "self.team.name",
-            'nama_acara': "track.name",
-            'nama_tim': "team.nama_tim"
+            'nama_acara': self.task.track.name,
+            'nama_tim': self.team.name
         }
         
         text_template = get_template('up_pembayaran.html')
@@ -204,6 +227,28 @@ class TaskResponse(models.Model):
         mail_html_message = html_template.render(context)
         mail = EmailMultiAlternatives(
             subject='Pembayaran kamu sedang diverifikasi - IFest #8',
+            body=mail_text_message,
+            to=[self.team.team_leader.email]
+        )
+        
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send(
+            fail_silently=False
+        )
+
+    def send_email_pembayaran_selesai(self):
+        context = {
+            'nama_acara': self.task.track.name,
+            'nama_tim': self.team.name,
+            'jumlah': self.task.track.biaya_pendaftaran
+        }
+        
+        text_template = get_template('bayar_valid.html')
+        html_template = get_template('bayar_valid.html')
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+        mail = EmailMultiAlternatives(
+            subject='Pembayaran kamu telah diverifikasi - IFest #8',
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )
