@@ -22,7 +22,7 @@ E4OC41NTMgICAgQzQ3NC45ODgsMjQxLjgxMSw0OTIuNzE5LDIwNi4wMTcsNDkyLjcxOSwxNjYu
 MDA4eiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBzdHlsZT0
 iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9nPiA8L3N2Zz4=" /></span>
             by
-            <strong>CBIS 3.0</strong>
+            <strong>SI IFest</strong>
             |&nbsp;Hak Cipta © {{ new Date().getFullYear() }}
             <a
               href="https://ifest-uajy.com"

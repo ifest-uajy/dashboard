@@ -1,10 +1,12 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500">
-        <v-card-title>Ganti Password</v-card-title>
+      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
+        <v-card-subtitle class="mt-5 pb-0 mb-0"><router-link to="/dashboard/profile" class="link_clover">Kembali</router-link></v-card-subtitle>
+        <v-card-title class="title_card_cloverleaf">Ganti Password</v-card-title>
+        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
 
-        <v-card-text>
+        <v-card-text v-if="!messages.message" class="mb-7">
           <v-form ref="form" @submit.prevent="changePasswordAction">
             <v-text-field
               v-model="oldPassword"
@@ -13,7 +15,6 @@
               required
               autocomplete="username"
               :rules="passwordRules"
-              outlined
             ></v-text-field>
             <v-text-field
               v-model="newPassword"
@@ -21,7 +22,6 @@
               type="password"
               autocomplete="current-password"
               required
-              outlined
               :rules="passwordRules"
             ></v-text-field>
             <v-text-field
@@ -30,7 +30,6 @@
               type="password"
               required
               :rules="[(v) => !!v || 'Confirm New Password cannot be empty', (v) => v === newPassword || 'Password does not match']"
-              outlined
             ></v-text-field>
             <v-btn
               large
@@ -42,9 +41,10 @@
             >Ganti Password</v-btn>
           </v-form>
         </v-card-text>
-        <v-card-text>
-          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-          <v-alert v-if="errors.message" type="error" outlined>{{ errors.message }}</v-alert>
+        <v-card-text class="mt-5" v-if="messages.message">
+          <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>
+          <v-layout justify-center class="mb-5">
+          </v-layout>
         </v-card-text>
       </v-card>
     </v-layout>
@@ -79,15 +79,12 @@ export default {
       return new Promise(resolve => setTimeout(resolve, ms));
     },
     async changePasswordAction() {
-      this.changePassword({
+      await this.changePassword({
         password: this.oldPassword,
         new_password: this.newPassword
       });
-
-      await sleep(5000);
-
-      location.reload(true);
-
+      setTimeout(() => (location.reload(true)), 2000);
+      
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -96,3 +93,30 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+.card_cloverleaf {
+  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  outline: none;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.title_card_cloverleaf {
+  font-size: 20pt;
+  margin-top: 10px;
+}
+
+.subtitle_card_cloverleaf {
+  font-size: 15pt;
+}
+
+.link_clover {
+  text-decoration: unset !important;
+}
+
+.link_clover:hover {
+  color: cornflowerblue;
+}
+</style>

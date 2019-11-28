@@ -223,11 +223,14 @@ class addTaskResponse(views.APIView):
                 }
             )
 
+            if task.task_type == HackathonTask.PAYMENT_SUBMISSION:
+                Thread(target=new_response[0].send_email_p).start()
+                
             response_serializer = TaskResponseSerializer(new_response[0])
 
             return Response(
                 data=response_serializer.data, status=status.HTTP_201_CREATED
-            ) 
+            )
         
         else:
             return Response(

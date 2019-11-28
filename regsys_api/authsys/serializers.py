@@ -55,7 +55,9 @@ class EmailConfirmationSerializer(serializers.Serializer):
 
 class UpdateProfileSerializer(serializers.Serializer):
     full_name = serializers.CharField()
-    id_line = serializers.CharField()
+    id_line = serializers.CharField(required=False)
     nomor_telepon = serializers.CharField()
-    is_vege = serializers.BooleanField()
-    alergic = serializers.CharField()
+    is_vege = serializers.BooleanField(required=False)
+    alergic = serializers.CharField(required=False, allow_blank=True)
+    nomor_id = serializers.CharField()
+    tanggal_lahir = serializers.DateField()

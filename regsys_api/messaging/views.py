@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from .serializers import MessageSerializer
 from django.views.decorators.csrf import csrf_exempt
-
+from threading import Thread
 
 class MessageView(APIView):
     
@@ -26,6 +26,8 @@ class MessageView(APIView):
                 email_pengirim = email_pengirim,
                 pesan = pesan
             )
+
+            Thread(target=new_pesan.send_email).start()
 
             return Response(
                 {

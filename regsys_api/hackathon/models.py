@@ -4,12 +4,15 @@ import datetime
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from xkcdpass import xkcd_password as xp
+from django.core.mail import EmailMultiAlternatives
 import json
 
 from threading import Thread
 
 from regsys_api.authsys.models import User
 import requests
+from django.template.loader import get_template
+import sys
 
 def getxkcdpass():
     wordfile = xp.locate_wordfile()
@@ -179,11 +182,36 @@ class TaskResponse(models.Model):
                 self.status = self.DONE
                 self.is_verified = True
 
+            # if self.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
+            #     Thread(target=self.send_email_p).start()
+
             #if self.task.track.pk != self.team.track.pk:
                 #raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
             #else:
         
         super(TaskResponse, self).save(*args, **kwargs)
+    
+    def send_email_p(self):
+        context = {
+            'name' : "self.team.name",
+            'nama_acara': "track.name",
+            'nama_tim': "team.nama_tim"
+        }
+        
+        text_template = get_template('up_pembayaran.html')
+        html_template = get_template('up_pembayaran.html')
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+        mail = EmailMultiAlternatives(
+            subject='Pembayaran kamu sedang diverifikasi - IFest #8',
+            body=mail_text_message,
+            to=[self.team.team_leader.email]
+        )
+        
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send(
+            fail_silently=False
+        )
 
     class Meta:
         unique_together = (('task', 'team'),)

@@ -9,6 +9,7 @@ export default {
         loading: false,
         redirectTo: null,
         message: [],
+        success: false,
     },
     getters: {
         isLoggedIn(state) {
@@ -16,6 +17,12 @@ export default {
         }
     },
     mutations: {
+        setSuccess(state) {
+            state.success = true
+        },
+        resetSuccess(state) {
+            state.success = false
+        },
         setError(state, e) {
             state.errors = e
         },
@@ -64,6 +71,10 @@ export default {
             commit('resetError')
             commit('resetMessage')
         },
+        async getCurrentSession({commit}) {
+            let response = await handle.get('/auth/')
+            commit('setUser', response.data)
+        },
         async register({ commit }, { full_name, email, password }) {
             try {
                 commit('setLoading', true)
@@ -101,7 +112,6 @@ export default {
         async confirm({ commit }, { token }) {
             try {
                 commit('setLoading', true)
-                console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
                 let response = await handle.post('/auth/confirm/', { token })
@@ -167,7 +177,6 @@ export default {
         async resetPassword({ commit }, { token, new_password }) {
             try {
                 commit('setLoading', true)
-                console.log("BABAA")
                 commit('resetError')
                 commit('resetMessage')
                 let response = await handle.post('/auth/reset/confirm/', { token, new_password })
@@ -186,16 +195,21 @@ export default {
                 commit('setLoading', false)
             }
         },
-        async updateProfile({ commit }, { full_name, id_line, nomor_telepon, alergic, is_vege }) {
+        async updateProfile({ commit }, { full_name, id_line, nomor_telepon, alergic, is_vege, nomor_id, tanggal_lahir }) {
             try {
                 commit('setLoading', true)
                 commit('resetError')
+                commit('resetSuccess')
                 commit('resetMessage')
-                let response = await handle.post('/auth/profile/update/', { full_name, id_line, nomor_telepon, alergic, is_vege })
-                commit('setUser', response.data)
+                let response = await handle.post('/auth/profile/update/', { full_name, id_line, nomor_telepon, alergic, is_vege, nomor_id, tanggal_lahir })
+                if (response.status == 200) {
+                    commit('setSuccess')
+                    commit('setMessage', response.data)
+                    let response2 = await handle.get('/auth/')
+                    commit('setUser', response2.data)
+                }
             } catch (e) {
                 if (e.response.data) {
-                    console.log(e.response.data)
                     commit('setError', e.response.data)
                 } else {
                     commit('setError', e)

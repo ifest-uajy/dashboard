@@ -427,6 +427,8 @@ class UpdateProfileView(APIView):
         nomor_telepon = request_serializer.validated_data['nomor_telepon']
         is_vege = request_serializer.validated_data['is_vege']
         alergic = request_serializer.validated_data['alergic']
+        nomor_id = request_serializer.validated_data['nomor_id']
+        tanggal_lahir = request_serializer.validated_data['tanggal_lahir']
 
         with transaction.atomic():
 
@@ -437,8 +439,15 @@ class UpdateProfileView(APIView):
             u.nomor_telepon = nomor_telepon
             u.is_vege = is_vege
             u.alergic = alergic
+            u.tanggal_lahir = tanggal_lahir
+            u.nomor_id = nomor_id
             u.save()
 
-            response_serializer = UserSerializer(u)
-            return Response(data=response_serializer.data)
+            return Response(
+                {
+                    'message': 'Data profil berhasil di perbaharui.',
+                    'status': 'success'
+                },
+                status=status.HTTP_200_OK
+            )
 
