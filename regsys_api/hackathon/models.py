@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.db import models
 from django.utils.timezone import utc
 import datetime
@@ -126,6 +127,13 @@ class HackathonTeams(models.Model):
         else:
             return False
 
+    def move_one_step(self):
+        
+        if self.current_task.order+1 <= HackathonTask.objects.filter(track=self.track).count():
+            self.current_task = HackathonTask.objects.filter(Q(track=self.track) , Q(order=self.current_task.order+1)).first()
+            self.save()
+
+
     def save(self, *args, **kwargs):
         if self.pk is None and not hasattr(self, 'current_task'):
             self.current_task = HackathonTask.objects.filter(track=self.track).first()
@@ -227,6 +235,27 @@ class TaskResponse(models.Model):
         mail_html_message = html_template.render(context)
         mail = EmailMultiAlternatives(
             subject='Pembayaran kamu sedang diverifikasi - IFest #8',
+            body=mail_text_message,
+            to=[self.team.team_leader.email]
+        )
+        
+        mail.attach_alternative(mail_html_message, "text/html")
+        mail.send(
+            fail_silently=False
+        )
+    
+    def send_email_tolak(self):
+        context = {
+            'nama_tugas': self.task.name,
+            'nama_tim': self.team.name
+        }
+        
+        text_template = get_template('submisi_ditolak.html')
+        html_template = get_template('submisi_ditolak.html')
+        mail_text_message = text_template.render(context)
+        mail_html_message = html_template.render(context)
+        mail = EmailMultiAlternatives(
+            subject='Submisi Tugas {} - {} Ditolak - IFest #8'.format(self.task.name, self.team.name),
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )

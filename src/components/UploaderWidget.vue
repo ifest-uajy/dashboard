@@ -66,7 +66,7 @@ export default {
       dropOptions: {
         url: "/api/file/upload/",
         maxFiles: 1,
-        //maxFilesize: 10,
+        maxFilesize: 10, // MB
         addRemoveLinks: true,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File"
       },

@@ -205,7 +205,7 @@ class addTaskResponse(views.APIView):
 
         response = request_serializer.validated_data['response']
 
-        if team.bisa_up_task and not team.is_blacklisted:
+        if team.bisa_up_task and not team.is_blacklisted and team.current_task.pk is task.pk:
 
             if task.require_validation:
                 task_response_status = TaskResponse.WAITING
@@ -213,6 +213,7 @@ class addTaskResponse(views.APIView):
             else:
                 task_response_status = TaskResponse.DONE
                 task_done = True
+                team.move_one_step()
                 
 
             new_response = TaskResponse.objects.update_or_create(

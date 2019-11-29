@@ -62,7 +62,7 @@
                 class="mt-2"
               >Dibawah ini daftar anggota dalam tim ini. Untuk menambahkan anggota berikan token diatas ke teman anda dan join melalui menu kompetisi.
               Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.</p>
-              <v-content class="px-0 black--text  ">
+              <v-content class="px-0 black--text pb-0">
                 <ol>
                   <li v-for="u in c.anggota" :key="u" class="mb-0">
                   <span v-if="c.ketua == u"><b>{{u}} - Team Leader</b></span>
