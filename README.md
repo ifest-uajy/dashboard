@@ -1,5 +1,7 @@
 # Cloverleaf 🍀🍀
 
+![Screenshoot](./screenshoot.png)
+
 Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan, seminar atau workshop. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan, memverifikasi pembayaran dan mengirimkan tiket kepada user.
 
 ## Technology Stack
