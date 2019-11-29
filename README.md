@@ -22,19 +22,19 @@ Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa
     - Team members
     - Payment (including in file upload)
     - File upload
-3. ~~Talks (currently unavailable)~~
+3. ~~Talks (not implemented, using 3rd services)~~
     - ~~Join a seminar/workshop~~
     - ~~Payment~~
     - ~~Ticket/attendance confirmation~~
-4. ~~Staff Dashboard (currently unavailable)~~
-    - ~~Verify payment~~
-    - ~~Download user uploaded files~~
+4. Staff Dashboard
+    - Verify payment
+    - Download user uploaded files
     - ~~Download rekap data peserta~~
     - ~~Edit data~~
 5. Mailing system
     - Welcome onboard
     - Forgot password
-    - ~~Team forming greetings~~
+    - Team forming greetings
     - ~~Team forming invitations~~
     - Payment needed
     - Payment confirmed
