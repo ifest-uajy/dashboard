@@ -38,7 +38,8 @@ Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa
     - ~~Team forming invitations~~
     - Payment needed
     - Payment confirmed
-    - File upload needed
+    - Task rejected
+    - ~~File upload needed~~
     - ~~Ticket/attendance confirmation issued~~
 
 ## Development
