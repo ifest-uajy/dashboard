@@ -29,6 +29,7 @@ from .serializers import (
     PostTaskResponseSerializer,
     TaskResponseSerializer
 )
+import datetime
 
 class ListTrackView(generics.ListAPIView):
     queryset = Track.objects.all()
@@ -202,6 +203,14 @@ class addTaskResponse(views.APIView):
             HackathonTask.objects.all(),
             id = request_serializer.validated_data['task_id'],
         )
+
+        if datetime.datetime.now().time() > task.deadline.time():
+            return Response(
+                {
+                    'message': 'Sudah deadline',
+                    'status': 'failed'
+                }, status=status.HTTP_403_FORBIDDEN
+            )
 
         response = request_serializer.validated_data['response']
 

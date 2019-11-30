@@ -87,6 +87,9 @@ export default {
                 if (response.status == 201) {
                     console.log(response.data)
                     commit('setMessage', response.data)
+                    let req2 = await handle.get('/hackathon/teams/')
+                    commit('setTeams', req2.data)
+                    commit('setteamsCount', req2.data.length)
                 }
             } catch (e) {
                 commit('setError', e.response.data)
@@ -106,6 +109,9 @@ export default {
                 if (response.status == 201) {
                     console.log(response.data)
                     commit('setMessage', response.data)
+                    let req2 = await handle.get('/hackathon/teams/')
+                    commit('setTeams', req2.data)
+                    commit('setteamsCount', req2.data.length)
                 }
             } catch (e) {
                 commit('setError', e.response.data)

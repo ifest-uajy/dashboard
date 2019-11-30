@@ -12,7 +12,6 @@
       <p
         class="black--text text--darken-2 mb-1"
       >Saat ini kamu belum bisa mendaftar kompetisi atau seminar karena data profil akun kamu belum terisi lengkap.</p>
-      <v-btn outlined color="red" class="mt-2" min-width="130px">Edit Profil</v-btn>
     </v-alert>
 
     <v-alert class="mx-auto" prominent outlined type="success" v-if="alertShow" max-width="600px">

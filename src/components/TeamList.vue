@@ -95,7 +95,7 @@
                   >
                     {{task.task.name}}
                     <small
-                      v-if="task.task.task_type === 'upload file'"
+                      v-if="task.task.task_type !== 'pengumuman'"
                       class="mt-2"
                     >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY hh:mm A")}}</small>
                   </v-stepper-step>

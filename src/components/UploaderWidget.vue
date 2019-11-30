@@ -22,10 +22,8 @@
           <a :href="downloadUrl" class="body-link" target="_blank">Unduh file</a>
         </div>
         
-        <div v-else>Belum ada file diunggah.<br/></div>
-        <div class="mt-3" v-if="response.length !== 0 && response.status === 'menunggu_verifikasi'" v-html="task.deskripsi"></div>
-
-        <br />
+        <div v-else><div v-html="task.deskripsi"></div></div>
+        <br/>
         <v-alert
           v-if="response.length !== 0 && response.status === 'ditolak'"
           :value="true"
@@ -68,7 +66,8 @@ export default {
         maxFiles: 1,
         maxFilesize: 10, // MB
         addRemoveLinks: true,
-        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File"
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File",
+        acceptedFiles: '.zip,.rar,.tar',
       },
       dropzoneError: null
   }),

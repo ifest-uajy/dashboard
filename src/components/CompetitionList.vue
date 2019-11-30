@@ -155,7 +155,7 @@ export default {
       competitions: state => state.competition.competitions,
       errors: state => state.competition.errors,
       messages: state => state.competition.messages,
-      loading: state => state.competition.loading
+      loading: state => state.competition.loading,
     })
   },
   methods: {

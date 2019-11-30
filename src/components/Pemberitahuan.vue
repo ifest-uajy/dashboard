@@ -8,7 +8,7 @@
       <h3 class="subtitle">Update Pemberitahuan</h3>
     </v-badge>
     -->
-    <v-content v-for="a in announcements" :key="a.id">
+    <v-content v-for="a in announcements" :key="a.id" class="pb-3">
       <v-alert prominent outlined :type="(a.type)">
         <p class="font-weight-bold mb-0">{{a.title}}</p>
         <p
