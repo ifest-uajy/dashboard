@@ -68,7 +68,7 @@ class TaskResponseAdmin(admin.ModelAdmin):
             '<a class="button" href="{}">Verif</a>&nbsp;',
             reverse('admin:verify', args=[obj.pk]),
         )
-    task_response_actions.short_description = 'Verif Pembayaran'
+    task_response_actions.short_description = 'Verif Respon'
     task_response_actions.allow_tags = True
 
     def tolak_response(self, obj):
@@ -77,8 +77,8 @@ class TaskResponseAdmin(admin.ModelAdmin):
             '<a class="button" href="{}">Tolak</a>&nbsp;',
             reverse('admin:tolak', args=[obj.pk]),
         )
-    task_response_actions.short_description = 'Verif Pembayaran'
-    task_response_actions.allow_tags = True
+    tolak_response.short_description = 'Tolak Respon'
+    tolak_response.allow_tags = True
 
     def process_verify(self, request, task_res_id, *args, **kwargs):
         return self.process_action(
@@ -104,20 +104,29 @@ class TaskResponseAdmin(admin.ModelAdmin):
         messages.info(request, 'Task untuk {} ditolak, terimakasih'.format(task.team.name))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+    def has_change_permission(self, request, obj=None):
+        return super().has_change_permission(request, obj=obj)
+
     def process_action(self, request, task_res_id):
 
-        task = self.get_object(request, task_res_id)
+        if request.user.has_change_permission:
 
-        task.is_verified = True
+            task = self.get_object(request, task_res_id)
 
-        task.status = TaskResponse.DONE
-        
-        if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
-            Thread(target=task.send_email_pembayaran_selesai).start()
+            task.is_verified = True
 
-        task.save()
-        task.team.move_one_step()
-        messages.info(request, 'Task untuk {} sudah di verifikasi, terimakasih'.format(task.team.name))
+            task.status = TaskResponse.DONE
+            
+            if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
+                Thread(target=task.send_email_pembayaran_selesai).start()
+
+            task.save()
+            task.team.move_one_step()
+            messages.info(request, 'Task untuk {} sudah di verifikasi, terimakasih'.format(task.team.name))
+
+        else:
+            messages.error(request, 'tidak ada permision untuk melakukan ini')
+            
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @admin.register(HackathonTask)

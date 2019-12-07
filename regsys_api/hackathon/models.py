@@ -7,6 +7,9 @@ from django.core.exceptions import ValidationError
 from xkcdpass import xkcd_password as xp
 from django.core.mail import EmailMultiAlternatives
 import json
+from string import (
+    ascii_letters, digits
+)
 
 from threading import Thread
 
@@ -14,6 +17,10 @@ from regsys_api.authsys.models import User
 import requests
 from django.template.loader import get_template
 import sys
+from django.utils.crypto import get_random_string
+
+def generate_token():
+    return get_random_string(length=32, allowed_chars=ascii_letters + digits)
 
 def getxkcdpass():
     wordfile = xp.locate_wordfile()
@@ -89,7 +96,7 @@ class HackathonTeams(models.Model):
     token
     """
 
-    invitation_token = models.CharField(max_length=100, default=getxkcdpass())
+    invitation_token = models.CharField(max_length=100, default=generate_token, unique=True)
 
     current_task = models.ForeignKey(to=HackathonTask, related_name='active', on_delete=models.PROTECT)
 

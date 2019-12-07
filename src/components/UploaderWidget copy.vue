@@ -53,22 +53,6 @@
         <v-alert v-if="dropzoneError" :value="true" type="error" outlined>{{ dropzoneError }}</v-alert>
       </v-flex>
     </v-form>
-    <v-dialog v-model="dialog" persistent max-width="350">
-      <v-card>
-        <v-card-title class="headline">Pastikan file yang diupload sudah benar!</v-card-title>
-        <v-card-text>File yang akan diupload adalah <b>{{file_name}}</b>. Kesempatan untuk mengunggah file hanya ada sekali.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="handleUpload">Upload</v-btn>
-          <v-btn color="red darken-1" text @click="handleBatal">Batal</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-snackbar
-      v-model="uploadBatalSB"
-    >
-      Upload file dibatalkan
-    </v-snackbar>
   </v-flex>
 </template>
 
@@ -84,15 +68,11 @@ export default {
     vueDropzone: vue2Dropzone
   },
   data: () => ({
-    dialog: false,
-    file_name: "",
-    uploadBatalSB: false,
     loading: false,
       dropOptions: {
         url: "/api/file/upload/",
         maxFiles: 1,
-        maxFilesize: 10, // MB,
-        autoProcessQueue: false,
+        maxFilesize: 10, // MB
         addRemoveLinks: true,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File",
         acceptedFiles: '.zip',
@@ -105,21 +85,7 @@ export default {
     addTaskResponse: 'competition/postTaskResponse',
     getTeams: "competition/getTeams",
   }),
-  handleUpload: function() {
-    this.dialog = false
-    this.$refs.dropzone.processQueue()
-    this.file_name = ""
-  },
-  handleBatal: async function() {
-    this.dialog = false
-    this.$refs.dropzone.removeAllFiles(true)
-    this.file_name = ""
-    this.uploadBatalSB = true
-     await setTimeout(() => (this.uploadBatalSB = false), 2000);
-  },
-    uploadFile: function (file) { 
-      this.dialog = true
-      this.file_name = file.name;
+    uploadFile: function () { 
       this.dropzoneError = null
     },
     uploadSuccess: function (file, response) {
@@ -137,7 +103,6 @@ export default {
     },
     uploadComplete: function (file) {
       this.$refs.dropzone.removeAllFiles(true)
-      this.file_name = ""
     }
   },
   computed: {

@@ -204,7 +204,7 @@ class addTaskResponse(views.APIView):
             id = request_serializer.validated_data['task_id'],
         )
 
-        if datetime.datetime.now().time() > task.deadline.time():
+        if datetime.datetime.now() > task.deadline:
             return Response(
                 {
                     'message': 'Sudah deadline',

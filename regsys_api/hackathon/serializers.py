@@ -215,7 +215,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
     def get_info_task(self, obj):
         data = []
-        queryset = HackathonTask.objects.filter(track=obj.track)
+        queryset = HackathonTask.objects.filter(track=obj.track).order_by('order')
 
         list_qs = list(queryset.values())
 
