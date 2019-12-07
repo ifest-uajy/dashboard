@@ -152,7 +152,7 @@ class HackathonTeams(models.Model):
             'nama_tim' : self.name,
             'nama_kompetisi': self.track.name,
             'token': self.invitation_token,
-            'harga': self.track.biaya_pendaftaran,
+            'harga': '{:20,.2f}'.format(self.track.biaya_pendaftaran),
             'title': 'Pendaftaran {} - IFest #8'.format(self.track.name)
         }
         
@@ -274,9 +274,12 @@ class TaskResponse(models.Model):
 
     def send_email_pembayaran_selesai(self):
         context = {
-            'nama_acara': self.task.track.name,
+            'nama_kompetisi': self.task.track.name,
             'nama_tim': self.team.name,
-            'jumlah': self.task.track.biaya_pendaftaran
+            'jumlah': '{:20,.2f}'.format(self.task.track.biaya_pendaftaran),
+            'tanggal': datetime.datetime.now().strftime("%d %B %Y %I:%M:%S %p"),
+            'nama_ketua': self.team.team_leader.full_name,
+            'asal_institusi': self.team.institution
         }
         
         text_template = get_template('bayar_valid.html')

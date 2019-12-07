@@ -10,6 +10,8 @@ from django.http import HttpResponse
 import uuid
 from .models import PersonalUploadFile
 from regsys_api.authsys.models import User
+import urllib.parse
+
 # Create your views here.
 class PersonalUploadFileView(APIView):
     parser_clases = (FileUploadParser,)
@@ -90,7 +92,7 @@ class getDownloadView(APIView):
             )
         filename_baru = uploaded_file.original_filename
         response = HttpResponse(uploaded_file.file.open('rb'), content_type=uploaded_file.content_type)
-        response['Content-Disposition'] = 'inline; filename=' + uploaded_file.original_filename
+        response['Content-Disposition'] = 'inline; filename=\"' + uploaded_file.original_filename + '\"'
         
         return response
         

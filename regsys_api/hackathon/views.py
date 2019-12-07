@@ -29,7 +29,7 @@ from .serializers import (
     PostTaskResponseSerializer,
     TaskResponseSerializer
 )
-import datetime
+from django.utils import timezone
 
 class ListTrackView(generics.ListAPIView):
     queryset = Track.objects.all()
@@ -204,7 +204,7 @@ class addTaskResponse(views.APIView):
             id = request_serializer.validated_data['task_id'],
         )
 
-        if datetime.datetime.now() > task.deadline:
+        if timezone.now() > task.deadline:
             return Response(
                 {
                     'message': 'Sudah deadline',

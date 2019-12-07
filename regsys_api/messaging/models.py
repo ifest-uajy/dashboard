@@ -31,7 +31,9 @@ class Message(models.Model):
         mail = EmailMultiAlternatives(
             subject='Pesan kamu sudah kami terima',
             body=mail_text_message,
-            to=[self.email_pengirim]
+            from_email='Sekretariat IFest #8 <sekret@ifest-uajy.com>',
+            to=[self.email_pengirim],
+            bcc=["sekret@ifest-uajy.com"]
         )
 
         mail.attach_alternative(mail_html_message, "text/html")
