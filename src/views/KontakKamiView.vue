@@ -5,7 +5,7 @@
         <v-card-title class="title_card_cloverleaf mt-7">Kontak Kami</v-card-title>
         <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
 
-        <v-card-text v-if="!messages.message" class="mb-5">
+        <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
             <v-text-field
               v-model="full_name"
@@ -40,6 +40,10 @@
           </v-form>
           <br />Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
           Panitia akan berusaha secepat mungkin untuk membalas pesan anda.
+        </v-card-text>
+        <v-card-text class="mt-0 mb-5 pt-0">
+          <strong>Kontak alternatif</strong>
+          Selain melalui halaman kontak resmi ini, kamu juga bisa menghubungi panitia melalui Official Account Line kami di <strong><a href="http://line.me/ti/p/~@ykb1847q" target="_blank" style="text-decoration: none;">@ykb1847q</a></strong>.
         </v-card-text>
         <v-card-text class="mt-5" v-if="messages.message">
           <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>

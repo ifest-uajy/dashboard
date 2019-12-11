@@ -169,7 +169,7 @@ export default {
         id_line: this.id_line,
         nomor_telepon: this.nomor_telepon,
         alergic: this.alergi,
-        is_vege: this.vege,
+        is_vege: this.is_vege,
         nomor_id: this.nomor_id ,
         tanggal_lahir: this.fromDateVal
       }); //,

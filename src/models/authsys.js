@@ -14,7 +14,7 @@ export default {
     getters: {
         isLoggedIn(state) {
             return !!state.user
-        }
+        },
     },
     mutations: {
         setSuccess(state) {

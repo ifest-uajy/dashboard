@@ -21,7 +21,7 @@
       </v-content>
     </v-container>
 
-    <v-container class="grey lighten-5 pt-0">
+    <v-container class="pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
           <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">

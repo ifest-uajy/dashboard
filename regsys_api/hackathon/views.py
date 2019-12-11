@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status, generics, views
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from regsys_api.authsys.models import User
 import requests
 from threading import Thread
@@ -27,7 +27,8 @@ from .serializers import (
     AddHackathonTeamMemberSerializer,
     JoinTeamSerializer,
     PostTaskResponseSerializer,
-    TaskResponseSerializer
+    TaskResponseSerializer,
+    AdminConfirmTask
 )
 from django.utils import timezone
 
@@ -37,7 +38,7 @@ class ListTrackView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
 class ListHackathonTeams(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
     serializer_class = HackathonTeamsSerializer
     
     def get_queryset(self):
@@ -254,8 +255,7 @@ class addTaskResponse(views.APIView):
             )
 
 class GetTeamById(views.APIView):
-    
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsAdminUser, )
 
     def get(self, request, **kwargs):
 
@@ -279,3 +279,116 @@ class GetTeamById(views.APIView):
         return Response(
             data=response_serializer.data, status=status.HTTP_200_OK
         )
+
+class DetailTeam(views.APIView):
+    permission_classes = (IsAuthenticated, IsAdminUser, )
+
+    def get(self, request, **kwargs):
+
+        track = Track.objects.filter(slug_name=self.kwargs['slug'])
+
+        response_serializer = TrackSerializer(track[0])
+
+        return Response(
+            data=response_serializer.data, status=status.HTTP_200_OK
+        )
+
+
+class AdminTaskHandler(views.APIView):
+    permission_classes = (IsAuthenticated, IsAdminUser, )
+
+    def post(self, request):
+
+        request_serializer = AdminConfirmTask(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+
+        task_id = request_serializer.validated_data['task_res_id']
+
+        task = get_object_or_404(TaskResponse, pk=task_id)
+
+        if task:
+
+            if request.user.groups.filter(name='Pengurus Harian').exists() or request.user.groups.filter(name='Sekretariat').exists():
+
+                if task.status == TaskResponse.DONE:
+                    return Response(
+                        {
+                            'message': 'Tidak ada yang perlu diverifikasi.',
+                            'status': 'success'
+                        }, status=status.HTTP_200_OK
+                    )
+
+                if not request_serializer.validated_data['tolak']:
+                    task.is_verified = True
+                
+                    task.status = TaskResponse.DONE
+                        
+                    if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
+                        if request.user.groups.filter(name='Pengurus Harian').exists():
+                            Thread(target=task.send_email_pembayaran_selesai).start()
+                        else:
+                            return Response(
+                                {
+                                    'message': 'PH tok yang boleh',
+                                    'status': 'failed'
+                                }, status=status.HTTP_400_BAD_REQUEST
+                            )
+                    else:
+                        if not request.user.groups.filter(name='Sekretariat').exists():
+                            return Response(
+                                {
+                                    'message': 'Hanya sekret yang bisa boi.',
+                                    'status': 'failed'
+                                }, status=status.HTTP_400_BAD_REQUEST
+                            )
+
+                    task.save()
+                    task.team.move_one_step()
+
+                else:
+
+                    if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
+                        if not request.user.groups.filter(name='Pengurus Harian').exists():
+                            return Response(
+                                {
+                                    'message': 'PH tok yang boleh',
+                                    'status': 'failed'
+                                }, status=status.HTTP_400_BAD_REQUEST
+                            )
+                    else:
+                        if not request.user.groups.filter(name='Sekretariat').exists():
+                            return Response(
+                                {
+                                    'message': 'Hanya sekret yang bisa boi.',
+                                    'status': 'failed'
+                                }, status=status.HTTP_400_BAD_REQUEST
+                            )
+                            
+                    task.is_verified = False
+            
+                    task.status = TaskResponse.REJECTED
+                    Thread(target=task.send_email_tolak).start()
+                    task.save()
+
+                return Response(
+                    {
+                        'message': 'Respon tugas berhasil diverifikasi.',
+                        'status': 'success'
+                    }, status=status.HTTP_202_ACCEPTED
+                )
+                            
+            else:
+                return Response(
+                    {
+                        'message': 'Anda tidak memiliki permission untuk melakukan ini',
+                        'status': 'failed'
+                    }, status=status.HTTP_400_BAD_REQUEST
+                )
+
+        else:
+            return Response(
+                {
+                    'message': 'Respon tugas tidak ditemukan.',
+                    'status': 'failed'
+                }, status=status.HTTP_404_NOT_FOUND
+            )

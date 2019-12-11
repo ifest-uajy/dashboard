@@ -13,10 +13,8 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = (
-            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'name', 'isExpired', 'slug_name', 'biaya_pendaftaran'
+            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'isExpired', 'slug_name', 'biaya_pendaftaran'
         )
-
-
 
 class HackathonTeamsMemberSerializer(serializers.ModelSerializer):
 
@@ -112,7 +110,7 @@ class TaskResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskResponse
-        fields = ('task_id', 'response', 'status', 'updated_at', 'is_verified')
+        fields = ('id', 'task_id', 'response', 'status', 'updated_at', 'is_verified')
         read_only_fields = ('task_id', )
 
 class HackathonTaskSerializer(serializers.ModelSerializer):
@@ -262,6 +260,9 @@ class PostTaskResponseSerializer(serializers.Serializer):
     task_id = serializers.CharField(max_length=10)
     response = serializers.CharField(max_length=500)
 
+class AdminConfirmTask(serializers.Serializer):
+    task_res_id = serializers.CharField(max_length=10)
+    tolak = serializers.BooleanField()
 
 class AdminTeamDetailSerializer(serializers.ModelSerializer):
 
@@ -311,7 +312,7 @@ class AdminTeamDetailSerializer(serializers.ModelSerializer):
 
     def get_info_task(self, obj):
         data = []
-        queryset = HackathonTask.objects.filter(track=obj.track)
+        queryset = HackathonTask.objects.filter(track=obj.track).order_by('order')
 
         list_qs = list(queryset.values())
 

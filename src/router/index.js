@@ -16,6 +16,8 @@ import ProfileComponent from "../components/ProfileView";
 import CompetitionListComponent from "../components/CompetitionList";
 import CompetitionRegisterComponent from "../components/CompetitionRegister";
 import TeamListView from "../components/TeamList";
+import SekretView from "../views/sekret.vue"
+import PanitiaView from "../views/DashboardPanitia.vue"
 
 import { reqLogin, reqAnonymous } from '../control/userhandle'
 
@@ -35,6 +37,23 @@ const routes = [
     name: 'kontak-kami',
     path: '/contact',
     component: KontakKamiView
+  },
+  {
+    name: 'sekret-view',
+    path: '/administrasi',
+    component: PanitiaView,
+    meta: {
+      title: 'Administrasi Data - Informatics Festival (IFest) #8'
+    },
+    beforeEnter: reqLogin,
+  },
+  {
+    path: '/administrasi/competition/:slug',
+    component: SekretView,
+    meta: {
+      title: 'Administrasi Data - Informatics Festival (IFest) #8'
+    },
+    beforeEnter: reqLogin,
   },
   {
     name: 'login',
