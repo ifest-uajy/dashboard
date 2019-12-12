@@ -30,7 +30,7 @@
               <router-link to="profile/changepassword" class="link_clover">Ganti Password?</router-link>
             </p>
       </v-card-text>
-      <v-card-text v-if="editing" >
+      <v-card-text v-if="editing" class="pb-10">
         <v-form ref="form" @submit.prevent="update">
           <v-container class="px-0 grey--text text--darken-4 title">Informasi Peserta</v-container>
           
@@ -95,8 +95,10 @@
             required
             label="Apakah anda seorang vege?"
           ></v-switch>
-          <v-btn large color="primary" type="submit" class="mt-5">Perbaharui Profil</v-btn>
-          <v-btn large @click="editing = !editing" class="mt-5">Batal</v-btn>
+          <center>
+            <v-btn large color="primary" type="submit" outlined class="mt-5 mr-5">Perbaharui Profil</v-btn>
+            <v-btn large @click="editing = !editing" outlined class="mt-5">Batal</v-btn>
+          </center>
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">

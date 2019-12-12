@@ -46,7 +46,7 @@
             ></v-text-field>
 
             <p class="font-weight-medium">
-              <router-link to="/reset-password" class="link_clover">Lupa password?</router-link>
+              <router-link to="/login" class="link_clover">Sudah punya akun?</router-link>
             </p>
             <!-- <p class="font-weight-medium">
               <router-link to="/login" class="link_clover">Sudah punya akun?</router-link>

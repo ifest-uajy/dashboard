@@ -31,11 +31,17 @@ const routes = [
   {
     path: '/',
     title: 'Informatics Festival (IFest) #8',
-    component: HomeComponent
+    component: HomeComponent,
+    meta: {
+      title: 'Dashboard - Informatics Festival (IFest) #8'
+    },
   },
   {
     name: 'kontak-kami',
     path: '/contact',
+    meta: {
+      title: 'Kontak Kami - Informatics Festival (IFest) #8'
+    },
     component: KontakKamiView
   },
   {
@@ -96,60 +102,87 @@ const routes = [
     path: '/dashboard',
     component: DashboardComponent,
     beforeEnter: reqLogin,
-    meta: {
-      title: 'Dashboard - Informatics Festival (IFest) #8'
-    },
     children: [
       {
         path: '',
         name: 'dashboard',
-        component: PemberitahuanComponent
+        component: PemberitahuanComponent,
+        meta: {
+          title: 'Announcements - Informatics Festival (IFest) #8'
+        },
       },
       {
         path: 'competition',
         name: 'kompetisi',
         component: CompetitionListComponent,
+        meta: {
+          title: 'Competitions - Informatics Festival (IFest) #8'
+        },
       },
       {
         path: 'profile',
         name: 'profil',
         component: ProfileComponent,
+        meta: {
+          title: 'Profile - Informatics Festival (IFest) #8'
+        },
       },
       {
         path: 'teams',
         name: 'teams',
-        component: TeamListView
+        component: TeamListView,
+        meta: {
+          title: 'Teams - Informatics Festival (IFest) #8'
+        },
       },
       {
         path: 'competition/:slug',
         name: 'register_competition',
-        component: CompetitionRegisterComponent
+        component: CompetitionRegisterComponent,
+        meta: {
+          title: 'Daftar Kompetisi - Informatics Festival (IFest) #8'
+        },
       },
       {
         path: "profile/changepassword",
         name: "changepassword",
-        component: changePasswordComponent
+        component: changePasswordComponent,
+        meta: {
+          title: 'Ganti Password - Informatics Festival (IFest) #8'
+        },
       }
     ]
   },
   {
     path: '/confirm/:token',
     component: ConfirmComponent,
-    beforeEnter: reqAnonymous
+    beforeEnter: reqAnonymous,
+    meta: {
+      title: 'Konfirmasi Email - Informatics Festival (IFest) #8'
+    },
   },
   {
     path: '/reset-password/:token',
     component: ResetPasswordHandlerComponent,
-    beforeEnter: reqAnonymous
+    beforeEnter: reqAnonymous,
+    meta: {
+      title: 'Reset Password - Informatics Festival (IFest) #8'
+    },
   },
   {
     path: '/reset-password',
     component: ResetPasswordComponent,
-    beforeEnter: reqAnonymous
+    beforeEnter: reqAnonymous,
+    meta: {
+      title: 'Reset Password - Informatics Festival (IFest) #8'
+    },
   },
   {
     path: '*',
-    component: NotFoundComponent
+    component: NotFoundComponent,
+    meta: {
+      title: 'Halaman Tidak Ditemukan - Informatics Festival (IFest) #8'
+    },
   }
 ]
 

@@ -60,9 +60,13 @@ export default {
       loading: state => state.sekret.loading
     })
   },
-    beforeMount() {
-        this.getCompetition();
-    },
+  beforeMount() {
+    if (this.user.is_staff) {
+      this.getCompetition();
+    } else {
+      this.$router.push({ name: "dashboard" });
+    }
+  },
   methods: {
     ...mapActions({
       logoutActions: "authsys/logout",

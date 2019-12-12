@@ -167,7 +167,11 @@
                                 <v-icon color="green">mdi-check-circle</v-icon>
                               </span>
 
-                              <span v-else>
+                              <span v-if="!item.response.status || item.response.status==='menunggu_verifikasi'">
+                                <v-icon color="warning">mdi-help-circle</v-icon>
+                              </span>
+
+                              <span v-if="item.response.is_verified===false">
                                 <v-icon color="red">mdi-close-circle</v-icon>
                               </span>
                             </td>
@@ -179,6 +183,14 @@
                         </tbody>
                       </template>
                     </v-simple-table>
+                  </v-card-text>
+                  <v-card-text>
+                    <p class="mt-2"><strong>Informasi simbol verifikasi</strong></p>
+                    <p><v-icon color="green">mdi-check-circle</v-icon>   Berarti sudah di verifikasi baik oleh PH untuk pembayaran atau Sekretariat untuk task administrasi.</p>
+                    <p><v-icon color="warning">mdi-help-circle</v-icon>   Menunggu di verifikasi atau belum ada respon dari tim.</p>
+                    <p><v-icon color="red">mdi-close-circle</v-icon>   Task ditolak oleh panitia dan menunggu tim mengupload ulang atau menyerah.</p>
+                    <p class="mt-2"><strong>PH hanya bisa memverifikasi task Pembayaran Registrasi. Sekretariat hanya bisa memverifikasi task yang perlu diverifikasi selain Pembayaran Registrasi.</strong></p>
+                    <p>Note buat verifikator, <span style="font-weight:bold; color:red;">GUNAKAN TOMBOL DENGAN BIJAK</span>. There's no way back after clicking yet.</p>
                   </v-card-text>
                 </v-card>
               </v-dialog>

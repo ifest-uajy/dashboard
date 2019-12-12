@@ -71,9 +71,15 @@ export default {
     CompetitionList
   },
   beforeMount() {
-    this.getAnouncement();
-    this.getCompetition();
-  },
+    if (this.user.is_staff) {
+      this.$router.push({ name: "sekret-view" });
+    } else {
+      console.log("Damn")
+      this.getAnouncement();
+      this.getCompetition();
+    }
+    
+  }, 
   computed: {
     ...mapState({
       user: state => state.authsys.user,

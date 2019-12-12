@@ -60,9 +60,15 @@ import { mapState, mapActions } from "vuex";
 export default {
   data: () => ({}),
   beforeMount() {
-    this.getAnouncement();
-    this.getCompetition();
-    this.getTeams();
+    if (this.user.is_staff) {
+      this.$router.push({ name: "sekret-view" });
+    } else {
+      console.log("Damn")
+      this.getAnouncement();
+      this.getCompetition();
+      this.getTeams();
+    }
+    
   },
   computed: {
     ...mapState({

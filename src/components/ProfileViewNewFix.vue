@@ -89,17 +89,7 @@
               label="Apakah anda seorang vege?"
             ></v-switch>
           </v-container>
-          <center>
-            <v-btn
-              color="green"
-              dark
-              class="mb-5 mr-5"
-              type="submit"
-              :loading="loading"
-              :disabled="loading"
-            >Done</v-btn>
-            <v-btn dark color="red" class="mb-5" @click="editing = !editing">Cancel</v-btn>
-          </center>
+          
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">
