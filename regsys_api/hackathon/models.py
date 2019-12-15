@@ -146,6 +146,23 @@ class HackathonTeams(models.Model):
             self.current_task = HackathonTask.objects.filter(track=self.track).first()
 
         super(HackathonTeams, self).save(*args, **kwargs)
+        
+    def send_line_notification(self):
+        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        hed = {'Authorization': 'Bearer ' + auth_token}
+        data = {
+            "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
+            "messages":[
+                {
+                    "type":"text",
+                    "text":"[INFO TIM]\n{} ({}) baru saja mendaftar kompetisi {}.".format(self.name,  self.institution, self.track.name)
+                }
+            ]
+        }
+
+        url = 'https://api.line.me/v2/bot/message/push'
+
+        requests.post(url, json=data, headers=hed)
 
     def send_email(self):
         context = {
@@ -230,6 +247,23 @@ class TaskResponse(models.Model):
         
         super(TaskResponse, self).save(*args, **kwargs)
     
+    def send_line_notification(self):
+        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        hed = {'Authorization': 'Bearer ' + auth_token}
+        data = {
+            "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
+            "messages":[
+                {
+                    "type":"text",
+                    "text":"[INFO TASK]\n{} baru saja mengunggah file di {}.".format(self.team.name, self.task.name)
+                }
+            ]
+        }
+
+        url = 'https://api.line.me/v2/bot/message/push'
+
+        requests.post(url, json=data, headers=hed)
+    
     def send_email_p(self):
         context = {
             'nama_acara': self.task.track.name,
@@ -278,7 +312,7 @@ class TaskResponse(models.Model):
             'nama_tim': self.team.name,
             'jumlah': '{:20,.2f}'.format(self.task.track.biaya_pendaftaran),
             'tanggal': datetime.datetime.now().strftime("%d %B %Y %I:%M:%S %p"),
-            'nama_ketua': self.team.team_leader.full_name,
+            'nama_ketua': self.team.team_leader,
             'asal_institusi': self.team.institution
         }
         

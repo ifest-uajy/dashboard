@@ -171,7 +171,7 @@
                                 <v-icon color="warning">mdi-help-circle</v-icon>
                               </span>
 
-                              <span v-if="item.response.is_verified===false">
+                              <span v-if="item.response.is_verified===false && item.response.status!=='menunggu_verifikasi'">
                                 <v-icon color="red">mdi-close-circle</v-icon>
                               </span>
                             </td>

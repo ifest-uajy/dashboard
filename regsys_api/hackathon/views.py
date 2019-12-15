@@ -99,6 +99,7 @@ class RegisterTeamView(views.APIView):
                 user=request.user
             )
 
+            Thread(target=new_team.send_line_notification).start()
             Thread(target=new_team.send_email).start()
 
             return Response(
@@ -239,6 +240,8 @@ class addTaskResponse(views.APIView):
 
             if task.task_type == HackathonTask.PAYMENT_SUBMISSION:
                 Thread(target=new_response[0].send_email_p).start()
+            
+            Thread(target=new_response[0].send_line_notification).start()
                 
             response_serializer = TaskResponseSerializer(new_response[0])
 
