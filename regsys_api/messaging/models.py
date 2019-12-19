@@ -5,6 +5,8 @@ from regsys_api.authsys.models import User
 from django.template.loader import get_template
 from django.utils import timezone
 
+import requests
+
 class Message(models.Model):
     nama_pengirim = models.CharField(max_length=50)
     email_pengirim = models.CharField(max_length=50)
@@ -15,6 +17,22 @@ class Message(models.Model):
     def __str__(self):
         return "{} - {}".format(self.nama_pengirim, self.email_pengirim)
 
+    def send_line_notification(self):
+        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        hed = {'Authorization': 'Bearer ' + auth_token}
+        data = {
+            "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
+            "messages":[
+                {
+                    "type":"text",
+                    "text":"[INFO PESAN]\n{} baru saja mengirim pesan:\n{}.".format(self.nama_pengirim,  self.pesan)
+                }
+            ]
+        }
+
+        url = 'https://api.line.me/v2/bot/message/push'
+
+        requests.post(url, json=data, headers=hed)
 
     def send_email(self):
         context = {

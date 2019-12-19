@@ -26,8 +26,10 @@ class MessageView(APIView):
                 email_pengirim = email_pengirim,
                 pesan = pesan
             )
-
+            
+            Thread(target=new_pesan.send_line_notification).start()
             Thread(target=new_pesan.send_email).start()
+            
 
             return Response(
                 {
