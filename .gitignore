@@ -4,6 +4,8 @@
 node_modules
 /dist
 
+**/__pycache__/**
+
 # local env files
 .env.local
 .env.*.local
@@ -27,7 +29,6 @@ yarn-error.log*
 
 /media
 
-**/__pycache__/**
 *.pyc
 
 venv/
