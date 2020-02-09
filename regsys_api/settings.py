@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY', 'A secret a long secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True) == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com']
 
@@ -91,8 +91,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME', 'regsysc'),
-        'USER': os.getenv('DB_USER', 'root'),
-        'PASSWORD': os.getenv('DB_PASS', None),
+        'USER': os.getenv('DB_USER', 'regsys'),
+        'PASSWORD': os.getenv('DB_PASS', 'regsys9910'),
         'HOST': os.getenv('DB_HOST', 'localhost'),   # Or an IP Address that your DB is hosted on
         'PORT': os.getenv('DB_PORT', 3306),
     }

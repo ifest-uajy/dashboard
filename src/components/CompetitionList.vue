@@ -77,7 +77,7 @@
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn v-if="c.isExpired" color="grey" text>Daftar</v-btn>
+              <v-btn v-if="c.isExpired" color="grey" text>Pendaftaran Ditutup</v-btn>
               <v-btn
                 class="ml-2"
                 v-if="!c.isExpired"

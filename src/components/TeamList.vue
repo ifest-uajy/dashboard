@@ -24,7 +24,8 @@
     <v-container class="pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in teams" :key="c.id" cols="12" sm="6">
-          <v-card class="pa-2 pb-5" outlined :disabled="c.kompetisi.isExpired">
+          <!-- <v-card class="pa-2 pb-5" outlined :disabled="c.kompetisi.isExpired"> -->
+          <v-card class="pa-2 pb-5" outlined>
             <v-card-title class="display-1 mt-5">{{c.nama}}</v-card-title>
             <v-card-subtitle class="pb-0">
               <p>
@@ -41,13 +42,14 @@
               <v-text-field class="pt-0" disabled v-model="c.nama"></v-text-field>
 
               <p class="black--text mb-1">Asal Institusi</p>
-              <v-text-field class="pt-0"  disabled v-model="c.asal"></v-text-field>
+              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field>
 
               <p class="black--text mb-1">Token Tim</p>
               <v-text-field
                 :id="`CopyThis-`+c.id"
                 v-model="c.token"
-                readonly class="pt-0" 
+                readonly
+                class="pt-0"
                 append-icon="mdi-content-copy"
                 @click:append="copyText(c.id, c.token)"
                 :persistent-hint="true"
@@ -62,28 +64,24 @@
             </v-card-subtitle>
             <v-card-subtitle>
               <h2 class="black--text mb-2">Anggota Tim</h2>
-              <p
-                class="mt-2"
-              >Dibawah ini daftar anggota dalam tim ini. Untuk menambahkan anggota berikan token diatas ke teman anda dan join melalui menu kompetisi.
-              Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.</p>
+              <p class="mt-2">
+                Dibawah ini daftar anggota dalam tim ini. Untuk menambahkan anggota berikan token diatas ke teman anda dan join melalui menu kompetisi.
+                Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.
+              </p>
               <v-content class="px-0 black--text pb-0">
                 <ol>
                   <li v-for="u in c.anggota" :key="u" class="mb-0">
-                  <span v-if="c.ketua == u"><b>{{u}} - Team Leader</b></span>
-                  <span v-else>{{u}}</span>
-                </li>
+                    <span v-if="c.ketua == u">
+                      <b>{{u}} - Team Leader</b>
+                    </span>
+                    <span v-else>{{u}}</span>
+                  </li>
                 </ol>
               </v-content>
-          <v-alert
-          v-if="!c.task_permission"
-          type="error"
-          outlined
-          prominent
-          class="mt-4"
-          dense
-        >Anda tidak bisa mengerjakan tugas sebelum anggota tim lengkap. 
-        <b>Minimal {{c.kompetisi.team_min_member}} orang diperlukan untuk 1 tim dalam kompetisi ini.</b></v-alert>
-
+              <v-alert v-if="!c.task_permission" type="error" outlined prominent class="mt-4" dense>
+                Anda tidak bisa mengerjakan tugas sebelum anggota tim lengkap.
+                <b>Minimal {{c.kompetisi.team_min_member}} orang diperlukan untuk 1 tim dalam kompetisi ini.</b>
+              </v-alert>
             </v-card-subtitle>
             <v-card-subtitle :hidden="!c.task_permission">
               <h2 class="black--text mb-1">Task Lomba</h2>
@@ -102,12 +100,21 @@
                       v-if="task.task.task_type !== 'pengumuman' && task.response.status !== 'selesai'"
                       class="mt-2"
                     >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY hh:mm A")}}</small>
-  
-                    <small class="mt-2" v-if="task.response.length !== 0 && task.response.status === 'selesai'">
-          File berhasil diunggah pada
-          <b>{{moment(String(task.response.updated_at)).format("DD MMMM YYYY hh:mm A")}}</b>
-          <p class="mt-2 mb-0"><a :href="`/api/file/download/` + task.response.response +`/`" class="body-link" target="_blank">Unduh file</a></p>
-        </small>
+
+                    <small
+                      class="mt-2"
+                      v-if="task.response.length !== 0 && task.response.status === 'selesai'"
+                    >
+                      File berhasil diunggah pada
+                      <b>{{moment(String(task.response.updated_at)).format("DD MMMM YYYY hh:mm A")}}</b>
+                      <p class="mt-2 mb-0">
+                        <a
+                          :href="`/api/file/download/` + task.response.response +`/`"
+                          class="body-link"
+                          target="_blank"
+                        >Unduh file</a>
+                      </p>
+                    </small>
                   </v-stepper-step>
 
                   <v-stepper-content
@@ -115,7 +122,17 @@
                     :complete="task.task.order < c.current_task.order"
                   >
                     <span v-if="task.task.order === c.current_task.order">
-                      <UploaderWidget :hidden="task.task.task_type !== 'file_uploader' && task.task.task_type !== 'payment_verification'" :task="task.task" :response="task.response" :team="c"/>
+                      <div v-if="!moment().isAfter(moment(task.task.deadline))">
+                        <UploaderWidget
+                          :hidden="task.task.task_type !== 'file_uploader' && task.task.task_type !== 'payment_verification'"
+                          :task="task.task"
+                          :response="task.response"
+                          :team="c"
+                        />
+                      </div>
+                      <div v-else>
+                        <b>{{task.task.name}}</b> sudah ditutup.
+                      </div>
                     </span>
                   </v-stepper-content>
                 </div>
@@ -134,12 +151,7 @@
       </div>
     </v-container>-->
 
-        <v-snackbar
-      v-model="snackbar"
-    >
-      Kode token tim berhasil di salin.
-    </v-snackbar>
-
+    <v-snackbar v-model="snackbar">Kode token tim berhasil di salin.</v-snackbar>
   </v-container>
 </template>
 
@@ -153,7 +165,7 @@ export default {
   }),
   computed: mapState({
     competitions: state => state.competition.competitions,
-    teams: state => state.competition.teams,
+    teams: state => state.competition.teams
   }),
   components: {
     UploaderWidget
@@ -167,7 +179,7 @@ export default {
         //await
         navigator.clipboard.writeText(invitation_token);
 
-        this.snackbar = true
+        this.snackbar = true;
         await setTimeout(() => (this.snackbar = false), 2000);
         // 2) Catch errors
       } catch (err) {
@@ -175,7 +187,7 @@ export default {
       }
       //}
     },
-    moment,
-  },
+    moment
+  }
 };
 </script>
