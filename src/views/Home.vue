@@ -1,24 +1,48 @@
 <template>
-  <div>
-    <div class="container">
-      <h2 class="subheader_big">Informatics Festival (IFest) #8</h2>
-      <p class="font-weight-medium">
-        <router-link to="/register" class="link_clover">Register</router-link>
+<div class="body2">
+  <div class="header-box">
+      <img class="circle-top" src="https://ifest-uajy.com/image/atmajayabgputih.png"/>
+      <img class="circle-top" src="https://ifest-uajy.com/image/himaforkabgputih.png"/>
+      <img class="circle-top" src="https://ifest-uajy.com/image/logo%20polos.png"/>
+    </div>
+
+  <div class="columns-a">
+    <div class="column-a kiri">
+      <img class="navigator-svg" src="https://ifest-uajy.com/assets/undraw_navigator_a479.svg"/>
+    </div>
+    <div class="column-a kanan">
+      <h1 class="judul">Dashboard<br/><span class="judul-span">Informatics Festival #8</span></h1>
+      <p class="mb-3">
+        Selamat datang di Sistem Registrasi Kompetisi Informatics Festival #8.
       </p>
-      <p class="font-weight-medium">
-        <router-link to="/login" class="link_clover">Login</router-link>
-      </p>
-      <p class="font-weight-medium">
-        <router-link to="/reset-password" class="link_clover">Lupa password?</router-link>
-      </p>
-      <p class="font-weight-medium">
-        <router-link to="/contact" class="link_clover">Hubungi Kami</router-link>
-      </p>
+      <router-link to="/register">
+      <v-btn class="btn daftar"><span>Daftar Sekarang!</span></v-btn>
+      </router-link>
+  <router-link to="/login">
+  <v-btn class="btn login"><span>Login</span></v-btn>
+  </router-link>
+  <p class="link-hubungi">
+    <router-link to="/reset-password">
+    <span class="lupa-password">
+      Lupa Password?
+    </span>
+    </router-link><br/>
+    <router-link to="/contact">
+    <span class="hubungi-kami">
+      Punya pertanyaan?
+    </span>
+    </router-link>
+  </p>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css?family=Amiri&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
 .header_big {
   margin-top: 40px;
   font-size: 80pt;
@@ -34,5 +58,139 @@
 
 .link_clover:hover {
   color: cornflowerblue;
+}
+
+.boxed-center {
+  margin: auto;
+  margin-top: 80px;
+  width: 700px; 
+}
+
+.image-center {
+  max-height: 200px;
+}
+
+.circle-top {
+  margin: auto 10px;
+  padding: 10px;
+  height: 50px;
+  width: 50px;
+  background: white;
+  border-radius: 100%;
+}
+
+.header-box {
+  display: flex;
+  background: #1b262c;
+  justify-content: center;
+  height: 100px;
+}
+
+
+.body2 {
+  background-color: #0f4c75;
+  min-height: 100%;
+  color: #dfdbdb;
+  font-family: 'Roboto', sans-serif;
+  clear: both;
+}
+
+.columns-a {
+  margin: auto;
+  height: 70vh;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.column-a {
+  padding: 10px;
+}
+
+.navigator-svg {
+  margin: auto;
+  max-width: 350px;
+}
+
+.kanan {
+  max-width: 410px;
+}
+
+.judul {
+  color: #ffffff;
+    font-family: 'Amiri', serif;
+    line-height: 1.1em;
+    font-size: 30pt;
+    font-weight: 500;
+}
+
+.judul-span {
+  font-weight:700;
+}
+
+.btn {
+  margin-top: 5px;
+}
+
+.daftar {
+  margin-right: 20px;
+}
+
+.link-hubungi {
+  margin-top: 15px;
+  font-size: 10pt;
+  color: #fff !important;
+}
+
+a {
+  text-decoration: none;
+  color: #fff !important;
+}
+
+a:visited {
+  color: #dfdfdf;
+}
+
+/* mouse over link */
+a:hover {
+  color: #4b83c4 !important;
+}
+
+/* selected link */
+a:active {
+  color: #dfdbdb;
+}
+
+@media only screen and (max-width: 600px) {
+.columns-a {
+  margin: auto;
+  max-width: 80vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.kiri {
+  margin-top: 120px;
+}
+
+.kanan {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.column-a {
+  padding: 10px;
+}
+
+.navigator-svg {
+  margin: auto;
+  max-width: 350px;
+}
 }
 </style>

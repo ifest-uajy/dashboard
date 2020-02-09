@@ -30,10 +30,10 @@ const routes = [
   },
   {
     path: '/',
-    title: 'Informatics Festival (IFest) #8',
+    title: 'Informatics Festival #8',
     component: HomeComponent,
     meta: {
-      title: 'Dashboard - Informatics Festival (IFest) #8'
+      title: 'Dashboard - Informatics Festival #8'
     },
   },
   {
