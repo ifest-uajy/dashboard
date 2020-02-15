@@ -30,11 +30,14 @@ def getxkcdpass():
 class Track(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
+    #open_date = models.DateTimeField(null=True)
     closed_date = models.DateTimeField(null=True)
     team_max_member = models.IntegerField(default=1)
     team_min_member = models.IntegerField(default=1)
     slug_name = models.CharField(max_length=50)
     biaya_pendaftaran = models.IntegerField()
+    #is_shown = models.BooleanField()
+    #slug_image = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

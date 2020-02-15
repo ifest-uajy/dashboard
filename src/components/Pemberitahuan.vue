@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="mt-3">
     <!--<v-badge class="mb-5">
       <template
         v-if="Object.keys(anouncements).length !== 0"
@@ -13,7 +13,7 @@
         <p class="font-weight-bold mb-0">{{a.title}}</p>
         <p
           class="mb-1 grey--text text--darken-4 caption"
-        >Issued by {{a.issuer}} on {{moment(String(a.issued_at)).format("DD MMMM YYYY hh:mm A ")}}</p>
+        >Diposting oleh <b>{{a.issuer}}</b> pada {{moment(String(a.issued_at)).format("DD MMMM YYYY HH:mm")}}</p>
         <p class="black--text text--darken-2 mb-1">{{a.message}}</p>
       </v-alert>
     </v-content>

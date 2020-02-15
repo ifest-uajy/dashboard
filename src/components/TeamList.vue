@@ -26,23 +26,23 @@
         <v-col v-for="c in teams" :key="c.id" cols="12" sm="6">
           <!-- <v-card class="pa-2 pb-5" outlined :disabled="c.kompetisi.isExpired"> -->
           <v-card class="pa-2 pb-5" outlined>
-            <v-card-title class="display-1 mt-5">{{c.nama}}</v-card-title>
+            <v-card-title class="display-1 mt-5"><span class="title-sekolah">{{c.nama}}</span></v-card-title>
             <v-card-subtitle class="pb-0">
-              <p>
-                by
-                <span class>{{c.ketua}}</span>
+              <p class="mb-0 pb-0">
+                <span class="judul-span">{{c.asal}}</span>
               </p>
+              <h3 class="pt-0 mt-0 ">{{c.kompetisi.name}}</h3>
             </v-card-subtitle>
             <v-card-subtitle>
-              <h2 class="black--text mb-2">Informasi Tim</h2>
+              <!-- <h2 class="black--text mb-2">Informasi Tim</h2> -->
 
-              <h3>{{c.kompetisi.name}}</h3>
+              
 
-              <p class="black--text mb-1 mt-4">Nama Tim</p>
+              <!-- <p class="black--text mb-1 mt-4">Nama Tim</p>
               <v-text-field class="pt-0" disabled v-model="c.nama"></v-text-field>
 
               <p class="black--text mb-1">Asal Institusi</p>
-              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field>
+              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field> -->
 
               <p class="black--text mb-1">Token Tim</p>
               <v-text-field
@@ -131,7 +131,12 @@
                         />
                       </div>
                       <div v-else>
-                        <b>{{task.task.name}}</b> sudah ditutup.
+                        <div v-if="task.task.task_type !== 'pengumuman'">
+                          <b>{{task.task.name}}</b> sudah ditutup.
+                        </div>
+                        <div v-else>
+                          
+                        </div>
                       </div>
                     </span>
                   </v-stepper-content>
@@ -191,3 +196,17 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+.judul-span {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.3em;
+  color: #0f4c75;
+}
+.title-sekolah {
+    font-family: "Roboto", sans-serif;
+    font-weight: bolder;
+}
+</style>
