@@ -14,7 +14,7 @@ export default {
     name: 'App',
     data () {
         return {
-            title: 'Informatics Festival 8'
+            title: 'Informatics Festival (IFest) #8'
         }
     },
     components: {

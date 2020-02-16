@@ -29,6 +29,7 @@ export default {};
 .big-i {
   margin: auto;
   width: 400px;
+  padding: 20px;
 }
 .navigator-svg {
   margin: auto;

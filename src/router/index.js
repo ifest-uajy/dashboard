@@ -1,16 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeComponent from '../views/Home.vue'
+
 import LoginComponent from '../views/Login.vue'
 import NotFoundComponent from '../views/404.vue'
+import KontakKamiView from '../views/KontakKamiView'
 import RegistrationComponent from '../views/registration.vue'
-import DashboardComponent from '../views/DashboardView.vue'
+
+/*
+
+  TODO:
+  Make sure imported modules below changed to use lazy load
+  eg: const Home = () => import(/* webpackChunkName: "home" `*`/ './Home.vue');
+  docs: https://dzone.com/articles/3-code-splitting-patterns-for-vuejs-and-webpack
+
+*/
+
 import ConfirmComponent from '../views/Confirm.vue'
 import ResetPasswordComponent from '../views/ResetPassword.vue'
 import ResetPasswordHandlerComponent from '../views/resetPasswordHandler.vue'
-import KontakKamiView from '../views/KontakKamiView'
 import changePasswordComponent from '../views/changePassword.vue'
 
+import DashboardComponent from '../views/DashboardView.vue'
 import PemberitahuanComponent from "../components/Pemberitahuan.vue";
 import ProfileComponent from "../components/ProfileView";
 import CompetitionListComponent from "../components/CompetitionList";
@@ -30,10 +41,10 @@ const routes = [
   },
   {
     path: '/',
-    title: 'Informatics Festival #8',
+    title: 'Informatics Festival (IFest) #8',
     component: HomeComponent,
     meta: {
-      title: 'Dashboard - Informatics Festival #8'
+      title: 'Dashboard - Informatics Festival (IFest) #8'
     },
   },
   {
@@ -67,16 +78,6 @@ const routes = [
     component: LoginComponent,
     meta: {
       title: 'Masuk - Informatics Festival (IFest) #8',
-      metaTags: [
-        {
-          name: 'description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        },
-        {
-          property: 'og:description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        }
-      ]
     },
     beforeEnter: reqAnonymous
   },
@@ -86,16 +87,6 @@ const routes = [
     beforeEnter: reqAnonymous,
     meta: {
       title: 'Pendaftaran - Informatics Festival (IFest) #8',
-      metaTags: [
-        {
-          name: 'description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        },
-        {
-          property: 'og:description',
-          content: 'Deskripsi ifest 8 tolong segera di lengkapi ya'
-        }
-      ]
     }
   },
   {
