@@ -159,7 +159,7 @@ class RegistrationHandler(models.Model):
         mail.send(
             fail_silently=False
         )
-        
+
         self.sent_at = timezone.now()
         self.save()
 
@@ -184,7 +184,7 @@ class ForgotPasswordHandler(models.Model):
 
     def __str__(self):
         return '%s (%s)' % (self.user.full_name, self.user.email)
-    
+
     @property
     def get_time_diff(self):
         if self.sent_at:

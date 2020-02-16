@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from threading import Thread
 
 class MessageView(APIView):
-    
+
     def post(self, request, **extra_fields):
         request_serializer = MessageSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
@@ -26,10 +26,10 @@ class MessageView(APIView):
                 email_pengirim = email_pengirim,
                 pesan = pesan
             )
-            
+
             Thread(target=new_pesan.send_line_notification).start()
             Thread(target=new_pesan.send_email).start()
-            
+
 
             return Response(
                 {

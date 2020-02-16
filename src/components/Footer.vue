@@ -5,8 +5,11 @@
         <v-flex>
           <p class="text-center ma-0 footer-font">
             Made with
-            <span style="color: #ff4757; font-size: 1.5em; vertical-align:middle;"><img style="height:1em; margin:auto;" 
-            src="data:image/svg+xml;base64,
+            <span
+              style="color: #ff4757; font-size: 1.5em; vertical-align:middle;"
+              ><img
+                style="height:1em; margin:auto;"
+                src="data:image/svg+xml;base64,
 PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy
 8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9
 IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNDkyLjcxOSA0OTIuNzE5IiBzdHlsZT0iZW5hYm
@@ -20,7 +23,8 @@ Q1LjY3MSwxMDAuMTc4ICAgIGwxODguNTQ1LDE4OC41NTNjMy4yMiwzLjIyLDcuNTg3LDUuMDI5
 LDEyLjE0Miw1LjAyOWM0LjU1NSwwLDguOTIyLTEuODA5LDEyLjE0Mi01LjAyOWwxODguNTQ1LT
 E4OC41NTMgICAgQzQ3NC45ODgsMjQxLjgxMSw0OTIuNzE5LDIwNi4wMTcsNDkyLjcxOSwxNjYu
 MDA4eiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBzdHlsZT0
-iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9nPiA8L3N2Zz4=" /></span>
+iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9nPiA8L3N2Zz4="
+            /></span>
             by
             <strong>SI IFest</strong>
             |&nbsp;Hak Cipta © {{ new Date().getFullYear() }}
@@ -39,7 +43,6 @@ iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9
   </v-footer>
 </template>
 
-
 <style scoped>
 .LinkToHome {
   text-decoration-line: unset;
@@ -47,12 +50,12 @@ iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9
 .footer-text {
   font-weight: bolder;
   color: #747d8c;
-  transition: ease .2s;
+  transition: ease 0.2s;
 }
 
 .footer-text:hover {
-color: #57606f;
-transition: ease .2s;
+  color: #57606f;
+  transition: ease 0.2s;
 }
 
 .footer-font {

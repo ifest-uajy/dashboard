@@ -1,12 +1,25 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
-        <v-card-title class="title_card_cloverleaf mt-7">Konfirmasi Email</v-card-title>
-        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
+      <v-card
+        outlined
+        max-width="500"
+        width="500"
+        class="card_cloverleaf mb-5 mt-10 px-5"
+      >
+        <v-card-title class="title_card_cloverleaf mt-7"
+          >Konfirmasi Email</v-card-title
+        >
+        <v-card-subtitle class="subtitle_card_cloverleaf"
+          >Informatics Festival (IFest) #8</v-card-subtitle
+        >
         <v-card-text class="mb-5">
-          <v-alert v-if="messages.message" type="success" outlined>{{ messages.message }}</v-alert>
-          <v-alert v-if="errors.message" type="error" outlined>{{errors.message}}</v-alert>
+          <v-alert v-if="messages.message" type="success" outlined>{{
+            messages.message
+          }}</v-alert>
+          <v-alert v-if="errors.message" type="error" outlined>{{
+            errors.message
+          }}</v-alert>
           <v-layout v-if="messages.message" justify-center>
             <router-link to="/login">
               <v-btn color="success" dark>Login ke dashboard</v-btn>
@@ -56,7 +69,7 @@ export default {
 
 <style>
 .card_cloverleaf {
-  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
   outline: none;
   border: none !important;
   border-radius: 8px !important;

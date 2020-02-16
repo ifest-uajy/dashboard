@@ -1,9 +1,16 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
+      <v-card
+        outlined
+        max-width="500"
+        width="500"
+        class="card_cloverleaf mb-5 mt-10 px-5"
+      >
         <v-card-title class="title_card_cloverleaf mt-7">Masuk</v-card-title>
-        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
+        <v-card-subtitle class="subtitle_card_cloverleaf"
+          >Informatics Festival (IFest) #8</v-card-subtitle
+        >
 
         <v-card-text>
           <v-form ref="form" @submit.prevent="login">
@@ -26,10 +33,14 @@
             ></v-text-field>
 
             <p class="font-weight-medium">
-              <router-link to="/reset-password" class="link_clover">Lupa password?</router-link>
+              <router-link to="/reset-password" class="link_clover"
+                >Lupa password?</router-link
+              >
             </p>
             <p class="font-weight-medium">
-              <router-link to="/register" class="link_clover">Belum punya akun?</router-link>
+              <router-link to="/register" class="link_clover"
+                >Belum punya akun?</router-link
+              >
             </p>
 
             <v-btn
@@ -39,11 +50,14 @@
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
-            >Masuk</v-btn>
+              >Masuk</v-btn
+            >
           </v-form>
         </v-card-text>
         <v-card-text>
-          <v-alert v-if="errors.message" prominent type="error" outlined>{{ errors.message }}</v-alert>
+          <v-alert v-if="errors.message" prominent type="error" outlined>{{
+            errors.message
+          }}</v-alert>
         </v-card-text>
       </v-card>
     </v-layout>
@@ -93,9 +107,8 @@ export default {
 </script>
 
 <style scoped>
-
 .card_cloverleaf {
-  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
   outline: none;
   border: none !important;
   border-radius: 8px !important;

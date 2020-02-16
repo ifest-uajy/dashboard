@@ -23,4 +23,4 @@ class AnnouncementAdmin(admin.ModelAdmin):
     search_fields = ['title']
     ordering = ['issued_at']
     form = AnnouncementForm
-    
+

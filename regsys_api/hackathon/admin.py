@@ -93,21 +93,21 @@ class TaskResponseAdmin(admin.ModelAdmin):
         )
 
     def process_action_reject(self, request, task_res_id):
-        
+
         if request.user.has_perm('hackathon.change_taskresponse'):
 
             task = self.get_object(request, task_res_id)
-    
+
             task.is_verified = False
-    
+
             task.status = TaskResponse.REJECTED
             Thread(target=task.send_email_tolak).start()
             task.save()
             messages.info(request, 'Task untuk {} ditolak, terimakasih'.format(task.team.name))
-        
+
         else:
             messages.error(request, 'tidak ada permision untuk melakukan ini')
-        
+
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def has_change_permission(self, request, obj=None):
@@ -122,7 +122,7 @@ class TaskResponseAdmin(admin.ModelAdmin):
             task.is_verified = True
 
             task.status = TaskResponse.DONE
-            
+
             if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
                 Thread(target=task.send_email_pembayaran_selesai).start()
 
@@ -132,7 +132,7 @@ class TaskResponseAdmin(admin.ModelAdmin):
 
         else:
             messages.error(request, 'tidak ada permision untuk melakukan ini')
-            
+
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @admin.register(HackathonTask)

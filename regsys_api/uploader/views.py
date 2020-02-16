@@ -27,7 +27,7 @@ class PersonalUploadFileView(APIView):
             )
 
         file_obj = request.FILES['file']
-        
+
         if(file_obj):
             instance = PersonalUploadFile(
                 id = uuid.uuid4(),
@@ -65,7 +65,7 @@ class getDownloadView(APIView):
                 },
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        
+
         fileID = self.kwargs['file_id']
 
         try:
@@ -93,6 +93,6 @@ class getDownloadView(APIView):
         filename_baru = uploaded_file.original_filename
         response = HttpResponse(uploaded_file.file.open('rb'), content_type=uploaded_file.content_type)
         response['Content-Disposition'] = 'inline; filename=\"' + uploaded_file.original_filename + '\"'
-        
+
         return response
-        
+

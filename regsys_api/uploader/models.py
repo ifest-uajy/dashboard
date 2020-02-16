@@ -20,7 +20,7 @@ class PersonalUploadFile(models.Model):
 
     def __str__(self):
         return self.original_filename
-    
+
 class TeamUploadFile(models.Model):
     file = models.FileField(upload_to=generate_upload_path)
     id = models.UUIDField(primary_key=True, editable=False)

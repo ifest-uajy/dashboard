@@ -154,7 +154,7 @@ class RegistrationConfirmationView(APIView):
     @method_decorator(never_cache)
     def post(self, request):
         request_serializer = EmailConfirmationSerializer(data=request.data)
-        
+
 
         if not request_serializer.is_valid(raise_exception=True):
             return Response(
@@ -272,7 +272,7 @@ class CheckConfirmPasswordTokenView(APIView):
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            
+
             if attempt.is_confirmed:
                 return Response(
                     {

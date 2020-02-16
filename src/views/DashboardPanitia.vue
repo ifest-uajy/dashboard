@@ -7,29 +7,52 @@
 
     <v-container>
       <div class="header-box">
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png"
+        />
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png"
+        />
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"
+        />
       </div>
       <v-container>
         <h2 class="judul">Dashboard Panitia</h2>
         <h1 class="title sub-judul mb-0">
           Selamat datang,
-          <span class="font-weight-bold">{{user.full_name}}</span>!
+          <span class="font-weight-bold">{{ user.full_name }}</span
+          >!
         </h1>
       </v-container>
 
       <v-container class="pt-0 mt-0">
         <h1 class="title">Rekap Data Peserta Lomba</h1>
-        <p>Menu ini adalah menu untuk menyajikan data peserta dalam tim yang sudah mendaftar dalam masing-masing kompetisi.</p>
+        <p>
+          Menu ini adalah menu untuk menyajikan data peserta dalam tim yang
+          sudah mendaftar dalam masing-masing kompetisi.
+        </p>
 
         <div v-if="loading">
           <v-row style="background: #fff">
             <v-col key="0" cols="12" sm="4">
               <v-card class="pa-2 pb-5" outlined>
-                <v-skeleton-loader class="mt-5 ml-5 pb-5" type="heading"></v-skeleton-loader>
-                <v-skeleton-loader type="text" class="ml-5 pb-5" max-width="250"></v-skeleton-loader>
-                <v-skeleton-loader type="button" class="ml-5 pb-3"></v-skeleton-loader>
+                <v-skeleton-loader
+                  class="mt-5 ml-5 pb-5"
+                  type="heading"
+                ></v-skeleton-loader>
+                <v-skeleton-loader
+                  type="text"
+                  class="ml-5 pb-5"
+                  max-width="250"
+                ></v-skeleton-loader>
+                <v-skeleton-loader
+                  type="button"
+                  class="ml-5 pb-3"
+                ></v-skeleton-loader>
               </v-card>
             </v-col>
           </v-row>
@@ -39,7 +62,7 @@
             <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
               <v-card class="pa-2 pb-5" outlined>
                 <v-card-title class="mb-0">
-                  <span class="wordBreak">{{c.name}}</span>
+                  <span class="wordBreak">{{ c.name }}</span>
                 </v-card-title>
 
                 <v-card-subtitle class="pb-0 pt-1 pb-3">
@@ -51,9 +74,10 @@
                   <v-btn
                     class="ml-2 mt-0"
                     outlined
-                    :to="`/administrasi/competition/` + c.slug_name +`/`"
+                    :to="`/administrasi/competition/` + c.slug_name + `/`"
                     color="black"
-                  >Lihat Data</v-btn>
+                    >Lihat Data</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </v-col>

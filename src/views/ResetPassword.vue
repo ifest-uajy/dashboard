@@ -1,9 +1,18 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
-        <v-card-title class="title_card_cloverleaf mt-7">Reset Password</v-card-title>
-        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
+      <v-card
+        outlined
+        max-width="500"
+        width="500"
+        class="card_cloverleaf mb-5 mt-10 px-5"
+      >
+        <v-card-title class="title_card_cloverleaf mt-7"
+          >Reset Password</v-card-title
+        >
+        <v-card-subtitle class="subtitle_card_cloverleaf"
+          >Informatics Festival (IFest) #8</v-card-subtitle
+        >
 
         <v-card-text v-if="!messages.message" class="mb-6">
           <v-form ref="form" @submit.prevent="resetPassword">
@@ -15,11 +24,12 @@
               required
               autocomplete="username"
               :rules="emailRules"
-              
               v-on:focus="this.clear"
             ></v-text-field>
             <p class="font-weight-medium">
-              <router-link to="/register" class="link_clover">Belum punya akun?</router-link>
+              <router-link to="/register" class="link_clover"
+                >Belum punya akun?</router-link
+              >
             </p>
 
             <v-btn
@@ -29,11 +39,14 @@
               type="submit"
               :loading="loading"
               :disabled="!this.validEmail(this.email)"
-            >Register</v-btn>
+              >Register</v-btn
+            >
           </v-form>
         </v-card-text>
         <v-card-text class="mt-5" v-if="messages.message">
-          <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>
+          <v-alert type="success" class="mb-8" outlined prominent>{{
+            messages.message
+          }}</v-alert>
           <v-layout justify-center class="mb-5">
             <router-link to="/">
               <v-btn color="success" dark>Kembali ke Halaman Utama</v-btn>
@@ -41,7 +54,9 @@
           </v-layout>
         </v-card-text>
         <v-card-text class="mt-5" v-if="errors.message">
-          <v-alert type="error" class="mb-8" outlined prominent>{{ errors.message }}</v-alert>
+          <v-alert type="error" class="mb-8" outlined prominent>{{
+            errors.message
+          }}</v-alert>
           <v-layout justify-center class="mb-5">
             <router-link to="/">
               <v-btn color="error" dark>Kembali ke Halaman Utama</v-btn>
@@ -95,11 +110,9 @@ export default {
 };
 </script>
 
-
 <style scoped>
-
 .card_cloverleaf {
-  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
   outline: none;
   border: none !important;
   border-radius: 8px !important;

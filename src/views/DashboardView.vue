@@ -5,17 +5,27 @@
       <a>Keluar</a>
     </div>
 
-    <v-container >
+    <v-container>
       <div class="header-box">
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
-    </div>
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png"
+        />
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png"
+        />
+        <img
+          class="circle-top"
+          src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"
+        />
+      </div>
       <v-container>
         <h2 class="judul">Dashboard IFest #8</h2>
         <h1 class="title sub-judul">
           Selamat datang,
-          <span class="font-weight-bold">{{user.full_name}}</span>!
+          <span class="font-weight-bold">{{ user.full_name }}</span
+          >!
         </h1>
       </v-container>
       <div v-if="!isMobile()">
@@ -23,7 +33,9 @@
           <v-tab to="/dashboard">
             <div class="pr-5">
               <v-badge class="mt-2">
-                <template v-if="anouncementsCount !== 0" v-slot:badge>{{anouncementsCount}}</template>
+                <template v-if="anouncementsCount !== 0" v-slot:badge>{{
+                  anouncementsCount
+                }}</template>
                 Pengumuman
               </v-badge>
             </div>
@@ -31,7 +43,9 @@
           <v-tab to="/dashboard/competition">
             <div class="pr-5">
               <v-badge class="mt-2">
-                <template v-if="competitionsCount !== 0" v-slot:badge>{{competitionsCount}}</template>
+                <template v-if="competitionsCount !== 0" v-slot:badge>{{
+                  competitionsCount
+                }}</template>
                 Kompetisi
               </v-badge>
             </div>
@@ -39,7 +53,9 @@
           <v-tab to="/dashboard/teams">
             <div class="pr-5">
               <v-badge class="mt-2">
-                <template v-if="teamsCount !== 0" v-slot:badge>{{teamsCount}}</template>
+                <template v-if="teamsCount !== 0" v-slot:badge>{{
+                  teamsCount
+                }}</template>
                 Tim
               </v-badge>
             </div>
@@ -47,7 +63,9 @@
           <v-tab to="/dashboard/profile">
             <div class="pr-5">
               <v-badge class="mt-2" color="red">
-                <template v-if="user.isProfileComplete !== true" v-slot:badge>!</template>
+                <template v-if="user.isProfileComplete !== true" v-slot:badge
+                  >!</template
+                >
                 Profil
               </v-badge>
             </div>
@@ -56,7 +74,7 @@
       </div>
       <div v-else>
         <div class="bottom-bar">
-          <v-bottom-navigation v-model="bottomNav" dark height=75>
+          <v-bottom-navigation v-model="bottomNav" dark height="75">
             <v-btn to="/dashboard">
               <span>Pengumuman</span>
               <v-icon>mdi-flag</v-icon>
@@ -186,14 +204,16 @@ export default {
 }
 
 .judul {
-  font-family: "Roboto", sans-serif;  line-height: 1.1em;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.1em;
   font-size: 30pt;
   color: #0f4c75;
   font-weight: 500;
 }
 
 .sub-judul {
-font-family: "Roboto", sans-serif;  line-height: 1.1em;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.1em;
   font-size: 24pt;
   font-weight: 500;
   margin-bottom: 20px;
@@ -201,6 +221,6 @@ font-family: "Roboto", sans-serif;  line-height: 1.1em;
 
 .bg-img {
   width: 100%;
-  background: url('https://ifest-uajy.com/assets/email/bg_top2.jpg') no-repeat;
+  background: url("https://ifest-uajy.com/assets/email/bg_top2.jpg") no-repeat;
 }
 </style>

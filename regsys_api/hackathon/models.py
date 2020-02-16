@@ -129,7 +129,7 @@ class HackathonTeams(models.Model):
     @property
     def jumlah_member(self):
         return self.members.count()
-        
+
     @property
     def bisa_up_task(self):
         if(self.members.count() >= self.track.team_min_member):
@@ -138,7 +138,7 @@ class HackathonTeams(models.Model):
             return False
 
     def move_one_step(self):
-        
+
         if self.current_task.order+1 <= HackathonTask.objects.filter(track=self.track).count():
             self.current_task = HackathonTask.objects.filter(Q(track=self.track) , Q(order=self.current_task.order+1)).first()
             self.save()
@@ -149,7 +149,7 @@ class HackathonTeams(models.Model):
             self.current_task = HackathonTask.objects.filter(track=self.track).first()
 
         super(HackathonTeams, self).save(*args, **kwargs)
-        
+
     def send_line_notification(self):
         auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
         hed = {'Authorization': 'Bearer ' + auth_token}
@@ -175,7 +175,7 @@ class HackathonTeams(models.Model):
             'harga': '{:20,.2f}'.format(self.track.biaya_pendaftaran),
             'title': 'Pendaftaran {} - IFest #8'.format(self.track.name)
         }
-        
+
         text_template = get_template('selamat_datang.html')
         html_template = get_template('selamat_datang.html')
         mail_text_message = text_template.render(context)
@@ -185,7 +185,7 @@ class HackathonTeams(models.Model):
             body=mail_text_message,
             to=[self.team_leader.email]
         )
-        
+
         mail.attach_alternative(mail_html_message, "text/html")
         mail.send(
             fail_silently=False
@@ -203,7 +203,7 @@ class HackathonTeamsMember(models.Model):
 
     def __str__(self):
         return '%s - %s (%s)' % (self.team.name, self.user.full_name, self.user.email)
-    
+
     class Meta:
         unique_together = (('team', 'user'),)
         get_latest_by = 'created_at'
@@ -247,9 +247,9 @@ class TaskResponse(models.Model):
             #if self.task.track.pk != self.team.track.pk:
                 #raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
             #else:
-        
+
         super(TaskResponse, self).save(*args, **kwargs)
-    
+
     def send_line_notification(self):
         auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
         hed = {'Authorization': 'Bearer ' + auth_token}
@@ -266,13 +266,13 @@ class TaskResponse(models.Model):
         url = 'https://api.line.me/v2/bot/message/push'
 
         requests.post(url, json=data, headers=hed)
-    
+
     def send_email_p(self):
         context = {
             'nama_acara': self.task.track.name,
             'nama_tim': self.team.name
         }
-        
+
         text_template = get_template('up_pembayaran.html')
         html_template = get_template('up_pembayaran.html')
         mail_text_message = text_template.render(context)
@@ -282,18 +282,18 @@ class TaskResponse(models.Model):
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )
-        
+
         mail.attach_alternative(mail_html_message, "text/html")
         mail.send(
             fail_silently=False
         )
-    
+
     def send_email_tolak(self):
         context = {
             'nama_tugas': self.task.name,
             'nama_tim': self.team.name
         }
-        
+
         text_template = get_template('submisi_ditolak.html')
         html_template = get_template('submisi_ditolak.html')
         mail_text_message = text_template.render(context)
@@ -303,7 +303,7 @@ class TaskResponse(models.Model):
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )
-        
+
         mail.attach_alternative(mail_html_message, "text/html")
         mail.send(
             fail_silently=False
@@ -318,7 +318,7 @@ class TaskResponse(models.Model):
             'nama_ketua': self.team.team_leader,
             'asal_institusi': self.team.institution
         }
-        
+
         text_template = get_template('bayar_valid.html')
         html_template = get_template('bayar_valid.html')
         mail_text_message = text_template.render(context)
@@ -328,7 +328,7 @@ class TaskResponse(models.Model):
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )
-        
+
         mail.attach_alternative(mail_html_message, "text/html")
         mail.send(
             fail_silently=False

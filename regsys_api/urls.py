@@ -32,5 +32,5 @@ urlpatterns = [
     path('api/file/', include('regsys_api.uploader.urls')),
     url(r'^.*$', index_view),
     #path('', index_view, name='index'),
-    
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

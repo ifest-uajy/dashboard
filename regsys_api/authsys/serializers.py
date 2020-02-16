@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
             'is_staff', 'is_confirmed', 'last_login', 'date_joined', 'isProfileComplete',
             'is_vege', 'alergic', 'is_buktiUploaded', 'id_line', 'nomor_telepon',
             'nomor_id', 'id_line', 'tanggal_lahir'
-            
+
         )
         read_only_fields = (
             'email', 'is_staff', 'is_confirmed', 'last_login', 'date_joined',

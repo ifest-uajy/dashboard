@@ -1,16 +1,24 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
-        <v-card-title class="title_card_cloverleaf mt-7">Kontak Kami</v-card-title>
-        <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
+      <v-card
+        outlined
+        max-width="500"
+        width="500"
+        class="card_cloverleaf mb-5 mt-10 px-5"
+      >
+        <v-card-title class="title_card_cloverleaf mt-7"
+          >Kontak Kami</v-card-title
+        >
+        <v-card-subtitle class="subtitle_card_cloverleaf"
+          >Informatics Festival (IFest) #8</v-card-subtitle
+        >
 
         <v-card-text v-if="!messages.message">
           <v-form ref="form" @submit.prevent="register">
             <v-text-field
               v-model="full_name"
               label="Nama Lengkap"
-              
               :error="errors.full_name"
               :error-messages="errors.nama_pengirim"
               :rules="rulesNama"
@@ -21,13 +29,16 @@
               type="email"
               required
               :rules="emailRules"
-              
               :error="errors.email"
               :error-messages="errors.email_pengirim"
             ></v-text-field>
-            <v-textarea 
+            <v-textarea
               label="Pesan"
-            v-model="pesan" :error-messages="errors.pesan" :rules="rulesPesan" class="mb-3"></v-textarea>
+              v-model="pesan"
+              :error-messages="errors.pesan"
+              :rules="rulesPesan"
+              class="mb-3"
+            ></v-textarea>
             <v-btn
               large
               block
@@ -35,18 +46,30 @@
               type="submit"
               :loading="loading"
               :disabled="!isComplete"
-              
-            >Kirim</v-btn>
+              >Kirim</v-btn
+            >
           </v-form>
-          <br />Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak panitia melalui form resmi diatas.
-          Panitia akan berusaha secepat mungkin untuk membalas pesan anda.
+          <br />Silahkan kirimkan pertanyaan, kritik atau saran kepada pihak
+          panitia melalui form resmi diatas. Panitia akan berusaha secepat
+          mungkin untuk membalas pesan anda.
         </v-card-text>
         <v-card-text class="mt-0 mb-5 pt-0">
           <strong>Kontak alternatif</strong>
-          Selain melalui halaman kontak resmi ini, kamu juga bisa menghubungi panitia melalui Official Account Line kami di <strong><a href="http://line.me/ti/p/~@ykb1847q" target="_blank" style="text-decoration: none;">@ykb1847q</a></strong>.
+          Selain melalui halaman kontak resmi ini, kamu juga bisa menghubungi
+          panitia melalui Official Account Line kami di
+          <strong
+            ><a
+              href="http://line.me/ti/p/~@ykb1847q"
+              target="_blank"
+              style="text-decoration: none;"
+              >@ykb1847q</a
+            ></strong
+          >.
         </v-card-text>
         <v-card-text class="mt-5" v-if="messages.message">
-          <v-alert type="success" class="mb-8" outlined prominent>{{ messages.message }}</v-alert>
+          <v-alert type="success" class="mb-8" outlined prominent>{{
+            messages.message
+          }}</v-alert>
           <v-layout justify-center class="mb-5">
             <router-link to="/">
               <v-btn color="success" dark>Kembali ke Halaman Utama</v-btn>
@@ -116,7 +139,7 @@ export default {
 }
 
 .card_cloverleaf {
-  box-shadow: 0 10px 20px 0 rgba(53,64,90,.2);
+  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
   outline: none;
   border: none !important;
   border-radius: 8px !important;

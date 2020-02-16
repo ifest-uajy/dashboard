@@ -1,18 +1,18 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-import colors from 'vuetify/lib/util/colors'
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+import colors from "vuetify/lib/util/colors";
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
   icons: {
-    iconfont: 'mdi',
+    iconfont: "mdi"
   },
   theme: {
     themes: {
       light: {
-        background: colors.indigo.lighten5, // Not automatically applied
-      },
-    },
-  },
+        background: colors.indigo.lighten5 // Not automatically applied
+      }
+    }
+  }
 });

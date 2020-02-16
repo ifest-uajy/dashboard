@@ -14,9 +14,10 @@
       <v-content>
         <v-alert prominent outlined>
           <p class="font-weight-bold mb-0">Be ready!</p>
-          <p
-            class="black--text text--darken-2 mb-1"
-          >Tunggu info selanjutnya di media sosial kami untuk kompetisi yang akan berlangsung.</p>
+          <p class="black--text text--darken-2 mb-1">
+            Tunggu info selanjutnya di media sosial kami untuk kompetisi yang
+            akan berlangsung.
+          </p>
         </v-alert>
       </v-content>
     </v-container>
@@ -26,17 +27,17 @@
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
           <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
             <v-card-title class="mb-3">
-              <span class="wordBreak">{{c.name}}</span>
+              <span class="wordBreak">{{ c.name }}</span>
             </v-card-title>
 
             <v-card-subtitle class="pb-0">
-              <p>{{c.description}}</p>
+              <p>{{ c.description }}</p>
 
               <v-chip class="mr-2 mb-3" outlined color="black">
                 <v-avatar left>
                   <v-icon>mdi-calendar</v-icon>
                 </v-avatar>
-                {{moment(String(c.closed_date)).format("DD MMMM YYYY")}}
+                {{ moment(String(c.closed_date)).format("DD MMMM YYYY") }}
               </v-chip>
 
               <v-chip color="black accent-3 mb-3 mr-2" outlined>
@@ -44,19 +45,19 @@
                   <v-avatar left>
                     <v-icon>mdi-account-group</v-icon>
                   </v-avatar>
-                  {{c.team_min_member}} - {{c.team_max_member}} orang
+                  {{ c.team_min_member }} - {{ c.team_max_member }} orang
                 </span>
                 <span v-if="c.team_min_member === c.team_max_member">
                   <span v-if="c.team_min_member === 1">
                     <v-avatar left>
-                      <v-icon>mdi-account</v-icon>
-                    </v-avatar>Individual
+                      <v-icon>mdi-account</v-icon> </v-avatar
+                    >Individual
                   </span>
                   <span v-if="c.team_min_member !== 1">
                     <v-avatar left>
                       <v-icon>mdi-account</v-icon>
                     </v-avatar>
-                    {{c.team_min_member}} orang
+                    {{ c.team_min_member }} orang
                   </span>
                 </span>
               </v-chip>
@@ -66,25 +67,28 @@
                   <v-avatar left>
                     <v-icon>mdi-cash</v-icon>
                   </v-avatar>
-                  Rp. {{formatPrice(c.biaya_pendaftaran)}}
+                  Rp. {{ formatPrice(c.biaya_pendaftaran) }}
                 </span>
                 <span v-if="c.biaya_pendaftaran === 0">
                   <v-avatar left>
-                    <v-icon>mdi-cash</v-icon>
-                  </v-avatar>Gratis
+                    <v-icon>mdi-cash</v-icon> </v-avatar
+                  >Gratis
                 </span>
               </v-chip>
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn v-if="c.isExpired" color="grey" text>Pendaftaran Ditutup</v-btn>
+              <v-btn v-if="c.isExpired" color="grey" text
+                >Pendaftaran Ditutup</v-btn
+              >
               <v-btn
                 class="ml-2"
                 v-if="!c.isExpired"
                 outlined
-                :to="`competition/`+c.slug_name"
+                :to="`competition/` + c.slug_name"
                 color="black"
-              >Daftar</v-btn>
+                >Daftar</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -101,9 +105,19 @@
               </v-layout>
             </v-card-text>
 
-            <v-form v-if="!messages.message" ref="form" @submit.prevent="joinTeamHandler">
+            <v-form
+              v-if="!messages.message"
+              ref="form"
+              @submit.prevent="joinTeamHandler"
+            >
               <v-container>
-                <v-text-field v-model="token" outlined label="Token" required :rules="tokenRules"></v-text-field>
+                <v-text-field
+                  v-model="token"
+                  outlined
+                  label="Token"
+                  required
+                  :rules="tokenRules"
+                ></v-text-field>
                 <v-btn
                   large
                   block
@@ -112,18 +126,21 @@
                   :error="errors.token"
                   :error-messages="errors.token"
                   :disabled="!isTokenFilled"
-                >Gabung</v-btn>
+                  >Gabung</v-btn
+                >
               </v-container>
             </v-form>
 
             <v-card-text>
-              Gunakan invitation token yang diberikan oleh ketua tim untuk bergabung dalam satu tim.
+              Gunakan invitation token yang diberikan oleh ketua tim untuk
+              bergabung dalam satu tim.
             </v-card-text>
 
             <v-card-text v-if="errors.message" class="pb-0 mb-0">
-              <v-alert class="mb-0" type="error" outlined>{{ errors.message }}</v-alert>
+              <v-alert class="mb-0" type="error" outlined>{{
+                errors.message
+              }}</v-alert>
             </v-card-text>
-
           </v-card>
         </v-col>
       </v-row>
@@ -155,7 +172,7 @@ export default {
       competitions: state => state.competition.competitions,
       errors: state => state.competition.errors,
       messages: state => state.competition.messages,
-      loading: state => state.competition.loading,
+      loading: state => state.competition.loading
     })
   },
   methods: {
@@ -172,7 +189,7 @@ export default {
       this.joinTeam({
         token: this.token
       });
-      this.$refs.form.reset()
+      this.$refs.form.reset();
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -183,7 +200,7 @@ export default {
 </script>
 
 <style scoped>
-.wordBreak{
+.wordBreak {
   word-break: normal !important;
 }
 </style>

@@ -1,14 +1,26 @@
 <template>
   <div class="body2">
     <div class="header-box">
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
-      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
+      <img
+        class="circle-top"
+        src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png"
+      />
+      <img
+        class="circle-top"
+        src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png"
+      />
+      <img
+        class="circle-top"
+        src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"
+      />
     </div>
 
     <div class="columns-a">
       <div class="column-a kiri">
-        <img class="navigator-svg" src="https://ifest-uajy.com/assets/undraw_navigator_a479.svg" />
+        <img
+          class="navigator-svg"
+          src="https://ifest-uajy.com/assets/undraw_navigator_a479.svg"
+        />
       </div>
       <div class="column-a kanan">
         <h1 class="judul">
@@ -16,7 +28,9 @@
           <br />
           <span class="judul-span">Informatics Festival #8</span>
         </h1>
-        <p class="mb-3">Selamat datang di Sistem Registrasi Kompetisi Informatics Festival #8.</p>
+        <p class="mb-3">
+          Selamat datang di Sistem Registrasi Kompetisi Informatics Festival #8.
+        </p>
         <router-link to="/register">
           <v-btn class="btn daftar">
             <span>Daftar Sekarang!</span>
@@ -55,9 +69,9 @@
 <script>
 export default {
   mounted() {
-    this.$ga.page('/');
+    this.$ga.page("/");
   }
-}
+};
 </script>
 
 <style scoped>

@@ -9,23 +9,44 @@
       max-width="600px"
     >
       <p class="font-weight-bold mb-0">Profil akun kamu belum lengkap</p>
-      <p
-        class="black--text text--darken-2 mb-1"
-      >Saat ini kamu belum bisa mendaftar kompetisi atau seminar karena data profil akun kamu belum terisi lengkap.</p>
+      <p class="black--text text--darken-2 mb-1">
+        Saat ini kamu belum bisa mendaftar kompetisi atau seminar karena data
+        profil akun kamu belum terisi lengkap.
+      </p>
     </v-alert>
 
-    <v-alert class="mx-auto" prominent outlined type="success" v-if="alertShow" max-width="600px">
+    <v-alert
+      class="mx-auto"
+      prominent
+      outlined
+      type="success"
+      v-if="alertShow"
+      max-width="600px"
+    >
       <p class="font-weight-bold mb-0">Profil kamu berhasil di perbaharui</p>
-      <p class="black--text text--darken-2 mb-1">{{messages.message}} Cheers...</p>
+      <p class="black--text text--darken-2 mb-1">
+        {{ messages.message }} Cheers...
+      </p>
     </v-alert>
 
-    <v-card outlined max-width="600" class="card_cloverleaf mb-5 mt-10 px-5 mr-auto ml-auto">
+    <v-card
+      outlined
+      max-width="600"
+      class="card_cloverleaf mb-5 mt-10 px-5 mr-auto ml-auto"
+    >
       <v-card-text class="text-center">
-        <vue-letter-avatar class="mb-5 mt-5" :name="user.full_name" size="90" :rounded="true" />
-        <p class="display-1 text--primary mb-0">{{user.full_name}}</p>
-        <p class="subtitle-2 text--primary mb-0">{{user.email}}</p>
+        <vue-letter-avatar
+          class="mb-5 mt-5"
+          :name="user.full_name"
+          size="90"
+          :rounded="true"
+        />
+        <p class="display-1 text--primary mb-0">{{ user.full_name }}</p>
+        <p class="subtitle-2 text--primary mb-0">{{ user.email }}</p>
         <p class="font-weight-medium mt-2 mb-0">
-          <router-link to="profile/changepassword" class="link_clover">Ganti Password?</router-link>
+          <router-link to="profile/changepassword" class="link_clover"
+            >Ganti Password?</router-link
+          >
         </p>
       </v-card-text>
       <v-card-text>
@@ -34,19 +55,19 @@
             <p class="span-info">Informasi Umum</p>
             <span class="entity-name">Nama Lengkap</span>
             <br />
-            {{user.full_name}}
+            {{ user.full_name }}
             <br />
             <span class="entity-name">Email</span>
             <br />
-            {{user.email}}
+            {{ user.email }}
             <br />
             <span class="entity-name">Tanggal Lahir</span>
             <br />
-            {{moment(String(user.tanggal_lahir)).format("DD MMMM YYYY")}}
+            {{ moment(String(user.tanggal_lahir)).format("DD MMMM YYYY") }}
             <br />
             <span class="entity-name">Nomor Kartu Pelajar/KTM</span>
             <br />
-            {{user.nomor_id}}
+            {{ user.nomor_id }}
             <br />
             <br />
           </div>
@@ -54,29 +75,31 @@
             <p class="span-info">Kontak</p>
             <span class="entity-name">Nomor Telepon</span>
             <br />
-            +62 {{user.nomor_telepon}}
+            +62 {{ user.nomor_telepon }}
             <br />
             <span class="entity-name">ID Line</span>
             <br />
-            {{user.id_line}}
+            {{ user.id_line }}
             <br />
             <br />
             <p class="span-info">Preferensi Konsumsi</p>
             <span class="entity-name">Vege</span>
             <br />
-            <span v-if="user.is_vege===true">Iya</span>
+            <span v-if="user.is_vege === true">Iya</span>
             <span v-else>Tidak</span>
             <br />
             <span class="entity-name">Alergi</span>
             <br />
-            {{user.alergic}}
+            {{ user.alergic }}
             <br />
           </div>
         </div>
       </v-card-text>
       <v-card-text v-if="editing" class="pb-10">
         <v-form ref="form" @submit.prevent="update">
-          <v-container class="px-0 grey--text text--darken-4 title">Informasi Peserta</v-container>
+          <v-container class="px-0 grey--text text--darken-4 title"
+            >Informasi Peserta</v-container
+          >
 
           <v-text-field
             v-model="nama_lengkap"
@@ -104,7 +127,11 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="fromDateVal" no-title @input="fromDateMenu = false"></v-date-picker>
+            <v-date-picker
+              v-model="fromDateVal"
+              no-title
+              @input="fromDateMenu = false"
+            ></v-date-picker>
           </v-menu>
           <v-text-field
             :error="errors.nomor_id"
@@ -113,7 +140,9 @@
             :counter="50"
             label="Nomor Kartu Pelajar/KTM"
           ></v-text-field>
-          <v-container class="px-0 grey--text text--darken-4 title">Kontak Peserta</v-container>
+          <v-container class="px-0 grey--text text--darken-4 title"
+            >Kontak Peserta</v-container
+          >
           <v-text-field
             v-model="user.email"
             label="Email"
@@ -122,7 +151,11 @@
             :persistent-hint="true"
             hint="Email yang sudah didaftarkan tidak dapat diganti."
           ></v-text-field>
-          <v-text-field v-model="id_line" :counter="50" label="ID Line"></v-text-field>
+          <v-text-field
+            v-model="id_line"
+            :counter="50"
+            label="ID Line"
+          ></v-text-field>
           <v-text-field
             v-model="nomor_telepon"
             :error="errors.nomor_telepon"
@@ -132,7 +165,9 @@
             :persistent-hint="true"
             hint="Diutamakan untuk mengisi nomor telepon yang terhubung dengan WhatsApp."
           ></v-text-field>
-          <v-container class="px-0 grey--text text--darken-4 title">Preferensi Konsumsi Peserta</v-container>
+          <v-container class="px-0 grey--text text--darken-4 title"
+            >Preferensi Konsumsi Peserta</v-container
+          >
           <v-text-field
             v-model="alergi"
             label="Alergi terhadap makanan"
@@ -155,19 +190,23 @@
               class="mt-5 mr-5"
               :loading="loading"
               :disabled="loading"
-            >Perbaharui Profil</v-btn>
-            <v-btn 
-            large 
-            @click="editing = !editing" 
-            outlined 
-            v-if="!loading"
-            class="mt-5"
-            >Batal</v-btn>
+              >Perbaharui Profil</v-btn
+            >
+            <v-btn
+              large
+              @click="editing = !editing"
+              outlined
+              v-if="!loading"
+              class="mt-5"
+              >Batal</v-btn
+            >
           </center>
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">
-        <v-btn outlined class="mb-5" @click="editing = !editing">Ubah Profil</v-btn>
+        <v-btn outlined class="mb-5" @click="editing = !editing"
+          >Ubah Profil</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-container>
@@ -177,7 +216,7 @@
 import { mapState, mapActions } from "vuex";
 import moment from "moment";
 
-moment.locale('id');
+moment.locale("id");
 
 export default {
   data: () => ({

@@ -2,9 +2,14 @@
   <div class="container">
     <div class="big-i">
       <div class="image-holder">
-        <img class="navigator-svg" src="https://ifest-uajy.com/assets/undraw_Taken_if77.svg" />
+        <img
+          class="navigator-svg"
+          src="https://ifest-uajy.com/assets/undraw_Taken_if77.svg"
+        />
       </div>
-            <p class="text-center subtitle-1">Duh... Halaman yang kamu minta tidak ditemukan atau telah dipindahkan.</p>
+      <p class="text-center subtitle-1">
+        Duh... Halaman yang kamu minta tidak ditemukan atau telah dipindahkan.
+      </p>
 
       <center>
         <router-link to="/">
@@ -33,10 +38,10 @@ export default {};
 }
 .navigator-svg {
   margin: auto;
-  max-width: 200px; 
+  max-width: 200px;
 }
 .image-holder {
-  margin:auto;
+  margin: auto;
   width: 200px;
   margin-top: 50px;
   margin-bottom: 35px;

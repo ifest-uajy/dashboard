@@ -27,7 +27,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'A secret a long secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 'dashboard.ifest-uajy.com', 'www.dashboard.ifest-uajy.com']
 
 
 # Application definition
@@ -93,7 +94,8 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'regsysc'),
         'USER': os.getenv('DB_USER', 'regsys'),
         'PASSWORD': os.getenv('DB_PASS', 'regsys9910'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),   # Or an IP Address that your DB is hosted on
+        # Or an IP Address that your DB is hosted on
+        'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', 3306),
     }
 }
