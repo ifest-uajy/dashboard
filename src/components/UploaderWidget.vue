@@ -78,6 +78,9 @@ import { mapState, mapActions } from 'vuex'
 import Cookies from 'js-cookie'
 import moment from "moment";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+
+moment.locale('id');
+
 export default {
   props: ["task", "response", "team"],
   components: {

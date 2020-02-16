@@ -6,7 +6,12 @@ import store from './store'
 //import 'buefy/dist/buefy.css'
 import vuetify from './plugins/vuetify'
 import VueLetterAvatar from 'vue-letter-avatar';
+import VueAnalytics from 'vue-analytics';
 
+Vue.use(VueAnalytics, {
+  id: 'UA-154113787-4',
+  router
+});
 
 
 Vue.config.productionTip = false

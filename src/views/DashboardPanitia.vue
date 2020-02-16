@@ -1,49 +1,65 @@
 <template>
-  <v-layout mt-12>
+  <v-layout pt-12 class="bg-img">
     <!-- /* LOGOUT BUTTON */ -->
     <div @click="logoutActions" class="logout-btn">
-      <a>Logout</a>
+      <a>Keluar</a>
     </div>
 
     <v-container>
+      <div class="header-box">
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
+      </div>
       <v-container>
-        <h2 class="display-1">Dashboard Panitia</h2>
-        <h1 class="title">
+        <h2 class="judul">Dashboard Panitia</h2>
+        <h1 class="title sub-judul mb-0">
           Selamat datang,
           <span class="font-weight-bold">{{user.full_name}}</span>!
         </h1>
       </v-container>
 
-      <v-container class="pt-0 mt-5">
-          <h1 class="title">
-          Rekap Data Peserta Lomba
-        </h1>
+      <v-container class="pt-0 mt-0">
+        <h1 class="title">Rekap Data Peserta Lomba</h1>
         <p>Menu ini adalah menu untuk menyajikan data peserta dalam tim yang sudah mendaftar dalam masing-masing kompetisi.</p>
-      <v-row style="background: #fff">
-        <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
-          <v-card class="pa-2 pb-5" outlined>
-            <v-card-title class="mb-3">
-              <span class="wordBreak">{{c.name}}</span>
-            </v-card-title>
 
-            <v-card-subtitle class="pb-0">
-                Jumlah Pendaftar : <strong>Undefined</strong> Tim
-            </v-card-subtitle>
+        <div v-if="loading">
+          <v-row style="background: #fff">
+            <v-col key="0" cols="12" sm="4">
+              <v-card class="pa-2 pb-5" outlined>
+                <v-skeleton-loader class="mt-5 ml-5 pb-5" type="heading"></v-skeleton-loader>
+                <v-skeleton-loader type="text" class="ml-5 pb-5" max-width="250"></v-skeleton-loader>
+                <v-skeleton-loader type="button" class="ml-5 pb-3"></v-skeleton-loader>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
+        <div v-else>
+          <v-row>
+            <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
+              <v-card class="pa-2 pb-5" outlined>
+                <v-card-title class="mb-0">
+                  <span class="wordBreak">{{c.name}}</span>
+                </v-card-title>
 
-            <v-card-actions>
-              <v-btn
-                class="ml-2 mt-5"
-                outlined
-                :to="`/administrasi/competition/` + c.slug_name +`/`"
-                color="black"
-              >Lihat Data</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
+                <v-card-subtitle class="pb-0 pt-1 pb-3">
+                  Jumlah Pendaftar :
+                  <strong>Undefined</strong> Tim
+                </v-card-subtitle>
 
-      </v-row>
-    </v-container>
-
+                <v-card-actions>
+                  <v-btn
+                    class="ml-2 mt-0"
+                    outlined
+                    :to="`/administrasi/competition/` + c.slug_name +`/`"
+                    color="black"
+                  >Lihat Data</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
+      </v-container>
     </v-container>
   </v-layout>
 </template>
@@ -57,7 +73,7 @@ export default {
     ...mapState({
       user: state => state.authsys.user,
       competitions: state => state.competition.competitions,
-      loading: state => state.sekret.loading
+      loading: state => state.competition.isLoading
     })
   },
   beforeMount() {
@@ -111,7 +127,7 @@ export default {
   font-size: 9pt;
   margin: 0;
   font-weight: bold;
-  color: rgb(0, 11, 32); 
+  color: rgb(0, 11, 32);
 }
 
 .subtitle-outer {
@@ -130,12 +146,42 @@ export default {
 }
 
 .outer-link {
-    text-decoration: none !important; 
-    font-size: 16pt;
-    margin-top: 10px;
+  text-decoration: none !important;
+  font-size: 16pt;
+  margin-top: 10px;
 }
 
-.wordBreak{
+.wordBreak {
   word-break: normal !important;
+}
+
+.circle-top {
+  margin: auto 10px;
+  /* padding: 10px; */
+  height: 50px;
+  width: 50px;
+  background: white;
+  border-radius: 100%;
+}
+
+.judul {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.1em;
+  font-size: 30pt;
+  color: #0f4c75;
+  font-weight: 500;
+}
+
+.sub-judul {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.1em;
+  font-size: 24pt;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.bg-img {
+  width: 100%;
+  background: url("https://ifest-uajy.com/assets/email/bg_top2.jpg") no-repeat;
 }
 </style>

@@ -39,7 +39,7 @@
                 {{moment(String(c.closed_date)).format("DD MMMM YYYY")}}
               </v-chip>
 
-              <v-chip color="black accent-3 mb-3" outlined>
+              <v-chip color="black accent-3 mb-3 mr-2" outlined>
                 <span v-if="c.team_min_member !== c.team_max_member">
                   <v-avatar left>
                     <v-icon>mdi-account-group</v-icon>

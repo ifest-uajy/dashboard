@@ -66,7 +66,7 @@ const routes = [
     path: '/login',
     component: LoginComponent,
     meta: {
-      title: 'Login - Informatics Festival (IFest) #8',
+      title: 'Masuk - Informatics Festival (IFest) #8',
       metaTags: [
         {
           name: 'description',
@@ -85,7 +85,7 @@ const routes = [
     component: RegistrationComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: 'Registrasi - Informatics Festival (IFest) #8',
+      title: 'Pendaftaran - Informatics Festival (IFest) #8',
       metaTags: [
         {
           name: 'description',
@@ -108,7 +108,7 @@ const routes = [
         name: 'dashboard',
         component: PemberitahuanComponent,
         meta: {
-          title: 'Announcements - Informatics Festival (IFest) #8'
+          title: 'Pengumuman - Informatics Festival (IFest) #8'
         },
       },
       {
@@ -116,7 +116,7 @@ const routes = [
         name: 'kompetisi',
         component: CompetitionListComponent,
         meta: {
-          title: 'Competitions - Informatics Festival (IFest) #8'
+          title: 'Kompetisi - Informatics Festival (IFest) #8'
         },
       },
       {
@@ -124,7 +124,7 @@ const routes = [
         name: 'profil',
         component: ProfileComponent,
         meta: {
-          title: 'Profile - Informatics Festival (IFest) #8'
+          title: 'Profil - Informatics Festival (IFest) #8'
         },
       },
       {
@@ -132,7 +132,7 @@ const routes = [
         name: 'teams',
         component: TeamListView,
         meta: {
-          title: 'Teams - Informatics Festival (IFest) #8'
+          title: 'Tim - Informatics Festival (IFest) #8'
         },
       },
       {

@@ -15,7 +15,7 @@
     </v-alert>
 
     <v-alert class="mx-auto" prominent outlined type="success" v-if="alertShow" max-width="600px">
-      <p class="font-weight-bold mb-0">Profil berhasil diedit</p>
+      <p class="font-weight-bold mb-0">Profil kamu berhasil di perbaharui</p>
       <p class="black--text text--darken-2 mb-1">{{messages.message}} Cheers...</p>
     </v-alert>
 
@@ -34,7 +34,7 @@
             <p class="span-info">Informasi Umum</p>
             <span class="entity-name">Nama Lengkap</span>
             <br />
-            {{nama_lengkap}}
+            {{user.full_name}}
             <br />
             <span class="entity-name">Email</span>
             <br />
@@ -42,11 +42,11 @@
             <br />
             <span class="entity-name">Tanggal Lahir</span>
             <br />
-            {{fromDateVal}}
+            {{moment(String(user.tanggal_lahir)).format("DD MMMM YYYY")}}
             <br />
             <span class="entity-name">Nomor Kartu Pelajar/KTM</span>
             <br />
-            {{nomor_id}}
+            {{user.nomor_id}}
             <br />
             <br />
           </div>
@@ -54,22 +54,22 @@
             <p class="span-info">Kontak</p>
             <span class="entity-name">Nomor Telepon</span>
             <br />
-            +62 {{nomor_telepon}}
+            +62 {{user.nomor_telepon}}
             <br />
             <span class="entity-name">ID Line</span>
             <br />
-            {{id_line}}
+            {{user.id_line}}
             <br />
             <br />
             <p class="span-info">Preferensi Konsumsi</p>
             <span class="entity-name">Vege</span>
             <br />
-            <span v-if="is_vege===true">Iya</span>
+            <span v-if="user.is_vege===true">Iya</span>
             <span v-else>Tidak</span>
             <br />
             <span class="entity-name">Alergi</span>
             <br />
-            {{alergi}}
+            {{user.alergic}}
             <br />
           </div>
         </div>
@@ -147,13 +147,27 @@
             label="Apakah anda seorang vege?"
           ></v-switch>
           <center>
-            <v-btn large color="primary" type="submit" outlined class="mt-5 mr-5">Perbaharui Profil</v-btn>
-            <v-btn large @click="editing = !editing" outlined class="mt-5">Batal</v-btn>
+            <v-btn
+              large
+              color="primary"
+              type="submit"
+              outlined
+              class="mt-5 mr-5"
+              :loading="loading"
+              :disabled="loading"
+            >Perbaharui Profil</v-btn>
+            <v-btn 
+            large 
+            @click="editing = !editing" 
+            outlined 
+            v-if="!loading"
+            class="mt-5"
+            >Batal</v-btn>
           </center>
         </v-form>
       </v-card-text>
       <v-card-actions v-if="!editing" class="justify-center">
-        <v-btn outlined class="mb-5" @click="editing = !editing">Edit Profile</v-btn>
+        <v-btn outlined class="mb-5" @click="editing = !editing">Ubah Profil</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -163,8 +177,11 @@
 import { mapState, mapActions } from "vuex";
 import moment from "moment";
 
+moment.locale('id');
+
 export default {
   data: () => ({
+    moment: moment,
     editing: false,
     nama_lengkap: "",
     vege: false,
@@ -188,7 +205,7 @@ export default {
       let a = "";
       if (this.fromDateVal) {
         a = moment(this.fromDateVal, "YYYY-MM-DD");
-        return moment(a).format("D MMM YYYY");
+        return moment(a).format("D MMMM YYYY");
       } else {
         return "Silahkan pilih tanggal.";
       }

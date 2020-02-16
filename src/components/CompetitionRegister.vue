@@ -105,6 +105,9 @@ import { validationMixin } from 'vuelidate'
 import { required, maxLength, numeric, minLength} from 'vuelidate/lib/validators'
 import { mapState, mapActions } from "vuex";
 import moment from "moment";
+
+moment.locale('id');
+
 export default {
   mixins: [validationMixin],
   validations: {

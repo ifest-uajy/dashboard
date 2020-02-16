@@ -99,14 +99,14 @@
                     <small
                       v-if="task.task.task_type !== 'pengumuman' && task.response.status !== 'selesai'"
                       class="mt-2"
-                    >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY hh:mm A")}}</small>
+                    >Task Deadline: {{moment(String(task.task.deadline)).format("DD MMMM YYYY HH:mm")}}</small>
 
                     <small
                       class="mt-2"
                       v-if="task.response.length !== 0 && task.response.status === 'selesai'"
                     >
                       File berhasil diunggah pada
-                      <b>{{moment(String(task.response.updated_at)).format("DD MMMM YYYY hh:mm A")}}</b>
+                      <b>{{moment(String(task.response.updated_at)).format("DD MMMM YYYY HH:mm")}}</b>
                       <p class="mt-2 mb-0">
                         <a
                           :href="`/api/file/download/` + task.response.response +`/`"
@@ -164,6 +164,9 @@
 import { mapState, mapActions } from "vuex";
 import moment from "moment";
 import UploaderWidget from "./UploaderWidget.vue";
+
+moment.locale('id');
+
 export default {
   data: () => ({
     snackbar: false

@@ -20,7 +20,7 @@ export default {
             state.errors = []
         },
         setLoading(state, load) {
-            state.loading = load
+            state.isLoading = load
         },
         setCompetitions(state, m) {
             state.competitions = m

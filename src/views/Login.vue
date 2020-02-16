@@ -2,7 +2,7 @@
   <v-container>
     <v-layout justify-center>
       <v-card outlined max-width="500" width="500" class="card_cloverleaf mb-5 mt-10 px-5">
-        <v-card-title class="title_card_cloverleaf mt-7">Login</v-card-title>
+        <v-card-title class="title_card_cloverleaf mt-7">Masuk</v-card-title>
         <v-card-subtitle class="subtitle_card_cloverleaf">Informatics Festival (IFest) #8</v-card-subtitle>
 
         <v-card-text>

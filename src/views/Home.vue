@@ -1,9 +1,9 @@
 <template>
   <div class="body2">
     <div class="header-box">
-      <img class="circle-top" src="https://ifest-uajy.com/image/atmajayabgputih.png" />
-      <img class="circle-top" src="https://ifest-uajy.com/image/himaforkabgputih.png" />
-      <img class="circle-top" src="https://ifest-uajy.com/image/logo%20polos.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
     </div>
 
     <div class="columns-a">
@@ -24,7 +24,7 @@
         </router-link>
         <router-link to="/login">
           <v-btn class="btn login">
-            <span>Login</span>
+            <span>Masuk</span>
           </v-btn>
         </router-link>
         <p class="link-hubungi">
@@ -38,7 +38,7 @@
         </p>
       </div>
     </div>
-    <div class="cara-pendaftaran">
+    <!-- <div class="cara-pendaftaran">
       <p class="sub-judul">Gimana sih cara daftar kompetisi <b>Informatics Festival #8</b>?</p>
     </div>
     <div class="alur-pendaftaran">
@@ -48,9 +48,17 @@
         class="sub sub-3"
       ><span class="number-sub">3.<br /></span> Buat atau join tim dengan token di tab kompetisi</div>
       <div class="sub sub-4"><span class="number-sub">4.<br /></span> Selesaikan task dalam setiap kompetisi yang didaftarkan</div>
-    </div>
+    </div> -->
   </div>
 </template>
+
+<script>
+export default {
+  mounted() {
+    this.$ga.page('/');
+  }
+}
+</script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Amiri&display=swap");

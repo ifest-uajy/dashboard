@@ -2,14 +2,14 @@
   <v-layout pt-12 class="bg-img">
     <!-- /* LOGOUT BUTTON */ -->
     <div @click="logoutActions" class="logout-btn">
-      <a>Logout</a>
+      <a>Keluar</a>
     </div>
 
     <v-container >
       <div class="header-box">
-      <img class="circle-top" src="https://ifest-uajy.com/image/atmajayabgputih.png" />
-      <img class="circle-top" src="https://ifest-uajy.com/image/himaforkabgputih.png" />
-      <img class="circle-top" src="https://ifest-uajy.com/image/logo%20polos.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png" />
+      <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png" />
     </div>
       <v-container>
         <h2 class="judul">Dashboard IFest #8</h2>
@@ -40,7 +40,7 @@
             <div class="pr-5">
               <v-badge class="mt-2">
                 <template v-if="teamsCount !== 0" v-slot:badge>{{teamsCount}}</template>
-                Teams
+                Tim
               </v-badge>
             </div>
           </v-tab>

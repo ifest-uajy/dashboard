@@ -31,6 +31,9 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+
+moment.locale('id');
+
 export default {
   computed: mapState({
     announcements: state => state.pemberitahuan.announcements

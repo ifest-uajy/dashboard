@@ -69,7 +69,7 @@ export default {
         },
         async getCompetitionDetail( {commit}, {id} ) {
             try {
-                commit('setLoading', true)
+                commit('setLoading2', true)
                 let response = await handle.get(
                     '/hackathon/admin/detail/' + id + '/'
                 )
@@ -77,7 +77,7 @@ export default {
             } catch (e) {
                 console.log(e)
             } finally {
-                commit('setLoading', false)
+                commit('setLoading2', false)
             }
         },
         async getSlugDetail( {commit}, {slug_name} ) {
@@ -106,6 +106,10 @@ export default {
             } finally {
                 commit('setLoading', false)
             }
+        },
+        async clear({ commit }) {
+            commit('resetCompetitionList')
+            commit('resetSlugDetail')
         }
     }
 }
