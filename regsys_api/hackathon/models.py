@@ -19,13 +19,17 @@ from django.template.loader import get_template
 import sys
 from django.utils.crypto import get_random_string
 
+
 def generate_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
 
+
 def getxkcdpass():
     wordfile = xp.locate_wordfile()
-    config = xp.generate_wordlist(wordfile=wordfile, min_length=5, max_length=8)
-    return (xp.generate_xkcdpassword(config, acrostic=False , delimiter="-", numwords=4))
+    config = xp.generate_wordlist(
+        wordfile=wordfile, min_length=5, max_length=8)
+    return (xp.generate_xkcdpassword(config, acrostic=False, delimiter="-", numwords=4))
+
 
 class Track(models.Model):
     name = models.CharField(max_length=100)
@@ -55,6 +59,7 @@ class Track(models.Model):
         verbose_name = 'Kompetisi'
         verbose_name_plural = 'Kompetisi'
 
+
 class HackathonTask(models.Model):
 
     FILE_SUBMISSION = 'file_uploader'
@@ -67,7 +72,8 @@ class HackathonTask(models.Model):
     )
 
     order = models.IntegerField()
-    track = models.ForeignKey(to=Track, related_name='tracks', on_delete=models.CASCADE)
+    track = models.ForeignKey(
+        to=Track, related_name='tracks', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     deskripsi = models.TextField()
     deadline = models.DateTimeField(null=True)
@@ -80,6 +86,7 @@ class HackathonTask(models.Model):
     class Meta:
         verbose_name = 'Task Lomba'
         verbose_name_plural = 'Task Lomba'
+
 
 class HackathonTeams(models.Model):
 
@@ -99,13 +106,16 @@ class HackathonTeams(models.Model):
     token
     """
 
-    invitation_token = models.CharField(max_length=100, default=generate_token, unique=True)
+    invitation_token = models.CharField(
+        max_length=100, default=generate_token, unique=True)
 
-    current_task = models.ForeignKey(to=HackathonTask, related_name='active', on_delete=models.PROTECT)
+    current_task = models.ForeignKey(
+        to=HackathonTask, related_name='active', on_delete=models.PROTECT)
 
     members = models.ManyToManyField(
         to=User, related_name='teams', through='HackathonTeamsMember')
-    team_leader = models.ForeignKey(to=User, related_name='team_leader', on_delete=models.PROTECT)
+    team_leader = models.ForeignKey(
+        to=User, related_name='team_leader', on_delete=models.PROTECT)
     is_blacklisted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -115,7 +125,8 @@ class HackathonTeams(models.Model):
     @property
     def sudah_selesai_current_task(self):
         current_task_count = self.current_task
-        update_current_task_count = self.task_response.filter(task=self.current_task, status=TaskResponse.DONE)
+        update_current_task_count = self.task_response.filter(
+            task=self.current_task, status=TaskResponse.DONE)
         return current_task_count == update_current_task_count
 
     @property
@@ -140,25 +151,26 @@ class HackathonTeams(models.Model):
     def move_one_step(self):
 
         if self.current_task.order+1 <= HackathonTask.objects.filter(track=self.track).count():
-            self.current_task = HackathonTask.objects.filter(Q(track=self.track) , Q(order=self.current_task.order+1)).first()
+            self.current_task = HackathonTask.objects.filter(
+                Q(track=self.track), Q(order=self.current_task.order+1)).first()
             self.save()
-
 
     def save(self, *args, **kwargs):
         if self.pk is None and not hasattr(self, 'current_task'):
-            self.current_task = HackathonTask.objects.filter(track=self.track).first()
+            self.current_task = HackathonTask.objects.filter(
+                track=self.track).first()
 
         super(HackathonTeams, self).save(*args, **kwargs)
 
     def send_line_notification(self):
-        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        auth_token = 'JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
         hed = {'Authorization': 'Bearer ' + auth_token}
         data = {
             "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
-            "messages":[
+            "messages": [
                 {
-                    "type":"text",
-                    "text":"[INFO TIM]\n{} ({}) baru saja mendaftar kompetisi {}.".format(self.name,  self.institution, self.track.name)
+                    "type": "text",
+                    "text": "[INFO TIM]\n{} ({}) baru saja mendaftar kompetisi {}.".format(self.name,  self.institution, self.track.name)
                 }
             ]
         }
@@ -169,7 +181,7 @@ class HackathonTeams(models.Model):
 
     def send_email(self):
         context = {
-            'nama_tim' : self.name,
+            'nama_tim': self.name,
             'nama_kompetisi': self.track.name,
             'token': self.invitation_token,
             'harga': '{:20,.2f}'.format(self.track.biaya_pendaftaran),
@@ -195,10 +207,13 @@ class HackathonTeams(models.Model):
         verbose_name = 'Tim'
         verbose_name_plural = 'Tim'
 
+
 class HackathonTeamsMember(models.Model):
 
-    team = models.ForeignKey(to=HackathonTeams, related_name='team_members', on_delete=models.CASCADE)
-    user = models.ForeignKey(to=User, related_name='team_member', null=True, blank=True, on_delete=models.PROTECT)
+    team = models.ForeignKey(
+        to=HackathonTeams, related_name='team_members', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, related_name='team_member',
+                             null=True, blank=True, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -222,8 +237,10 @@ class TaskResponse(models.Model):
         (REJECTED, 'Ditolak'),
     )
 
-    task = models.ForeignKey(to=HackathonTask, related_name='task_response', on_delete=models.PROTECT)
-    team = models.ForeignKey(to=HackathonTeams, related_name='task_response', on_delete=models.CASCADE)
+    task = models.ForeignKey(
+        to=HackathonTask, related_name='task_response', on_delete=models.PROTECT)
+    team = models.ForeignKey(
+        to=HackathonTeams, related_name='task_response', on_delete=models.CASCADE)
     response = models.TextField()
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
     updated_at = models.DateTimeField(default=timezone.now)
@@ -244,21 +261,21 @@ class TaskResponse(models.Model):
             # if self.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
             #     Thread(target=self.send_email_p).start()
 
-            #if self.task.track.pk != self.team.track.pk:
+            # if self.task.track.pk != self.team.track.pk:
                 #raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
-            #else:
+            # else:
 
         super(TaskResponse, self).save(*args, **kwargs)
 
     def send_line_notification(self):
-        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        auth_token = 'JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
         hed = {'Authorization': 'Bearer ' + auth_token}
         data = {
             "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
-            "messages":[
+            "messages": [
                 {
-                    "type":"text",
-                    "text":"[INFO TASK]\n{} baru saja mengunggah file di {}.".format(self.team.name, self.task.name)
+                    "type": "text",
+                    "text": "[INFO TASK]\n{} baru saja mengunggah file di {}.".format(self.team.name, self.task.name)
                 }
             ]
         }
@@ -299,7 +316,8 @@ class TaskResponse(models.Model):
         mail_text_message = text_template.render(context)
         mail_html_message = html_template.render(context)
         mail = EmailMultiAlternatives(
-            subject='Submisi Tugas {} - {} Ditolak - IFest #8'.format(self.task.name, self.team.name),
+            subject='Submisi Tugas {} - {} Ditolak - IFest #8'.format(
+                self.task.name, self.team.name),
             body=mail_text_message,
             to=[self.team.team_leader.email]
         )

@@ -32,10 +32,12 @@ from .serializers import (
 )
 from django.utils import timezone
 
+
 class ListTrackView(generics.ListAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
     permission_classes = (IsAuthenticated,)
+
 
 class ListHackathonTeams(generics.ListAPIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
@@ -43,6 +45,7 @@ class ListHackathonTeams(generics.ListAPIView):
 
     def get_queryset(self):
         return HackathonTeams.objects.filter(track__slug_name=self.kwargs['slug'])
+
 
 class RegisterTeamView(views.APIView):
 
@@ -70,7 +73,7 @@ class RegisterTeamView(views.APIView):
         team_institution = request_serializer.validated_data['team_institution']
 
         alamat_institution = request_serializer.validated_data['alamat_institution']
-        nama_pembimbing  = request_serializer.validated_data['nama_pembimbing']
+        nama_pembimbing = request_serializer.validated_data['nama_pembimbing']
         no_telp_pembimbing = request_serializer.validated_data['no_telp_pembimbing']
 
         with transaction.atomic():
@@ -109,6 +112,7 @@ class RegisterTeamView(views.APIView):
                     },
                     status=status.HTTP_201_CREATED
                 )
+
 
 class GetTeamUserView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
@@ -153,14 +157,14 @@ class JoinTeam(views.APIView):
                 )
 
         if HackathonTeamsMember.objects.filter(team__track=team.track, user=request.user).exists():
-                return Response(
-                    {
-                        'message': 'Anda telah bergabung dalam kompetisi ini.',
-                        'status': 'failed',
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED
+            return Response(
+                {
+                    'message': 'Anda telah bergabung dalam kompetisi ini.',
+                    'status': 'failed',
+                },
+                status=status.HTTP_401_UNAUTHORIZED
 
-                )
+            )
 
         if team.jumlah_member == team.track.team_max_member:
             return Response(
@@ -191,19 +195,18 @@ class addTaskResponse(views.APIView):
 
     def post(self, request):
 
-
         request_serializer = PostTaskResponseSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
 
         team = get_object_or_404(
             HackathonTeams.objects.all(),
-            id = request_serializer.validated_data['team_id'],
+            id=request_serializer.validated_data['team_id'],
             team_members__user=self.request.user
         )
 
         task = get_object_or_404(
             HackathonTask.objects.all(),
-            id = request_serializer.validated_data['task_id'],
+            id=request_serializer.validated_data['task_id'],
         )
 
         if timezone.now() > task.deadline:
@@ -226,10 +229,9 @@ class addTaskResponse(views.APIView):
                 task_done = True
                 team.move_one_step()
 
-
             new_response = TaskResponse.objects.update_or_create(
-                task = task,
-                team = team,
+                task=task,
+                team=team,
                 defaults={
                     'response': response,
                     'status': task_response_status,
@@ -257,6 +259,7 @@ class addTaskResponse(views.APIView):
                 }, status=status.HTTP_403_FORBIDDEN
             )
 
+
 class GetTeamById(views.APIView):
     permission_classes = (IsAuthenticated, IsAdminUser, )
 
@@ -274,7 +277,7 @@ class GetTeamById(views.APIView):
 
         team = get_object_or_404(
             HackathonTeams.objects.all(),
-            id = self.kwargs['id']
+            id=self.kwargs['id']
         )
 
         response_serializer = AdminTeamDetailSerializer(team)
@@ -282,6 +285,7 @@ class GetTeamById(views.APIView):
         return Response(
             data=response_serializer.data, status=status.HTTP_200_OK
         )
+
 
 class DetailTeam(views.APIView):
     permission_classes = (IsAuthenticated, IsAdminUser, )
@@ -328,7 +332,8 @@ class AdminTaskHandler(views.APIView):
 
                     if task.task.task_type == HackathonTask.PAYMENT_SUBMISSION:
                         if request.user.groups.filter(name='Pengurus Harian').exists():
-                            Thread(target=task.send_email_pembayaran_selesai).start()
+                            Thread(
+                                target=task.send_email_pembayaran_selesai).start()
                         else:
                             return Response(
                                 {

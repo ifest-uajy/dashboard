@@ -14,8 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Announcement',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.IntegerField(choices=[(1, 'info'), (2, 'error'), (3, 'success'), (4, 'warning')])),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('type', models.IntegerField(choices=[
+                 (1, 'info'), (2, 'error'), (3, 'success'), (4, 'warning')])),
                 ('issued_at', models.DateTimeField(auto_now_add=True)),
                 ('title', models.CharField(max_length=50)),
                 ('message', models.CharField(max_length=200)),

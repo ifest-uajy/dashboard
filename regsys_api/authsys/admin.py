@@ -33,7 +33,8 @@ class UserAdmin(DjangoUserAdmin):
         }),
     )
 
-    list_display = ['full_name', 'email', 'nomor_id', 'tanggal_lahir', 'alergic','is_vege', 'id_line', 'nomor_telepon', 'is_confirmed', 'is_staff']
+    list_display = ['full_name', 'email', 'nomor_id', 'tanggal_lahir', 'alergic',
+                    'is_vege', 'id_line', 'nomor_telepon', 'is_confirmed', 'is_staff']
     search_fields = ('full_name', 'email')
     readonly_fields = ['date_joined', 'last_login', 'is_confirmed', 'email']
     ordering = ('full_name',)
@@ -53,7 +54,8 @@ class RegistrationHandlerAdmin(admin.ModelAdmin):
 
 @admin.register(ForgotPasswordHandler)
 class ForgotPasswordHandlerAdmin(admin.ModelAdmin):
-    list_display = ['user', 'operating_system', 'browser', 'token', 'is_confirmed', 'sent_at']
+    list_display = ['user', 'operating_system',
+                    'browser', 'token', 'is_confirmed', 'sent_at']
     list_filter = ['is_confirmed']
     readonly_fields = ['user', 'token', 'is_confirmed', 'sent_at']
     autocomplete_fields = ['user']

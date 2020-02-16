@@ -9,6 +9,7 @@ from .serializers import MessageSerializer
 from django.views.decorators.csrf import csrf_exempt
 from threading import Thread
 
+
 class MessageView(APIView):
 
     def post(self, request, **extra_fields):
@@ -22,14 +23,13 @@ class MessageView(APIView):
         with transaction.atomic():
 
             new_pesan = Message.objects.create(
-                nama_pengirim = nama_pengirim,
-                email_pengirim = email_pengirim,
-                pesan = pesan
+                nama_pengirim=nama_pengirim,
+                email_pengirim=email_pengirim,
+                pesan=pesan
             )
 
             Thread(target=new_pesan.send_line_notification).start()
             Thread(target=new_pesan.send_email).start()
-
 
             return Response(
                 {

@@ -4,8 +4,10 @@ from .models import Announcement
 from regsys_api.authsys.models import User
 from django import forms
 
-class AnnouncementForm( forms.ModelForm ):
-    message = forms.CharField( widget=forms.Textarea )
+
+class AnnouncementForm(forms.ModelForm):
+    message = forms.CharField(widget=forms.Textarea)
+
     class Meta:
         model = Announcement
         fields = ('__all__')
@@ -23,4 +25,3 @@ class AnnouncementAdmin(admin.ModelAdmin):
     search_fields = ['title']
     ordering = ['issued_at']
     form = AnnouncementForm
-

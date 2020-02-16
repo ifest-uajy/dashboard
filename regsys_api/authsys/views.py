@@ -55,7 +55,7 @@ class LoginView(APIView):
 
     serializer_class = LoginRequestSerializer
 
-    ###@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     # @method_decorator(sensitive_post_parameters('password'))
@@ -101,7 +101,7 @@ class LogoutView(APIView):
     """
     permission_classes = (IsAuthenticated,)
 
-    ##@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
@@ -117,7 +117,7 @@ class RegistrationView(APIView):
 
     serializer_class = RegistrationRequestSerializer
 
-    ##@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(never_cache)
@@ -149,12 +149,11 @@ class RegistrationConfirmationView(APIView):
     Provides the ability to confirm an user registration
     """
 
-    #@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def post(self, request):
         request_serializer = EmailConfirmationSerializer(data=request.data)
-
 
         if not request_serializer.is_valid(raise_exception=True):
             return Response(
@@ -166,7 +165,8 @@ class RegistrationConfirmationView(APIView):
             )
 
         with transaction.atomic():
-            attempt = RegistrationHandler.objects.filter(token=request_serializer.validated_data['token']).first()
+            attempt = RegistrationHandler.objects.filter(
+                token=request_serializer.validated_data['token']).first()
 
             if attempt is None:
                 return Response(
@@ -206,7 +206,7 @@ class ForgotPasswordHandlerView(APIView):
     Provides the ability to obtain a reset password email.
     """
 
-    ##@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def post(self, request):
@@ -223,7 +223,8 @@ class ForgotPasswordHandlerView(APIView):
             if user is not None:
                 if hasattr(user, 'password_token'):
                     user.password_token.delete()
-                attempt = ForgotPasswordHandler.objects.create(user=user, browser=browser, operating_system=os)
+                attempt = ForgotPasswordHandler.objects.create(
+                    user=user, browser=browser, operating_system=os)
                 Thread(target=attempt.send_email).start()
 
             return Response(
@@ -234,11 +235,11 @@ class ForgotPasswordHandlerView(APIView):
                     status=status.HTTP_200_OK
                 )
 
+
 class CheckConfirmPasswordTokenView(APIView):
 
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
-
     def post(self, request):
         request_serializer = EmailConfirmationSerializer(data=request.data)
 
@@ -253,7 +254,8 @@ class CheckConfirmPasswordTokenView(APIView):
 
         with transaction.atomic():
 
-            attempt = ForgotPasswordHandler.objects.filter(token=request_serializer.validated_data['token']).first()
+            attempt = ForgotPasswordHandler.objects.filter(
+                token=request_serializer.validated_data['token']).first()
 
             if attempt is None:
                 return Response(
@@ -296,7 +298,7 @@ class ConfirmForgotPasswordHandlerView(APIView):
     Provides the ability to reset password.
     """
 
-    ##@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     # @method_decorator(sensitive_post_parameters('new_password'))
     @method_decorator(never_cache)
@@ -362,10 +364,9 @@ class ChangePasswordView(APIView):
 
     serializer_class = PasswordChangeRequestSerializer
 
-    ##@method_decorator(csrf_protect)
+    # @method_decorator(csrf_protect)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
-
     def post(self, request):
 
         if request.user.is_anonymous:
@@ -404,11 +405,11 @@ class ChangePasswordView(APIView):
             status=status.HTTP_200_OK
         )
 
+
 class UpdateProfileView(APIView):
     permission_classes = (IsAuthenticated,)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
-
     def post(self, request):
         if(not request.user):
             return Response(
@@ -450,4 +451,3 @@ class UpdateProfileView(APIView):
                 },
                 status=status.HTTP_200_OK
             )
-

@@ -14,11 +14,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='hackathontask',
             name='task_type',
-            field=models.CharField(choices=[('file_uploader', 'File Uploader'), ('payment_verification', 'Verifikasi Pembayaran'), ('pengumuman', 'Pengumuman')], max_length=50),
+            field=models.CharField(choices=[('file_uploader', 'File Uploader'), (
+                'payment_verification', 'Verifikasi Pembayaran'), ('pengumuman', 'Pengumuman')], max_length=50),
         ),
         migrations.AlterField(
             model_name='hackathonteams',
             name='invitation_token',
-            field=models.CharField(default=regsys_api.hackathon.models.generate_token, max_length=100, unique=True),
+            field=models.CharField(
+                default=regsys_api.hackathon.models.generate_token, max_length=100, unique=True),
         ),
     ]

@@ -24,4 +24,3 @@ class Announcement(models.Model):
     @property
     def get_name(self):
         return issuer.full_name
-

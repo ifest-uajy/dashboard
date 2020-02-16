@@ -19,26 +19,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TeamUploadFile',
             fields=[
-                ('file', models.FileField(upload_to=regsys_api.uploader.models.generate_upload_path)),
-                ('id', models.UUIDField(editable=False, primary_key=True, serialize=False)),
+                ('file', models.FileField(
+                    upload_to=regsys_api.uploader.models.generate_upload_path)),
+                ('id', models.UUIDField(editable=False,
+                                        primary_key=True, serialize=False)),
                 ('original_filename', models.CharField(max_length=200)),
                 ('file_size', models.BigIntegerField()),
                 ('content_type', models.CharField(max_length=200)),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
-                ('team_owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='team_owner', to='hackathon.HackathonTeams')),
-                ('uploaded_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='team_uploaded_files', to=settings.AUTH_USER_MODEL)),
+                ('team_owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                                                 related_name='team_owner', to='hackathon.HackathonTeams')),
+                ('uploaded_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                                                  related_name='team_uploaded_files', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='PersonalUploadFile',
             fields=[
-                ('file', models.FileField(upload_to=regsys_api.uploader.models.generate_upload_path)),
-                ('id', models.UUIDField(editable=False, primary_key=True, serialize=False)),
+                ('file', models.FileField(
+                    upload_to=regsys_api.uploader.models.generate_upload_path)),
+                ('id', models.UUIDField(editable=False,
+                                        primary_key=True, serialize=False)),
                 ('original_filename', models.CharField(max_length=200)),
                 ('file_size', models.BigIntegerField()),
                 ('content_type', models.CharField(max_length=200)),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
-                ('uploaded_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='personal_uploaded_files', to=settings.AUTH_USER_MODEL)),
+                ('uploaded_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                  related_name='personal_uploaded_files', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

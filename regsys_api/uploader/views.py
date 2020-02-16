@@ -13,6 +13,8 @@ from regsys_api.authsys.models import User
 import urllib.parse
 
 # Create your views here.
+
+
 class PersonalUploadFileView(APIView):
     parser_clases = (FileUploadParser,)
 
@@ -30,11 +32,11 @@ class PersonalUploadFileView(APIView):
 
         if(file_obj):
             instance = PersonalUploadFile(
-                id = uuid.uuid4(),
-                original_filename = file_obj.name,
-                file_size = file_obj.size,
-                content_type = file_obj.content_type,
-                uploaded_by = request.user,
+                id=uuid.uuid4(),
+                original_filename=file_obj.name,
+                file_size=file_obj.size,
+                content_type=file_obj.content_type,
+                uploaded_by=request.user,
             )
             instance.file = file_obj
             instance.save()
@@ -54,6 +56,7 @@ class PersonalUploadFileView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
 
 class getDownloadView(APIView):
     def get(self, request, **kwargs):
@@ -91,8 +94,9 @@ class getDownloadView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         filename_baru = uploaded_file.original_filename
-        response = HttpResponse(uploaded_file.file.open('rb'), content_type=uploaded_file.content_type)
-        response['Content-Disposition'] = 'inline; filename=\"' + uploaded_file.original_filename + '\"'
+        response = HttpResponse(uploaded_file.file.open(
+            'rb'), content_type=uploaded_file.content_type)
+        response['Content-Disposition'] = 'inline; filename=\"' + \
+            uploaded_file.original_filename + '\"'
 
         return response
-

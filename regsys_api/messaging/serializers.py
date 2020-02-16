@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+
 class MessageSerializer(serializers.Serializer):
 
     nama_pengirim = serializers.CharField(max_length=50)

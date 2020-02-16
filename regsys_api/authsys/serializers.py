@@ -37,6 +37,7 @@ class RegistrationRequestSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=User.objects.all(), message="Alamat email ini sudah terdaftar.")])
     password = serializers.CharField()
 
+
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
@@ -50,8 +51,10 @@ class PasswordChangeRequestSerializer(serializers.Serializer):
     password = serializers.CharField()
     new_password = serializers.CharField()
 
+
 class EmailConfirmationSerializer(serializers.Serializer):
     token = serializers.CharField()
+
 
 class UpdateProfileSerializer(serializers.Serializer):
     full_name = serializers.CharField()

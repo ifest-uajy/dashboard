@@ -18,6 +18,7 @@ from django.views.decorators.cache import never_cache
 from django.http import JsonResponse
 from .serializers import AnnouncementSerializer
 
+
 class AnnouncementView(ListAPIView):
     queryset = Announcement.objects.filter(isShown=True)
     serializer_class = AnnouncementSerializer

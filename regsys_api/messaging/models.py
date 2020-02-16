@@ -7,6 +7,7 @@ from django.utils import timezone
 
 import requests
 
+
 class Message(models.Model):
     nama_pengirim = models.CharField(max_length=50)
     email_pengirim = models.CharField(max_length=50)
@@ -18,14 +19,14 @@ class Message(models.Model):
         return "{} - {}".format(self.nama_pengirim, self.email_pengirim)
 
     def send_line_notification(self):
-        auth_token='JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
+        auth_token = 'JrtU8tFBrOugQLboQvaFpJdjlM5EvRIwUWaIwNwhGD5N6q1KcaouIgKd20VsJnNlQxc0RcBEf8nahzX6vJw9e51VcWA6BcQV+/F1PHNb5KVOGWxvvhM5CVyAx52RqInxmQGWQe8AToPTXLte/QUhUQdB04t89/1O/w1cDnyilFU='
         hed = {'Authorization': 'Bearer ' + auth_token}
         data = {
             "to": "C0fd8ac3ed9f41fe84d3de2d7581d52ed",
-            "messages":[
+            "messages": [
                 {
-                    "type":"text",
-                    "text":"[INFO PESAN]\n{} baru saja mengirim pesan:\n{}.".format(self.nama_pengirim,  self.pesan)
+                    "type": "text",
+                    "text": "[INFO PESAN]\n{} baru saja mengirim pesan:\n{}.".format(self.nama_pengirim,  self.pesan)
                 }
             ]
         }
@@ -58,4 +59,3 @@ class Message(models.Model):
         mail.send(
             fail_silently=False
         )
-

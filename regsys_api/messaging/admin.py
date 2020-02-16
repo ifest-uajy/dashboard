@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Message
 from django import forms
 
+
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = [

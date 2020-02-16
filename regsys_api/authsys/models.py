@@ -15,6 +15,7 @@ from django.template.loader import get_template
 from django.utils.timezone import utc
 import datetime
 
+
 def generate_email_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
 
@@ -104,7 +105,6 @@ class User(AbstractUser):
     Field upload KTM
     """
     #link_file = models.UUIDField(default=None)
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
