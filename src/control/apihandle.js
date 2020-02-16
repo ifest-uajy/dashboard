@@ -5,8 +5,9 @@ const handle = axios.create({
   baseURL: "/api",
   timeout: 5000,
   headers: {
-    "Content-Type": "application/json",
-    "X-CSRFToken": Cookies.get("csrftoken")
+    "Content-Type": "application/json", // Always use json content type for every requests
+    "Cache-Control": "no-cache", // Prevent browser from using cached version of each requests
+    "X-CSRFToken": Cookies.get("csrftoken") // Always provide csrf token for each POST/PUT requests
   }
 });
 
