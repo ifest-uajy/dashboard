@@ -1,11 +1,11 @@
-# Cloverleaf 🍀🍀
+# Cloverleaf 🍀
 
 ![Screenshoot](./screenshoot.png)
 
-Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan, seminar atau workshop. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan, memverifikasi pembayaran dan mengirimkan tiket kepada user.
+Cloverleaf 🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan dan memverifikasi pembayaran.
 
-## Technology Stack
-1. Django (Web Framework)
+## Tech Stack
+1. Django
 2. Django Rest Framwork
 3. Vue
 4. MySQL
@@ -20,16 +20,17 @@ Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa
 2. Competitions
     - Create a team
     - Join a team
-    - Team profile
+    - ~~Team profile~~
     - Team members
     - Payment (including in file upload)
     - File upload
-3. ~~Talks (not implemented, using 3rd services)~~
+3. ~~Talks (not implemented, coz using 3rd services)~~
     - ~~Join a seminar/workshop~~
     - ~~Payment~~
     - ~~Ticket/attendance confirmation~~
 4. Staff Dashboard
     - Verify payment
+    - Verify file upload (for those need verified files)
     - Download user uploaded files
     - ~~Download rekap data peserta~~
     - ~~Edit data~~
@@ -45,6 +46,9 @@ Cloverleaf 🍀🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa
     - ~~Ticket/attendance confirmation issued~~
 
 ## Development
+
+Development steps below using `pipenv` and `npm`. If you want to use others development environment please consider to do it yourself.
+
 1. Using pipenv and npm `pipenv install` and `npm install`
 2. Open shell `pipenv shell`
 3. Migrate database `py manage.py makemigrations` and `py manage.py migrate`
