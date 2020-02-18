@@ -21,7 +21,7 @@
         <div v-if="response.length !== 0 && response.status !== 'ditolak'">
           File berhasil diunggah pada
           <b>{{
-            moment(String(response.updated_at)).format("DD MMMM YYYY hh:mm A")
+            moment(String(response.updated_at)).format("DD MMMM YYYY HH:mm")
           }}</b>
           <br />
           <a :href="downloadUrl" class="body-link" target="_blank"
@@ -29,13 +29,19 @@
           >
         </div>
 
-        <div v-else><div v-html="task.deskripsi"></div></div>
-        <br />
+        <div v-else>
+          <p class="pb-0 mb-2 font-weight-bold">Keterangan uploader:</p>
+          <p class="pb-0 mb-2">Format nama file: <span class="font-weight-bold">{{ task.deskripsi }}</span></p>
+          <p class="pb-0 mb-2">Ukuran maksimum file: <span class="font-weight-bold">{{ task.max_file_upload }} MB</span></p>
+          <p class="pb-0 mb-2 font-weight-bold red--text">Perhatikan keterangan diatas!</p>
+        </div>
+
+        <br/>
 
         <div v-if="response.length !== 0 && response.status === 'ditolak'">
           File terakhir berhasil diunggah pada
           <b>{{
-            moment(String(response.updated_at)).format("DD MMMM YYYY hh:mm A")
+            moment(String(response.updated_at)).format("DD MMMM YYYY HH:mm")
           }}</b>
           <br />
           <a :href="downloadUrl" class="body-link" target="_blank"
@@ -77,7 +83,8 @@
           >Pastikan file yang diupload sudah benar!</v-card-title
         >
         <v-card-text
-          >File yang akan diupload adalah <b>{{ file_name }}</b
+          >File yang akan diupload adalah
+          <b>{{ file_name }} ({{ (file_size / 1024 / 1024).toFixed(2) }} MiB)</b
           >. Kesempatan untuk mengunggah file hanya ada sekali.</v-card-text
         >
         <v-card-actions>
@@ -111,13 +118,14 @@ export default {
   },
   data: () => ({
     dialog: false,
+    file_size: 0,
     file_name: "",
     uploadBatalSB: false,
     loading: false,
     dropOptions: {
       url: "/api/file/upload/",
       maxFiles: 1,
-      maxFilesize: 10, // MB,
+      maxFilesize: 100, // MB,
       autoProcessQueue: false,
       addRemoveLinks: true,
       dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Upload File",
@@ -144,9 +152,17 @@ export default {
       await setTimeout(() => (this.uploadBatalSB = false), 2000);
     },
     uploadFile: function(file) {
-      this.dialog = true;
-      this.file_name = file.name;
-      this.dropzoneError = null;
+      this.$refs.dropzone.dropzone.options.maxFilesize = this.task.max_file_upload;
+      if (file.size / 1024 / 1024 > this.task.max_file_upload) {
+        this.dialog = false;
+        this.$refs.dropzone.removeAllFiles(true);
+        this.file_name = "";
+      } else {
+        this.dialog = true;
+        this.file_name = file.name;
+        this.dropzoneError = null;
+        this.file_size = file.size;
+      }
     },
     uploadSuccess: function(file, response) {
       this.addTaskResponse({

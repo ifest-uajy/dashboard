@@ -79,6 +79,7 @@ class HackathonTask(models.Model):
     deadline = models.DateTimeField(null=True)
     task_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     require_validation = models.BooleanField(default=False)
+    max_file_upload = models.IntegerField(default=10)
 
     def __str__(self):
         return "{} - {}".format(self.track, self.name)

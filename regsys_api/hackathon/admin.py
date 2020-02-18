@@ -141,7 +141,7 @@ class TaskResponseAdmin(admin.ModelAdmin):
 @admin.register(HackathonTask)
 class HackathonTaskAdmin(admin.ModelAdmin):
     list_display = [
-        'track', 'name', 'order', 'deadline', 'require_validation', 'task_type'
+        'track', 'name', 'order', 'deadline', 'require_validation', 'task_type', 'max_file_upload'
     ]
 
     ordering = ['track', 'order', '-deadline']

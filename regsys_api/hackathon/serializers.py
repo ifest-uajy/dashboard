@@ -123,7 +123,7 @@ class HackathonTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = HackathonTask
         fields = (
-            'id', 'name', 'deadline', 'deskripsi', 'order', 'task_type'
+            'id', 'name', 'deadline', 'deskripsi', 'order', 'task_type', 'max_file_upload'
         )
 
 

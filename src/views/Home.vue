@@ -52,6 +52,92 @@
         </p>
       </div>
     </div>
+
+    <v-container class="container-dash mt-12">
+      <v-row align="center">
+        <v-col cols="12" sm="6">
+          <h1>Apa itu Informatics Festival?</h1>
+          <p>
+            IFest adalah Informatics Festival. Merupakan festival tahunan yang
+            diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMAFORKA)
+            Universitas Atma Jaya Yogyakarta.
+          </p>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-carousel
+            cycle
+            height="250"
+            hide-delimiter-background
+            show-arrows-on-hover
+          >
+            <v-carousel-item v-for="(slide, i) in slides" :key="i">
+              <v-sheet :color="colors[i]" height="100%">
+                <v-row class="fill-height" align="center" justify="center">
+                  <div class="display-3">{{ slide }} Slide</div>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="competition-box mt-12 px-10 pb-10 mb-10">
+      <h2 class="pt-5 pb-5 grey--text text--darken-4">Kompetisi tahun ini</h2>
+      <v-card class="" max-width="344">
+        <v-card-text>
+
+          <p class="display-1 text--primary">
+            Competition Name
+          </p>
+          <p>Pendaftaran: </p>
+          <div class="text--primary">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text color="deep-purple accent-4">
+            Learn More
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-container>
+
+    <v-container class="container-dash mt-12">
+      <v-row align="center">
+        <v-col cols="12" sm="6">
+             <v-carousel
+            cycle
+            height="250"
+            hide-delimiter-background
+            show-arrows-on-hover
+          >
+            <v-carousel-item v-for="(slide, i) in slides" :key="i">
+              <v-sheet :color="colors[i]" height="100%">
+                <v-row class="fill-height" align="center" justify="center">
+                  <div class="display-3">{{ slide }} Slide</div>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
+        </v-col>
+        <v-col cols="12" sm="6">
+       <h1>Gimana cara mendaftar kompetisi IFest?</h1>
+          <p>
+            IFest adalah Informatics Festival. Merupakan festival tahunan yang
+            diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMAFORKA)
+            Universitas Atma Jaya Yogyakarta.
+          </p>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="container-dash mt-12">
+      <h2>Tertarik dengan Informatics Festival (IFest)? </h2>
+      <p>Masukkan alamat email kamu melalui form dibawah ini untuk menerima informasi lomba berikutnya.</p>
+      <p>Kami hanya akan menghubungi anda jika ada kompetisi baru.</p>
+    </v-container>
+
     <!-- <div class="cara-pendaftaran">
       <p class="sub-judul">Gimana sih cara daftar kompetisi <b>Informatics Festival #8</b>?</p>
     </div>
@@ -70,6 +156,18 @@
 export default {
   mounted() {
     this.$ga.page("/");
+  },
+  data() {
+    return {
+      colors: [
+        "indigo",
+        "warning",
+        "pink darken-2",
+        "red lighten-1",
+        "deep-purple accent-4"
+      ],
+      slides: ["First", "Second", "Third", "Fourth", "Fifth"]
+    };
   }
 };
 </script>
@@ -276,5 +374,20 @@ a:active {
 .number-sub {
   font-weight: 700;
   font-size: 20pt;
+}
+
+.container-dash {
+  margin: auto;
+  max-width: 900px;
+}
+
+.competition-box {
+  min-height: 300px;
+  background-color: white;
+  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
+  outline: none;
+  border: none !important;
+  border-radius: 8px !important;
+  max-width: 1000px;
 }
 </style>
