@@ -172,8 +172,9 @@
                       <div v-else>
                         <div v-if="task.task.task_type !== 'pengumuman'">
                           <span class="red--text">
-                            <v-alert type="error" prominent outlined>
-                              <p class="font-weight-bold mb-0">
+                            <v-alert outlined color="red"
+                            border="top">
+                              <p class="font-weight-bold mb-2">
                                 {{ task.task.name }} sudah melewati batas
                                 pengumpulan
                               </p>
