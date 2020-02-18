@@ -39,15 +39,27 @@
               </p>
               <h3 class="pt-0 mt-0 ">{{ c.kompetisi.name }}</h3>
             </v-card-subtitle>
-            <v-card-subtitle>
-              <!-- <h2 class="black--text mb-2">Informasi Tim</h2> -->
+            <!-- <v-card-subtitle>
+              < <h2 class="black--text mb-2">Informasi Tim</h2> --
 
-              <!-- <p class="black--text mb-1 mt-4">Nama Tim</p>
+              < <p class="black--text mb-1 mt-4">Nama Tim</p>
               <v-text-field class="pt-0" disabled v-model="c.nama"></v-text-field>
 
               <p class="black--text mb-1">Asal Institusi</p>
-              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field> -->
-
+              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field> --
+              <v-btn @click="copyText('' + c.invitation_token)">copy</v-btn>--
+            </v-card-subtitle> -->
+            <v-card-subtitle class="mb-0 pb-0">
+              <h2 class="black--text mb-2">Pendamping Tim</h2>
+              <p class="black--text mb-0 mt-4">Nama Pendamping</p>
+              <v-text-field
+                class="pt-0"
+                disabled
+                v-model="c.pembimbing.nama"
+              ></v-text-field>
+            </v-card-subtitle>
+            <v-card-subtitle class="mt-0 pt-0 pb-0">
+              <h2 class="black--text mb-2">Anggota Tim</h2>
               <p class="black--text mb-1">Token Tim</p>
               <v-text-field
                 :id="`CopyThis-` + c.id"
@@ -59,26 +71,7 @@
                 :persistent-hint="true"
                 hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
               ></v-text-field>
-              <!--<v-btn @click="copyText('' + c.invitation_token)">copy</v-btn>-->
-            </v-card-subtitle>
-            <v-card-subtitle>
-              <h2 class="black--text mb-2">Pendamping Tim</h2>
-              <p class="black--text mb-0 mt-4">Nama Pendamping</p>
-              <v-text-field
-                class="pt-0"
-                disabled
-                v-model="c.pembimbing.nama"
-              ></v-text-field>
-            </v-card-subtitle>
-            <v-card-subtitle>
-              <h2 class="black--text mb-2">Anggota Tim</h2>
-              <p class="mt-2">
-                Dibawah ini daftar anggota dalam tim ini. Untuk menambahkan
-                anggota berikan token diatas ke teman anda dan join melalui menu
-                kompetisi. Anggota tim yang sudah bergabung tidak dapat
-                diganti/dihapus.
-              </p>
-              <v-content class="px-0 black--text pb-0">
+              <v-content class="px-0 black--text pb-0 pt-3">
                 <ol>
                   <li v-for="u in c.anggota" :key="u" class="mb-0">
                     <span v-if="c.ketua == u">
@@ -102,13 +95,16 @@
                   untuk 1 tim dalam kompetisi ini.</b
                 >
               </v-alert>
-            </v-card-subtitle>
-            <v-card-subtitle :hidden="!c.task_permission">
-              <h2 class="black--text mb-1">Task Lomba</h2>
               <p class="mt-2">
+                Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.
+              </p>
+            </v-card-subtitle>
+            <v-card-subtitle :hidden="!c.task_permission" class="pt-0">
+              <h2 class="black--text mb-5">Task Lomba</h2>
+              <!-- <p class="mt-2">
                 Dibawah ini adalah task-task yang harus diselesaikan oleh tim
                 untuk mengikuti kompetisi.
-              </p>
+              </p> -->
 
               <v-stepper vertical v-model="c.current_task.order">
                 <div v-for="task in c.tasks" :key="task.task.order">
@@ -175,7 +171,25 @@
                       </div>
                       <div v-else>
                         <div v-if="task.task.task_type !== 'pengumuman'">
-                          <b>{{ task.task.name }}</b> sudah ditutup.
+                          <span class="red--text">
+                            <v-alert type="error" prominent outlined>
+                              <p class="font-weight-bold mb-0">
+                                {{ task.task.name }} sudah melewati batas
+                                pengumpulan
+                              </p>
+                              <p class="black--text text--darken-2 mb-1">
+                                Maaf, anda tidak bisa lagi mengunggah file
+                                karena batas waktu pengumpulan sudah terlewati
+                                sejak
+                                <b>
+                                  {{
+                                  moment(String(task.task.deadline)).format(
+                                    "DD MMMM YYYY HH:mm")
+                                  }}
+                                </b>
+                              </p>
+                            </v-alert>
+                          </span>
                         </div>
                         <div v-else></div>
                       </div>

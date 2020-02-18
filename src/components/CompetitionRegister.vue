@@ -3,7 +3,6 @@
     <v-card
       outlined
       max-width="600"
-      width="600"
       class="card_cloverleaf mb-5 mt-10 px-5 mr-auto ml-auto"
     >
       <v-card-title class="title_card_cloverleaf pt-10"
