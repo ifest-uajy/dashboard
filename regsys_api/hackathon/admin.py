@@ -20,7 +20,8 @@ from threading import Thread
 @admin.register(Track)
 class TrackAdmin(admin.ModelAdmin):
     list_display = ['name', 'team_min_member',
-                    'team_max_member', 'description', 'closed_date', 'biaya_pendaftaran']
+                    'team_max_member', 'description', 'closed_date', 'biaya_pendaftaran',
+                    'is_shown', 'slug_image']
 
 
 @admin.register(HackathonTeamsMember)

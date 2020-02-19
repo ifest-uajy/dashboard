@@ -40,8 +40,8 @@ class Track(models.Model):
     team_min_member = models.IntegerField(default=1)
     slug_name = models.CharField(max_length=50)
     biaya_pendaftaran = models.IntegerField()
-    #is_shown = models.BooleanField()
-    #slug_image = models.CharField(max_length=100)
+    is_shown = models.BooleanField()
+    slug_image = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.name
