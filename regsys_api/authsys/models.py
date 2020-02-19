@@ -143,8 +143,8 @@ class RegistrationHandler(models.Model):
             'action_url': 'https://dashboard.ifest-uajy.com/confirm/' + self.token
         }
 
-        text_template = get_template('regis_email_new.html')
-        html_template = get_template('regis_email_new.html')
+        text_template = get_template('regis_email.html')
+        html_template = get_template('regis_email.html')
 
         mail_text_message = text_template.render(context)
         mail_html_message = html_template.render(context)
