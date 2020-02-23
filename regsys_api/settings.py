@@ -69,7 +69,7 @@ ROOT_URLCONF = 'regsys_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['dist'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,10 +141,11 @@ REST_FRAMEWORK = {
     )
 }
 
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', None)
-EMAIL_HOST = os.getenv('EMAIL_HOST', None)
-EMAIL_PORT = os.getenv('EMAIL_PORT', None)
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
 
@@ -153,5 +154,5 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@ifest-uajy.com')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [BASE_DIR+"/assets/"]
-STATIC_ROOT = '/home/ifesthim/regsys-clover/static/'
-MEDIA_ROOT = '/home/ifesthim/regsys-clover/media/'
+STATIC_ROOT = '/home/ifesthim/regsys-backend/static/'
+MEDIA_ROOT = '/home/ifesthim/regsys-backend/media/'

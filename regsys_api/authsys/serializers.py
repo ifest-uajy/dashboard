@@ -46,6 +46,8 @@ class PasswordResetConfirmationRequestSerializerPost(serializers.Serializer):
     token = serializers.CharField()
     new_password = serializers.CharField()
 
+class ResendActivationRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
 class PasswordChangeRequestSerializer(serializers.Serializer):
     password = serializers.CharField()

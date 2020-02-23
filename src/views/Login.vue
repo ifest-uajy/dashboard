@@ -42,6 +42,11 @@
                 >Belum punya akun?</router-link
               >
             </p>
+            <p class="font-weight-medium">
+              <router-link to="/resend" class="link_clover"
+                >Kirim ulang email aktivasi?</router-link
+              >
+            </p>
 
             <v-btn
               large

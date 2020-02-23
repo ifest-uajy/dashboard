@@ -243,6 +243,27 @@ export default {
         commit("setLoading", false);
       }
     },
+    async resend({ commit }, { email }) {
+      try {
+        commit("setLoading", true);
+        commit("resetError");
+        commit("resetMessage");
+        let response = await handle.post("/auth/confirm/resend/", { email });
+        if (response.status == 200) {
+          console.log(response.data);
+          commit("setMessage", response.data);
+        }
+      } catch (e) {
+        if (e.response.data) {
+          console.log(e.response.data);
+          commit("setError", e.response.data);
+        } else {
+          commit("setError", e);
+        }
+      } finally {
+        commit("setLoading", false);
+      }
+    },
     async changePassword({ commit }, { password, new_password }) {
       try {
         commit("setLoading", true);

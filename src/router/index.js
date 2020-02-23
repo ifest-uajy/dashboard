@@ -6,7 +6,7 @@ import LoginComponent from "../views/Login.vue";
 import NotFoundComponent from "../views/404.vue";
 import KontakKamiView from "../views/KontakKamiView";
 import RegistrationComponent from "../views/registration.vue";
-
+import ResendActivation from "../views/ResendActivation.vue"
 /*
 
   TODO:
@@ -87,6 +87,14 @@ const routes = [
     beforeEnter: reqAnonymous,
     meta: {
       title: "Pendaftaran - Informatics Festival (IFest) #8"
+    }
+  },
+  {
+    path: "/resend",
+    component: ResendActivation,
+    beforeEnter: reqAnonymous,
+    meta: {
+      title: "Kirim Ulang Email Aktivasi - Informatics Festival (IFest) #8"
     }
   },
   {

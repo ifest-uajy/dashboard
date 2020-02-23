@@ -52,7 +52,7 @@
         </p>
       </div>
     </div>
-
+<!-- 
     <v-container class="container-dash mt-12">
       <v-row align="center">
         <v-col cols="12" sm="6">
@@ -100,7 +100,7 @@
             Learn More
           </v-btn>
         </v-card-actions>
-      </v-card>
+      </v-card>p
     </v-container>
 
     <v-container class="container-dash mt-12">
@@ -136,7 +136,7 @@
       <h2>Tertarik dengan Informatics Festival (IFest)? </h2>
       <p>Masukkan alamat email kamu melalui form dibawah ini untuk menerima informasi lomba berikutnya.</p>
       <p>Kami hanya akan menghubungi anda jika ada kompetisi baru.</p>
-    </v-container>
+    </v-container> -->
 
     <!-- <div class="cara-pendaftaran">
       <p class="sub-judul">Gimana sih cara daftar kompetisi <b>Informatics Festival #8</b>?</p>

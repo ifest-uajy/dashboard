@@ -27,7 +27,8 @@ from .serializers import (
     PasswordResetConfirmationRequestSerializerPost,
     PasswordChangeRequestSerializer,
     EmailConfirmationSerializer,
-    UpdateProfileSerializer
+    UpdateProfileSerializer,
+    ResendActivationRequestSerializer
 )
 
 from django.utils.decorators import method_decorator
@@ -199,6 +200,53 @@ class RegistrationConfirmationView(APIView):
             },
             status=status.HTTP_202_ACCEPTED
         )
+
+class ResendActivationHandlerView(APIView):
+    """
+    Provides ability to resend activation email.
+    Drag down multi account sign up for one person
+    only because email not sent.
+    """
+
+    @method_decorator(ensure_csrf_cookie)
+    @method_decorator(never_cache)
+
+    def post(self, request):
+        request_serializer = ResendActivationRequestSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+        email = request_serializer.validated_data['email'].lower()
+
+        with transaction.atomic():
+            user = User.objects.filter(email=email).first()
+
+            if user is None:
+                return Response(
+                    {
+                        'message': 'Akun yang tertaut denan email ini tidak ditemukan',
+                        'status': 'failed'
+                    },
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            if user.is_confirmed:
+                return Response(
+                    {
+                        'message': 'Email sudah dikonfirmasi',
+                        'status': 'failed'
+                    },
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            
+            attempt = RegistrationHandler.objects.filter(user=user).first()
+            Thread(target=attempt.send_email).start()
+
+            return Response(
+                {
+                    'message': 'Email aktivasi akun sudah dikirim kembali ke {}'.format(user.email),
+                    'status': 'success'
+                },
+                status=status.HTTP_200_OK
+            )
 
 
 class ForgotPasswordHandlerView(APIView):

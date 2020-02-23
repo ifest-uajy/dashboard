@@ -204,10 +204,10 @@
                                 <span
                                   v-if="
                                     item.task.task_type !== 'pengumuman' &&
-                                      item.task.id <= detail.current_task.id &&
                                       item.response.length !== 0
                                   "
                                 >
+                                <!-- item.task.id <= detail.current_task.id && -->
                                   <a
                                     :href="
                                       `/api/file/download/` +
