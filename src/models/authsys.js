@@ -250,12 +250,12 @@ export default {
         commit("resetMessage");
         let response = await handle.post("/auth/confirm/resend/", { email });
         if (response.status == 200) {
-          console.log(response.data);
+          //console.log(response.data);
           commit("setMessage", response.data);
         }
       } catch (e) {
         if (e.response.data) {
-          console.log(e.response.data);
+          //console.log(e.response.data);
           commit("setError", e.response.data);
         } else {
           commit("setError", e);

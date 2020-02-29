@@ -94,7 +94,7 @@ export default {
           no_telp_pembimbing
         });
         if (response.status == 201) {
-          console.log(response.data);
+          //console.log(response.data);
           commit("setMessage", response.data);
           let req2 = await handle.get("/hackathon/teams/");
           commit("setTeams", req2.data);
@@ -111,7 +111,7 @@ export default {
         commit("setLoading", true);
         commit("resetError");
         let response = await handle.post("hackathon/teams/join/", { token });
-        console.log(response.data);
+        //console.log(response.data);
         if (response.status == 201) {
           console.log(response.data);
           commit("setMessage", response.data);
@@ -148,9 +148,9 @@ export default {
           task_id,
           response
         });
-        console.log(resp.data);
+        //console.log(resp.data);
         if (resp.status == 201) {
-          console.log(resp.data);
+          //console.log(resp.data);
           commit("setMessage", resp.data);
           let req2 = await handle.get("/hackathon/teams/");
           commit("setTeams", req2.data);

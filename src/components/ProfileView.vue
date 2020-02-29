@@ -285,10 +285,10 @@ export default {
       //
       this.scrollToTop();
       if (!this.success) {
-        console.log("A");
+        //console.log("A");
         this.editing = true;
       } else {
-        console.log("B");
+        //console.log("B");
         this.alertShow = true;
         this.editing = false;
         await setTimeout(() => (this.alertShow = false), 2000);

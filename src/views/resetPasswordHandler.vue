@@ -121,7 +121,7 @@ export default {
     }
   },
   beforeMount() {
-    console.log(this.$route.params.token),
+    //console.log(this.$route.params.token),
       this.resetAction({
         token: this.$route.params.token
       });

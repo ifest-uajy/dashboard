@@ -125,6 +125,7 @@ export default {
     dropOptions: {
       url: "/api/file/upload/",
       maxFiles: 1,
+      timeout: 120000,
       maxFilesize: 100, // MB,
       autoProcessQueue: false,
       addRemoveLinks: true,

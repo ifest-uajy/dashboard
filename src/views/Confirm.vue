@@ -55,7 +55,7 @@ export default {
     })
   },
   beforeMount() {
-    console.log(this.$route.params.token),
+    //console.log(this.$route.params.token),
       this.confirmToken({
         token: this.$route.params.token
       });

@@ -398,12 +398,12 @@ export default {
       this.dialog = true;
     },
     async tolak(id) {
-      console.log(id);
+      //console.log(id);
       await this.confirmTeam({
         task_res_id: id,
         tolak: true
       });
-      console.log("get new detail");
+      //console.log("get new detail");
       await this.getCompetitionDetail({
         id: this.detail.id
       });

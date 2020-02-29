@@ -71,7 +71,7 @@ export default {
         let response = await handle.get("/hackathon/admin/detail/" + id + "/");
         commit("setCompetitionDetail", response.data);
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       } finally {
         commit("setLoading2", false);
       }
@@ -84,7 +84,7 @@ export default {
         );
         commit("setSlugDetail", response.data);
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       } finally {
         commit("setLoading", false);
       }

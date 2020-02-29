@@ -112,7 +112,7 @@ export default {
     if (this.user.is_staff) {
       this.$router.push({ name: "sekret-view" });
     } else {
-      console.log("Damn");
+      //console.log("Damn");
       this.getAnouncement();
       this.getCompetition();
       this.getTeams();
