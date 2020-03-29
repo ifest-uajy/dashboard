@@ -41,6 +41,7 @@ class Track(models.Model):
     slug_name = models.CharField(max_length=50)
     biaya_pendaftaran = models.IntegerField()
     is_shown = models.BooleanField()
+    is_closed = models.BooleanField()
     slug_image = models.CharField(max_length=100, null=True)
 
     def __str__(self):

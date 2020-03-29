@@ -25,7 +25,7 @@
     <v-container class="pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
-          <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired">
+          <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired || c.is_closed">
             <v-card-title class="mb-3">
               <span class="wordBreak">{{ c.name }}</span>
             </v-card-title>
@@ -78,12 +78,12 @@
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn v-if="c.isExpired" color="grey" text
+              <v-btn v-if="c.isExpired || c.is_closed" color="grey" text
                 >Pendaftaran Ditutup</v-btn
               >
               <v-btn
                 class="ml-2"
-                v-if="!c.isExpired"
+                v-else
                 outlined
                 :to="`competition/` + c.slug_name"
                 color="black"

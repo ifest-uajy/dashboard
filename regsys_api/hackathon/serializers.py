@@ -13,7 +13,7 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = (
-            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'isExpired', 'slug_name', 'biaya_pendaftaran'
+            'id', 'name', 'team_min_member', 'team_max_member', 'description', 'closed_date', 'isExpired', 'slug_name', 'biaya_pendaftaran', 'is_closed'
         )
 
 
