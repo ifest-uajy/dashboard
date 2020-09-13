@@ -28,7 +28,8 @@ from .serializers import (
     JoinTeamSerializer,
     PostTaskResponseSerializer,
     TaskResponseSerializer,
-    AdminConfirmTask
+    AdminConfirmTask,
+    TeamMemberSerializer
 )
 from django.utils import timezone
 
@@ -299,6 +300,27 @@ class DetailTeam(views.APIView):
         return Response(
             data=response_serializer.data, status=status.HTTP_200_OK
         )
+
+class TeamMemberHandler(views.APIView):
+    """
+        Handler untuk POST dan GET team member.
+        Kelas ini berfungsi untuk menambah, mengedit dan menampilkan
+        data anggota kelompok selain ketua.
+    """
+
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request):
+        """
+            Fungsi untuk menambahkan anggota tim kedalam tim oleh ketua tim
+        """
+
+        req_serializer = TeamMemberSerializer(data=request.data)
+        req_serializer.is_valid(raise_exception=True)
+
+        user = User.objects.filter(email=request.user.email).first()
+
+        #TODO buat masukin user ke team ganti semua team member yg lama
 
 
 class AdminTaskHandler(views.APIView):

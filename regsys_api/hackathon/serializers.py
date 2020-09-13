@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from regsys_api.authsys.models import User
-from .models import Track, HackathonTeams, HackathonTeamsMember, HackathonTask, TaskResponse
+from .models import (
+    Track, HackathonTeams, HackathonTeamsMember, HackathonTask, TaskResponse,
+    TeamMember
+)
 from regsys_api.authsys.serializers import UserSerializer
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -365,11 +368,13 @@ class AdminTeamDetailSerializer(serializers.ModelSerializer):
 
         return json_list_all
 
-
-"""
-    def get_info_task(self, obj):
-        queryset = HackathonTask.objects.filter(track=obj.track)
-        return json.loads(
-            json.dumps(list(HackathonTaskSerializer(queryset, many=True).data))
+class TeamMemberSerializer(serializers.ModelSerializer):
+    """
+        Serializer untuk data model TeamMember
+    """
+    class Meta:
+        model = TeamMember
+        fields = (
+            'id', 'nama_lengkap', 'email', 'nomor_identitas', 'tanggal_lahir',
+            'vegetarian_bool', 'alergi_makanan', 'id_line' 'nomor_telepon'
         )
-        """

@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'regsys_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'regsysc'),
-        'USER': os.getenv('DB_USER', 'regsys'),
-        'PASSWORD': os.getenv('DB_PASS', 'regsys9910'),
+        'NAME': os.getenv('DB_NAME', 'ifesthim_regsys_db'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASS', 'root'),
         # Or an IP Address that your DB is hosted on
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', 3306),

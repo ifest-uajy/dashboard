@@ -18,7 +18,7 @@ import requests
 from django.template.loader import get_template
 import sys
 from django.utils.crypto import get_random_string
-
+from django.utils.translation import ugettext_lazy as _
 
 def generate_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
@@ -226,6 +226,31 @@ class HackathonTeamsMember(models.Model):
         get_latest_by = 'created_at'
         verbose_name = 'Anggota Tim'
         verbose_name_plural = 'Anggota Tim'
+
+class TeamMember(models.Model):
+    """
+        Merupakan model database untuk menyimpan data anggota salah satu
+        tim yang mengikuti sebuah kompetisi.
+    """
+    
+    # Relationship dengan id tim dimana anggota tim berada
+    team = models.ForeignKey(
+        to=HackathonTeams, related_name='member_to_team', on_delete=models.CASCADE
+    )
+    
+    # Attribut umum user
+    nama_lengkap = models.CharField(max_length=100)
+    email = models.EmailField(_('email address'))
+    nomor_identitas = models.CharField(max_length=50)
+    tanggal_lahir = models.DateField(default=None)
+
+    # Attribut khusus user
+    vegetarian_bool = models.BooleanField(default=False)
+    alergi_makanan = models.CharField(max_length=120)
+
+    # Attribut kontak user
+    id_line = models.CharField(max_length=30)
+    nomor_telepon = models.CharField(max_length=13)
 
 
 class TaskResponse(models.Model):

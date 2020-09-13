@@ -25,10 +25,12 @@
     "weekstart": "^1.0.1"
   },
   "devDependencies": {
+    "@mdi/font": "^5.5.55",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-router": "^4.0.0",
     "@vue/cli-plugin-vuex": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
+    "material-design-icons-iconfont": "^6.1.0",
     "prettier": "1.19.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
