@@ -70,7 +70,7 @@ Development steps below using `pipenv` and `npm`. If you want to use others deve
 
 ## Copyright
 
-This is a source code repository for a registration system that uses in a event. This project was open-sourced recently as the event has ended. Feel free to use this code but pay attention with [LICENSE](LICENSE)
+This is a source code repository for a registration system that uses in a event. You could take a look to this work but cannot do anything with this code. This code was have no license, so you could read more in [here](https://choosealicense.com/no-permission/) what could you do and don't.
 
 ## Author
 - Vriyas Hartama A (haruute0) - Full Stack Developer
