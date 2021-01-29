@@ -26,7 +26,7 @@ class TrackAdmin(admin.ModelAdmin):
 
 @admin.register(HackathonTeamsMember)
 class HackathonUserAdmin(admin.ModelAdmin):
-    list_display = ['user', 'team', 'created_at']
+    list_display = ['user', 'full_name', 'team', 'created_at']
 
     ordering = ['created_at']
 

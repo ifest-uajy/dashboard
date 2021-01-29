@@ -9,7 +9,7 @@
         >Registrasi Tim</v-card-title
       >
       <v-card-subtitle class="subtitle_card_cloverleaf"
-        >Informatics Festival#8</v-card-subtitle
+        >Informatics Festival</v-card-subtitle
       >
 
       <v-card-text v-if="messages.message">

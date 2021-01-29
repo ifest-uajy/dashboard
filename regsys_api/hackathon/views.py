@@ -29,7 +29,7 @@ from .serializers import (
     PostTaskResponseSerializer,
     TaskResponseSerializer,
     AdminConfirmTask,
-    TeamMemberSerializer
+    TeamMemberSerializer, AddAnggotaSerializer
 )
 from django.utils import timezone
 
@@ -49,7 +49,6 @@ class ListHackathonTeams(generics.ListAPIView):
 
 
 class RegisterTeamView(views.APIView):
-
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **extra_fields):
@@ -60,12 +59,12 @@ class RegisterTeamView(views.APIView):
 
         if user.isProfileComplete is False:
             return Response(
-                    {
-                        'message': 'Profil anda belum lengkap untuk membuat tim.',
-                        'status': 'failed',
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
+                {
+                    'message': 'Profil anda belum lengkap untuk membuat tim.',
+                    'status': 'failed',
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
         slug = request_serializer.validated_data['slug_name']
         track = Track.objects.filter(slug_name=slug).first()
@@ -107,12 +106,12 @@ class RegisterTeamView(views.APIView):
             Thread(target=new_team.send_email).start()
 
             return Response(
-                    {
-                        'message': 'Tim anda sudah terdaftar.',
-                        'status': 'success',
-                    },
-                    status=status.HTTP_201_CREATED
-                )
+                {
+                    'message': 'Tim anda sudah terdaftar.',
+                    'status': 'success',
+                },
+                status=status.HTTP_201_CREATED
+            )
 
 
 class GetTeamUserView(generics.ListAPIView):
@@ -124,7 +123,7 @@ class GetTeamUserView(generics.ListAPIView):
 
 
 class JoinTeam(views.APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, **extra_fields):
         request_serializer = JoinTeamSerializer(data=request.data)
@@ -135,12 +134,12 @@ class JoinTeam(views.APIView):
 
         if user.isProfileComplete is False:
             return Response(
-                    {
-                        'message': 'Profil anda belum lengkap untuk bergabung kedalam tim.',
-                        'status': 'failed',
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
+                {
+                    'message': 'Profil anda belum lengkap untuk bergabung kedalam tim.',
+                    'status': 'failed',
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
         token = request_serializer.validated_data['token']
 
@@ -150,12 +149,12 @@ class JoinTeam(views.APIView):
 
         if not team:
             return Response(
-                    {
-                        'message': 'Tim tidak di temukan.',
-                        'status': 'failed',
-                    },
-                    status=status.HTTP_404_NOT_FOUND
-                )
+                {
+                    'message': 'Tim tidak di temukan.',
+                    'status': 'failed',
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
 
         if HackathonTeamsMember.objects.filter(team__track=team.track, user=request.user).exists():
             return Response(
@@ -177,22 +176,64 @@ class JoinTeam(views.APIView):
             )
 
         HackathonTeamsMember.objects.create(
-                team=team,
-                user=request.user
-            )
+            team=team,
+            user=request.user
+        )
 
         return Response(
-                    {
-                        'message': 'Anda sudah terdaftar.',
-                        'status': 'success',
-                    },
-                    status=status.HTTP_201_CREATED
-                )
+            {
+                'message': 'Anda sudah terdaftar.',
+                'status': 'success',
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+
+class AddAnggotaTim(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = AddAnggotaSerializer
+
+    def post(self, request):
+        request_serializer = AddAnggotaSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+        team = get_object_or_404(
+            HackathonTeams.objects.all(),
+            id=request_serializer.validated_data['team_id'],
+        )
+        if team.team_leader.id != request.user.id:
+            return Response(
+                {
+                    'message': 'Hanya ketua tim ini yang bisa menambahkan user',
+                    'status': 'failed'
+                }, status=status.HTTP_403_FORBIDDEN
+            )
+        if team.jumlah_member >= team.track.team_max_member:
+            return Response(
+                {
+                    'message': 'Sudah penuh',
+                    'status': 'failed'
+                }, status=status.HTTP_403_FORBIDDEN
+            )
+        HackathonTeamsMember.objects.create(
+            team=team,
+            full_name=request_serializer.validated_data['full_name'],
+            id_line=request_serializer.validated_data['id_line'],
+            nomor_telepon=request_serializer.validated_data['nomor_telepon'],
+            email=request_serializer.validated_data['email'],
+            nomor_id=request_serializer.validated_data['nomor_id'],
+            tanggal_lahir=request_serializer.validated_data['tanggal_lahir'],
+        )
+        return Response(
+            {
+                'message': 'User registration success, please check your email to confirm your registration.',
+                'status': 'success'
+            },
+            status=status.HTTP_201_CREATED
+        )
 
 
 class addTaskResponse(views.APIView):
-
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
 
@@ -262,10 +303,9 @@ class addTaskResponse(views.APIView):
 
 
 class GetTeamById(views.APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser, )
+    permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def get(self, request, **kwargs):
-
         user = User.objects.filter(email=request.user.email).first()
 
         if user.is_staff is False:
@@ -289,10 +329,9 @@ class GetTeamById(views.APIView):
 
 
 class DetailTeam(views.APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser, )
+    permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def get(self, request, **kwargs):
-
         track = Track.objects.filter(slug_name=self.kwargs['slug'])
 
         response_serializer = TrackSerializer(track[0])
@@ -301,6 +340,7 @@ class DetailTeam(views.APIView):
             data=response_serializer.data, status=status.HTTP_200_OK
         )
 
+
 class TeamMemberHandler(views.APIView):
     """
         Handler untuk POST dan GET team member.
@@ -308,7 +348,7 @@ class TeamMemberHandler(views.APIView):
         data anggota kelompok selain ketua.
     """
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         """
@@ -320,11 +360,11 @@ class TeamMemberHandler(views.APIView):
 
         user = User.objects.filter(email=request.user.email).first()
 
-        #TODO buat masukin user ke team ganti semua team member yg lama
+        # TODO buat masukin user ke team ganti semua team member yg lama
 
 
 class AdminTaskHandler(views.APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser, )
+    permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def post(self, request):
 
@@ -337,7 +377,8 @@ class AdminTaskHandler(views.APIView):
 
         if task:
 
-            if request.user.groups.filter(name='Pengurus Harian').exists() or request.user.groups.filter(name='Sekretariat').exists():
+            if request.user.groups.filter(name='Pengurus Harian').exists() or request.user.groups.filter(
+                    name='Sekretariat').exists():
 
                 if task.status == TaskResponse.DONE:
                     return Response(

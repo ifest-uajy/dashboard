@@ -2,8 +2,8 @@ from django.urls import path
 from django.conf.urls import url
 from django.contrib.auth.decorators import permission_required
 from .views import (
-    RegisterTeamView, ListTrackView, GetTeamUserView, JoinTeam, addTaskResponse, ListHackathonTeams,  GetTeamById,
-    DetailTeam, AdminTaskHandler
+    RegisterTeamView, ListTrackView, GetTeamUserView, JoinTeam, addTaskResponse, ListHackathonTeams, GetTeamById,
+    DetailTeam, AdminTaskHandler, AddAnggotaTim
 )
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('teams/join/', JoinTeam.as_view()),
     path('admin/task/handler/', AdminTaskHandler.as_view()),
     path('teams/task/add/', addTaskResponse.as_view()),
+    path('teams/member/add/', AddAnggotaTim.as_view()),
     url('^admin/team/slug-detail/(?P<slug>.+)/$',
         DetailTeam.as_view(), name='team_list'),
     url('^admin/team/list/(?P<slug>.+)/$',

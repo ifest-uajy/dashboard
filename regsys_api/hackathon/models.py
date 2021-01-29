@@ -20,6 +20,7 @@ import sys
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 
+
 def generate_token():
     return get_random_string(length=32, allowed_chars=ascii_letters + digits)
 
@@ -34,7 +35,7 @@ def getxkcdpass():
 class Track(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    #open_date = models.DateTimeField(null=True)
+    # open_date = models.DateTimeField(null=True)
     closed_date = models.DateTimeField(null=True)
     team_max_member = models.IntegerField(default=1)
     team_min_member = models.IntegerField(default=1)
@@ -51,7 +52,7 @@ class Track(models.Model):
     def isExpired(self):
         if self.closed_date:
             now = datetime.datetime.utcnow().replace(tzinfo=utc)
-            if(now > self.closed_date):
+            if (now > self.closed_date):
                 return True
             else:
                 return False
@@ -62,7 +63,6 @@ class Track(models.Model):
 
 
 class HackathonTask(models.Model):
-
     FILE_SUBMISSION = 'file_uploader'
     PAYMENT_SUBMISSION = 'payment_verification'
     ANNOUNCEMENT = 'pengumuman'
@@ -91,7 +91,6 @@ class HackathonTask(models.Model):
 
 
 class HackathonTeams(models.Model):
-
     track = models.ForeignKey(
         to=Track, related_name='teams', on_delete=models.PROTECT)
     name = models.CharField(max_length=100, unique=True)
@@ -141,20 +140,20 @@ class HackathonTeams(models.Model):
 
     @property
     def jumlah_member(self):
-        return self.members.count()
+        return HackathonTeamsMember.objects.filter(team=self.pk).count()
 
     @property
     def bisa_up_task(self):
-        if(self.members.count() >= self.track.team_min_member):
+        if (self.members.count() >= self.track.team_min_member):
             return True
         else:
             return False
 
     def move_one_step(self):
 
-        if self.current_task.order+1 <= HackathonTask.objects.filter(track=self.track).count():
+        if self.current_task.order + 1 <= HackathonTask.objects.filter(track=self.track).count():
             self.current_task = HackathonTask.objects.filter(
-                Q(track=self.track), Q(order=self.current_task.order+1)).first()
+                Q(track=self.track), Q(order=self.current_task.order + 1)).first()
             self.save()
 
     def save(self, *args, **kwargs):
@@ -172,7 +171,8 @@ class HackathonTeams(models.Model):
             "messages": [
                 {
                     "type": "text",
-                    "text": "[INFO TIM]\n{} ({}) baru saja mendaftar kompetisi {}.".format(self.name,  self.institution, self.track.name)
+                    "text": "[INFO TIM]\n{} ({}) baru saja mendaftar kompetisi {}.".format(self.name, self.institution,
+                                                                                           self.track.name)
                 }
             ]
         }
@@ -211,15 +211,25 @@ class HackathonTeams(models.Model):
 
 
 class HackathonTeamsMember(models.Model):
-
     team = models.ForeignKey(
         to=HackathonTeams, related_name='team_members', on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, related_name='team_member',
                              null=True, blank=True, on_delete=models.PROTECT)
+
+    # Attribut umum user
+    full_name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(_('email address'), blank=True)
+    nomor_id = models.CharField(max_length=50, blank=True)
+    tanggal_lahir = models.DateField(default=None, null=True, blank=True)
+
+    # Attribut kontak user
+    id_line = models.CharField(max_length=30, blank=True)
+    nomor_telepon = models.CharField(max_length=13, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s - %s (%s)' % (self.team.name, self.user.full_name, self.user.email)
+        return '%s - %s (%s)' % (self.team.name, self.full_name, self.email)
 
     class Meta:
         unique_together = (('team', 'user'),)
@@ -227,26 +237,23 @@ class HackathonTeamsMember(models.Model):
         verbose_name = 'Anggota Tim'
         verbose_name_plural = 'Anggota Tim'
 
+
 class TeamMember(models.Model):
     """
         Merupakan model database untuk menyimpan data anggota salah satu
         tim yang mengikuti sebuah kompetisi.
     """
-    
+
     # Relationship dengan id tim dimana anggota tim berada
     team = models.ForeignKey(
         to=HackathonTeams, related_name='member_to_team', on_delete=models.CASCADE
     )
-    
+
     # Attribut umum user
     nama_lengkap = models.CharField(max_length=100)
     email = models.EmailField(_('email address'))
     nomor_identitas = models.CharField(max_length=50)
     tanggal_lahir = models.DateField(default=None)
-
-    # Attribut khusus user
-    vegetarian_bool = models.BooleanField(default=False)
-    alergi_makanan = models.CharField(max_length=120)
 
     # Attribut kontak user
     id_line = models.CharField(max_length=30)
@@ -254,7 +261,6 @@ class TeamMember(models.Model):
 
 
 class TaskResponse(models.Model):
-
     WAITING = 'menunggu_verifikasi'
     DONE = 'selesai'
     REJECTED = 'ditolak'
@@ -289,7 +295,7 @@ class TaskResponse(models.Model):
             #     Thread(target=self.send_email_p).start()
 
             # if self.task.track.pk != self.team.track.pk:
-                #raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
+            # raise ValidationError('Track Kompetisi dan Track Tim haruslah sama.')
             # else:
 
         super(TaskResponse, self).save(*args, **kwargs)

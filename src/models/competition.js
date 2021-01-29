@@ -53,6 +53,31 @@ export default {
     }
   },
   actions: {
+    async addMember({commit}, {team_id, full_name, email, id_line, nomor_telepon, nomor_id, tanggal_lahir}) {
+      try {
+        commit("setLoading", true);
+        commit("resetError");
+        let response = await handle.post("hackathon/teams/member/add/", {
+          team_id,
+          full_name,
+          email,
+          id_line,
+          nomor_telepon,
+          nomor_id,
+          tanggal_lahir
+        });
+        if (response.status === 200) {
+          commit("setMessage", response.data);
+          let req2 = await handle.get("/hackathon/teams/");
+          commit("setTeams", req2.data);
+          commit("setteamsCount", req2.data.length);
+        }
+      } catch (e) {
+        commit("setError", e.response.data);
+      } finally {
+        commit("setLoading", false);
+      }
+    },
     async getCompetition({ commit }) {
       try {
         commit("setLoading", true);

@@ -82,16 +82,6 @@
             {{ user.id_line }}
             <br />
             <br />
-            <p class="span-info">Preferensi Konsumsi</p>
-            <span class="entity-name">Vege</span>
-            <br />
-            <span v-if="user.is_vege === true">Iya</span>
-            <span v-else>Tidak</span>
-            <br />
-            <span class="entity-name">Alergi</span>
-            <br />
-            {{ user.alergic }}
-            <br />
           </div>
         </div>
       </v-card-text>
@@ -165,22 +155,6 @@
             :persistent-hint="true"
             hint="Diutamakan untuk mengisi nomor telepon yang terhubung dengan WhatsApp."
           ></v-text-field>
-          <v-container class="px-0 grey--text text--darken-4 title"
-            >Preferensi Konsumsi Peserta</v-container
-          >
-          <v-text-field
-            v-model="alergi"
-            label="Alergi terhadap makanan"
-            hint="Isilah field ini dengan informasi alergi anda terhadap makanan."
-          ></v-text-field>
-          <v-switch
-            color="blue"
-            v-model="is_vege"
-            :true-value="true"
-            :false-value="false"
-            required
-            label="Apakah anda seorang vege?"
-          ></v-switch>
           <center>
             <v-btn
               large

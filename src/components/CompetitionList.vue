@@ -25,123 +25,51 @@
     <v-container class="pt-0">
       <v-row style="background: #fff">
         <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
-          <v-card class="pa-2 pb-5" outlined :disabled="c.isExpired || c.is_closed">
-            <v-card-title class="mb-3">
-              <span class="wordBreak">{{ c.name }}</span>
-            </v-card-title>
-
-            <v-card-subtitle class="pb-0">
-              <p>{{ c.description }}</p>
-
-              <v-chip class="mr-2 mb-3" outlined color="black">
-                <v-avatar left>
-                  <v-icon>mdi-calendar</v-icon>
-                </v-avatar>
-                {{ moment(String(c.closed_date)).format("DD MMMM YYYY") }}
-              </v-chip>
-
-              <v-chip color="black accent-3 mb-3 mr-2" outlined>
+          <d-card :disabled="c.isExpired || c.is_closed">
+            <d-card-body :title="c.name">
+              <d-badge class="mr-2" pill theme="primary">
                 <span v-if="c.team_min_member !== c.team_max_member">
-                  <v-avatar left>
-                    <v-icon>mdi-account-group</v-icon>
-                  </v-avatar>
-                  {{ c.team_min_member }} - {{ c.team_max_member }} orang
+                  Tim: <strong>{{ c.team_min_member }}</strong> - <strong>{{ c.team_max_member }}</strong> orang
                 </span>
                 <span v-if="c.team_min_member === c.team_max_member">
                   <span v-if="c.team_min_member === 1">
-                    <v-avatar left>
-                      <v-icon>mdi-account</v-icon> </v-avatar
-                    >Individual
+                    Individual
                   </span>
                   <span v-if="c.team_min_member !== 1">
-                    <v-avatar left>
-                      <v-icon>mdi-account</v-icon>
-                    </v-avatar>
-                    {{ c.team_min_member }} orang
+                    Tim: <strong>{{ c.team_min_member }}</strong> orang
                   </span>
                 </span>
-              </v-chip>
-
-              <v-chip color="black mb-3" outlined>
+              </d-badge>
+              <d-badge pill theme="light">
+                Biaya:
+                <strong>
                 <span v-if="c.biaya_pendaftaran !== 0">
-                  <v-avatar left>
-                    <v-icon>mdi-cash</v-icon>
-                  </v-avatar>
                   Rp. {{ formatPrice(c.biaya_pendaftaran) }}
                 </span>
                 <span v-if="c.biaya_pendaftaran === 0">
-                  <v-avatar left>
-                    <v-icon>mdi-cash</v-icon> </v-avatar
-                  >Gratis
+                  Gratis
                 </span>
-              </v-chip>
-            </v-card-subtitle>
-
-            <v-card-actions>
-              <v-btn v-if="c.isExpired || c.is_closed" color="grey" text
-                >Pendaftaran Ditutup</v-btn
-              >
-              <v-btn
-                class="ml-2"
-                v-else
-                outlined
-                :to="`competition/` + c.slug_name"
-                color="black"
-                >Daftar</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-card class="pa-2 pb-5" outlined>
-            <v-card-title>Punya invitation token?</v-card-title>
-
-            <v-card-text v-if="messages.message">
-              <v-alert type="success" outlined>{{ messages.message }}</v-alert>
-              <v-layout v-if="messages.message" justify-center>
-                <router-link to="/dashboard/teams">
-                  <v-btn color="success" dark>Lihat Tim</v-btn>
-                </router-link>
-              </v-layout>
-            </v-card-text>
-
-            <v-form
-              v-if="!messages.message"
-              ref="form"
-              @submit.prevent="joinTeamHandler"
-            >
-              <v-container>
-                <v-text-field
-                  v-model="token"
-                  outlined
-                  label="Token"
-                  required
-                  :rules="tokenRules"
-                ></v-text-field>
-                <v-btn
-                  large
-                  block
-                  color="primary"
-                  type="submit"
-                  :error="errors.token"
-                  :error-messages="errors.token"
-                  :disabled="!isTokenFilled"
-                  >Gabung</v-btn
-                >
-              </v-container>
-            </v-form>
-
-            <v-card-text>
-              Gunakan invitation token yang diberikan oleh ketua tim untuk
-              bergabung dalam satu tim.
-            </v-card-text>
-
-            <v-card-text v-if="errors.message" class="pb-0 mb-0">
-              <v-alert class="mb-0" type="error" outlined>{{
-                errors.message
-              }}</v-alert>
-            </v-card-text>
-          </v-card>
+                  </strong>
+              </d-badge>
+              <p class="mt-3">{{ c.description }}</p>
+              <p class="red--text darken-4">
+                📢 Daftar sebelum
+                <span class="font-weight-bold">
+                  {{ moment(String(c.closed_date)).format("DD MMMM YYYY") }}
+                </span>
+              </p>
+              <span v-if="c.isExpired || c.is_closed">
+                <d-btn block-level disabled theme="danger">
+                Pendaftaran Ditutup
+              </d-btn>
+              </span>
+              <span v-else>
+                <router-link :to="`competition/` + c.slug_name">
+                <d-btn block-level theme="success">Daftar &rarr;</d-btn>
+              </router-link>
+              </span>
+            </d-card-body>
+          </d-card>
         </v-col>
       </v-row>
     </v-container>
@@ -178,7 +106,7 @@ export default {
   methods: {
     moment,
     formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
+      let val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     ...mapActions({

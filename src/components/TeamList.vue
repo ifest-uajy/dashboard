@@ -12,7 +12,7 @@
     -->
     <v-container v-if="Object.keys(teams).length === 0">
       <v-content>
-        <v-alert prominent outlined>
+        <v-alert outlined prominent>
           <p class="font-weight-bold mb-0">
             Wah, sepertinya kamu belum mendaftar kompetisi apapun.
           </p>
@@ -25,155 +25,177 @@
       </v-content>
     </v-container>
 
-    <v-container class="pt-0">
-      <v-row style="background: #fff">
-        <v-col v-for="c in teams" :key="c.id" cols="12" sm="6">
-          <!-- <v-card class="pa-2 pb-5" outlined :disabled="c.kompetisi.isExpired"> -->
-          <v-card class="pa-2 pb-5" outlined>
-            <v-card-title class="display-1 mt-5"
-              ><span class="title-sekolah">{{ c.nama }}</span></v-card-title
-            >
-            <v-card-subtitle class="pb-0">
-              <p class="mb-0 pb-0">
-                <span class="judul-span">{{ c.asal }}</span>
-              </p>
-              <h3 class="pt-0 mt-0 ">{{ c.kompetisi.name }}</h3>
-            </v-card-subtitle>
-            <!-- <v-card-subtitle>
-              < <h2 class="black--text mb-2">Informasi Tim</h2> --
 
-              < <p class="black--text mb-1 mt-4">Nama Tim</p>
-              <v-text-field class="pt-0" disabled v-model="c.nama"></v-text-field>
-
-              <p class="black--text mb-1">Asal Institusi</p>
-              <v-text-field class="pt-0" disabled v-model="c.asal"></v-text-field> --
-              <v-btn @click="copyText('' + c.invitation_token)">copy</v-btn>--
-            </v-card-subtitle> -->
-            <v-card-subtitle class="mb-0 pb-0">
-              <h2 class="black--text mb-2">Pendamping Tim</h2>
-              <p class="black--text mb-0 mt-4">Nama Pendamping</p>
-              <v-text-field
-                class="pt-0"
-                disabled
-                v-model="c.pembimbing.nama"
-              ></v-text-field>
-            </v-card-subtitle>
-            <v-card-subtitle class="mt-0 pt-0 pb-0">
-              <h2 class="black--text mb-2">Anggota Tim</h2>
-              <p class="black--text mb-1">Token Tim</p>
-              <v-text-field
-                :id="`CopyThis-` + c.id"
-                v-model="c.token"
-                readonly
-                class="pt-0"
-                append-icon="mdi-content-copy"
-                @click:append="copyText(c.id, c.token)"
-                :persistent-hint="true"
-                hint="Berikan token diatas ke user lain untuk bergabung dengan tim ini."
-              ></v-text-field>
-              <v-content class="px-0 black--text pb-0 pt-3">
-                <ol>
-                  <li v-for="u in c.anggota" :key="u" class="mb-0">
-                    <span v-if="c.ketua == u">
-                      <b>{{ u }} - Team Leader</b>
-                    </span>
-                    <span v-else>{{ u }}</span>
-                  </li>
-                </ol>
-              </v-content>
-              <v-alert
-                v-if="!c.task_permission"
-                type="error"
-                outlined
-                prominent
-                class="mt-4"
-                dense
-              >
-                Anda tidak bisa mengerjakan tugas sebelum anggota tim lengkap.
-                <b
-                  >Minimal {{ c.kompetisi.team_min_member }} orang diperlukan
-                  untuk 1 tim dalam kompetisi ini.</b
-                >
-              </v-alert>
-              <p class="mt-2">
-                Anggota tim yang sudah bergabung tidak dapat diganti/dihapus.
-              </p>
-            </v-card-subtitle>
-            <v-card-subtitle :hidden="!c.task_permission" class="pt-0">
-              <h2 class="black--text mb-5">Task Lomba</h2>
-              <!-- <p class="mt-2">
-                Dibawah ini adalah task-task yang harus diselesaikan oleh tim
-                untuk mengikuti kompetisi.
-              </p> -->
-
-              <v-stepper vertical v-model="c.current_task.order">
-                <div v-for="task in c.tasks" :key="task.task.order">
-                  <v-stepper-step
-                    :step="task.task.order"
-                    :complete="task.task.order < c.current_task.order"
+    <v-container>
+      <d-card v-for="c in teams" :key="c.id">
+        <d-card-body class="pb-0 mb-3">
+          <d-badge class="font-weight-bold" theme="primary">{{ c.kompetisi.name }}</d-badge>
+        </d-card-body>
+        <d-card-body :subtitle="c.asal" :title="c.nama" class="pt-0 mt-0">
+          <hr/>
+          <div class="row">
+            <div class="col">
+              <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Detail Tim</p>
+              <label>Alamat Institusi Tim</label>
+             <p>{{c.alamat}}</p>
+            </div>
+            <div class="col">
+              <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Informasi Pendamping</p>
+              <div>
+                <label>Nama Pembimbing</label>
+                <d-input
+                    v-model="c.pembimbing.nama"
+                    disabled=""
+                />
+                <label class="mt-4">Kontak Pembimbing</label>
+                <d-input
+                    v-model="c.pembimbing.telepon"
+                    disabled=""
+                />
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Anggota Tim</p>
+              <vs-table>
+                <template #thead>
+                  <vs-tr>
+                    <vs-th>
+                      Nomor Identitas
+                    </vs-th>
+                    <vs-th>
+                      Nama Lengkap
+                    </vs-th>
+                    <vs-th>
+                      Email
+                    </vs-th>
+                    <vs-th>
+                      No Telepon
+                    </vs-th>
+                    <vs-th>
+                      ID Line
+                    </vs-th>
+                    <vs-th>
+                      Tanggal Lahir
+                    </vs-th>
+                  </vs-tr>
+                </template>
+                <template #tbody>
+                  <vs-tr
+                      v-for="u in c.anggota"
+                      :key="u"
+                      :data="u"
                   >
-                    <b>{{ task.task.name }}</b>
-                    <small
-                      v-if="
-                        task.task.task_type !== 'pengumuman' &&
-                          task.response.status !== 'selesai'
-                      "
-                      class="mt-2"
-                      >Task Deadline:
-                      {{
-                        moment(String(task.task.deadline)).format(
-                          "DD MMMM YYYY HH:mm"
-                        )
-                      }}</small
-                    >
+                    <vs-td>
+                      {{ u.nomor_id }}
+                    </vs-td>
+                    <vs-td>
+                      {{ u.full_name }}
+                    </vs-td>
+                    <vs-td>
+                      {{ u.email }}
+                    </vs-td>
+                    <vs-td>
+                      {{ u.nomor_telepon }}
+                    </vs-td>
+                    <vs-td>
+                      {{ u.id_line }}
+                    </vs-td>
+                     <vs-td>
+                       {{ moment(String(u.tanggal_lahir)).format("DD MMM YYYY") }}
+                    </vs-td>
+                  </vs-tr>
+                </template>
+              </vs-table>
+              <d-btn :hidden="c.is_full" @click.native="handleClick" size="sm" class="mt-3">Tambah Data Anggota</d-btn>
+          <hr/>
+          <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Task Kompetisi</p>
 
+          <v-alert
+              v-if="!c.task_permission"
+              class="mb-5"
+              dense
+              outlined
+              prominent
+              type="error"
+          >
+            <strong>Anggota tim belum lengkap!</strong>
+            <p class="mb-0 black--text caption">Kamu belum bisa mengupload berkas pendaftaran. Harap lengkapi data
+              anggota kelompok terlebih dahulu.</p>
+          </v-alert>
+
+          <div class="mt-5">
+            <div v-for="task in c.tasks" :key="task.task.order">
+              <d-card class="mb-5">
+                <d-card-header>
+                  <p class="mb-0" style="font-weight: bold; font-size: 16pt">
+                    {{ task.task.order }}. {{ task.task.name }}
+                    <span v-if="task.response.length !== 0 &&
+                          task.response.status === 'selesai'">
+                    <d-badge theme="success">Selesai</d-badge>
+                  </span>
+                    <span v-else-if="task.task.task_type === 'pengumuman'">
+                    <d-badge theme="warning">Pengumuman</d-badge>
+                  </span>
+                  </p>
+                  <div v-if="task.task.task_type !== 'pengumuman'">
+                    <p class="mt-3 mb-0 pb-0">Batas pengumpulan tugas
+                      <span class="font-weight-bold">
+                    {{ moment(String(task.task.deadline)).format("DD MMMM YYYY [Pukul] HH:mm") }}
+                  </span>
+                    </p>
                     <small
-                      class="mt-2"
-                      v-if="
+                        v-if="
                         task.response.length !== 0 &&
                           task.response.status === 'selesai'
                       "
+                        class="mt-0 pb-0"
                     >
-                      File berhasil diunggah pada
+                      Berkas berhasil diunggah pada
                       <b>{{
-                        moment(String(task.response.updated_at)).format(
-                          "DD MMMM YYYY HH:mm"
-                        )
-                      }}</b>
-                      <p class="mt-2 mb-0">
-                        <a
-                          :href="
+                          moment(String(task.response.updated_at)).format(
+                              "DD MMMM YYYY [Pukul] HH:mm"
+                          )
+                        }}</b> | <a
+                        :href="
                             `/api/file/download/` + task.response.response + `/`
                           "
-                          class="body-link"
-                          target="_blank"
-                          >Unduh file</a
-                        >
-                      </p>
+                        class="body-link"
+                        target="_blank"
+                    >Unduh berkas</a
+                    >
                     </small>
-                  </v-stepper-step>
-
-                  <v-stepper-content
-                    :step="task.task.order"
-                    :complete="task.task.order < c.current_task.order"
-                  >
-                    <span v-if="task.task.order === c.current_task.order">
-                      <div v-if="!moment().isAfter(moment(task.task.deadline))">
-                        <UploaderWidget
+                  </div>
+                  <div v-else>
+                    <p class="mt-3 mb-0 pb-0">
+                      {{ task.task.deskripsi }}
+                    </p>
+                  </div>
+                </d-card-header>
+                <d-collapse id="accordion1" :hidden="task.task.order !== c.current_task.order || !c.task_permission" accordion="my-accordion"
+                            role="tabpanel" visible>
+                  <d-card-body>
+                    <div v-if="!moment().isAfter(moment(task.task.deadline))">
+                      <UploaderWidget
                           :hidden="
                             task.task.task_type !== 'file_uploader' &&
                               task.task.task_type !== 'payment_verification'
                           "
-                          :task="task.task"
                           :response="task.response"
+                          :task="task.task"
                           :team="c"
-                        />
-                      </div>
-                      <div v-else>
-                        <div v-if="task.task.task_type !== 'pengumuman'">
+                      />
+                    </div>
+                    <div v-else>
+                      <div v-if="task.task.task_type !== 'pengumuman'">
                           <span class="red--text">
-                            <v-alert outlined color="red"
-                            border="top">
+                            <v-alert
+                                class="mb-5"
+                                dense
+                                outlined
+                                prominent
+                                type="error"
+                            >
                               <p class="font-weight-bold mb-2">
                                 {{ task.task.name }} sudah melewati batas
                                 pengumpulan
@@ -184,42 +206,49 @@
                                 sejak
                                 <b>
                                   {{
-                                  moment(String(task.task.deadline)).format(
-                                    "DD MMMM YYYY HH:mm")
+                                    moment(String(task.task.deadline)).format(
+                                        "DD MMMM YYYY HH:mm")
                                   }}
                                 </b>
                               </p>
                             </v-alert>
                           </span>
-                        </div>
-                        <div v-else></div>
                       </div>
-                    </span>
-                  </v-stepper-content>
-                </div>
-              </v-stepper>
-            </v-card-subtitle>
-          </v-card>
-        </v-col>
-      </v-row>
+                    </div>
+                  </d-card-body>
+                </d-collapse>
+              </d-card>
+            </div>
+          </div>
+        </d-card-body>
+        <d-modal v-if="showModal" @close="handleClose">
+        <d-modal-header>
+            <d-modal-title>Tambah Data Anggota</d-modal-title>
+        </d-modal-header>
+        <d-modal-body>
+          <label>Nama</label>
+            <d-input v-model="data.full_name"/>
+          <label class="pt-3">Nomor Identitas</label>
+            <d-input v-model="data.nomor_id"/>
+          <label class="pt-3">Email</label>
+            <d-input type="email" v-model="data.email"/>
+          <label class="pt-3">Nomor Telepon</label>
+            <d-input type="tel" v-model="data.nomor_telepon"/>
+          <label class="pt-3">ID Line</label>
+            <d-input v-model="data.id_line"/>
+          <label class="pt-3">Tanggal Lahir</label>
+            <d-input type="date" class="mb-5" v-model="data.tanggal_lahir"/>
+          <d-button @click="sendData(c.id)" block-level class="mt-5 mb-1">Tambah</d-button>
+        </d-modal-body>
+    </d-modal>
+      </d-card>
+
     </v-container>
-
-    <!--<v-container>
-      <div >
-        <v-card class="mb-5" outlined>
-          
-        </v-card>
-      </div>
-    </v-container>-->
-
-    <v-snackbar v-model="snackbar"
-      >Kode token tim berhasil di salin.</v-snackbar
-    >
   </v-container>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 import moment from "moment";
 import UploaderWidget from "./UploaderWidget.vue";
 
@@ -227,7 +256,16 @@ moment.locale("id");
 
 export default {
   data: () => ({
-    snackbar: false
+    showModal: false,
+    data: {
+      team_id: "",
+      full_name: "",
+      email: "",
+      id_line: "",
+      nomor_telepon: "",
+      nomor_id: "",
+      tanggal_lahir: ""
+    }
   }),
   computed: mapState({
     competitions: state => state.competition.competitions,
@@ -237,37 +275,31 @@ export default {
     UploaderWidget
   },
   methods: {
-    async copyText(id, invitation_token) {
-      //async function copyToClipboard() {
-      try {
-        // 1) Copy text
-        //console.log('copyinig');
-        //await
-        navigator.clipboard.writeText(invitation_token);
-
-        this.snackbar = true;
-        await setTimeout(() => (this.snackbar = false), 2000);
-        // 2) Catch errors
-      } catch (err) {
-        //console.error('Failed to copy: ', err);
-      }
-      //}
-    },
-    moment
+    moment,
+     handleClick() {
+            this.showModal = true
+        },
+    handleClose() {
+            this.showModal = false
+            this.data.team_id = ""
+            this.data.full_name = ""
+            this.data.email = ""
+            this.data.id_line = ""
+            this.data.nomor_telepon = ""
+            this.data.nomor_id = ""
+            this.data.tanggal_lahir = ""
+        },
+    ...mapActions({
+      addMember: "competition/addMember",
+      getTeams: "competition/getTeams"
+    }),
+    sendData(data) {
+      this.data.team_id = data
+      this.addMember(this.data).then(
+          this.handleClose,
+      )
+      this.getTeams()
+    }
   }
 };
 </script>
-
-<style scoped>
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-.judul-span {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-size: 1.3em;
-  color: #0f4c75;
-}
-.title-sekolah {
-  font-family: "Roboto", sans-serif;
-  font-weight: bolder;
-}
-</style>

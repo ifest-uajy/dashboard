@@ -188,6 +188,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     #anggota = HackathonTeamsMemberSerializer(source='team_members', many=True)
     anggota = serializers.SerializerMethodField('get_info_anggota')
 
+    is_full = serializers.SerializerMethodField('cek_is_full')
+
     token = serializers.CharField(source='invitation_token', read_only=True)
     ditangguhkan = serializers.BooleanField(
         source='is_blacklisted', read_only=True)
@@ -205,7 +207,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = HackathonTeams
         fields = (
-            'id',
+            'id', 'is_full',
             'kompetisi', 'nama', 'asal', 'alamat', 'ketua', 'pembimbing', 'anggota',
             'token', 'ditangguhkan', 'created_at', 'tasks', 'current_task', 'task_permission'  # 'tasks'
         )
@@ -220,13 +222,26 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             'telepon': obj.nomor_telepon_pendamping
         }
 
+    def cek_is_full(self, obj):
+        return obj.jumlah_member >= obj.track.team_max_member
+
     def get_info_anggota(self, obj):
+        data = []
         queryset = HackathonTeamsMember.objects.filter(
-            team=obj).values('user').distinct()
-        return json.loads(
-            json.dumps(list(queryset.values_list(
-                'user__full_name', flat=True)))
-        )
+            team=obj).all()
+        list_qs = list(queryset.values())
+        json_list_all = json.loads("[]")
+        for e in queryset:
+            if e.user is not None:
+                json_list_all.append(json.loads(
+                    json.dumps(UserSerializer(e.user).data)
+                ))
+            else:
+                json_list_all.append(json.loads(
+                    json.dumps(UserSerializer(e).data)
+                ))
+        return json_list_all
+
 
     def get_info_task(self, obj):
         data = []
@@ -368,6 +383,7 @@ class AdminTeamDetailSerializer(serializers.ModelSerializer):
 
         return json_list_all
 
+
 class TeamMemberSerializer(serializers.ModelSerializer):
     """
         Serializer untuk data model TeamMember
@@ -378,3 +394,29 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             'id', 'nama_lengkap', 'email', 'nomor_identitas', 'tanggal_lahir',
             'vegetarian_bool', 'alergi_makanan', 'id_line' 'nomor_telepon'
         )
+
+
+class AddAnggotaSerializer(serializers.Serializer):
+    team_id = serializers.IntegerField()
+    full_name = serializers.CharField()
+    email = serializers.EmailField()
+    id_line = serializers.CharField(required=False, allow_blank=True)
+    nomor_telepon = serializers.CharField()
+    nomor_id = serializers.CharField()
+    tanggal_lahir = serializers.DateField()
+
+    class Meta:
+        model = TeamMember
+        fields = (
+            'nama_lengkap', 'email', 'nomor_identitas', 'tanggal_lahir',
+            'id_line' 'nomor_telepon'
+        )
+
+
+class UserSerializer(serializers.Serializer):
+    full_name = serializers.CharField()
+    email = serializers.EmailField()
+    id_line = serializers.CharField()
+    nomor_telepon = serializers.CharField()
+    nomor_id = serializers.CharField()
+    tanggal_lahir = serializers.DateField()

@@ -143,16 +143,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    )
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # )
 }
 
-#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', None)
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
+# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
+EMAIL_HOST = os.getenv('EMAIL_HOST', '127.0.0.1')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 1025)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
 
@@ -161,5 +161,5 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@ifest-uajy.com')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [BASE_DIR+"/assets/"]
-STATIC_ROOT = '/home/ifesthim/regsys-backend/static/'
-MEDIA_ROOT = '/home/ifesthim/regsys-backend/media/'
+STATIC_ROOT = '/Users/vriyas/regsys-backend/static/'
+MEDIA_ROOT = '/Users/vriyas/regsys-backend/media/'
