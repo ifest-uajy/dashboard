@@ -140,7 +140,11 @@ export default {
       addTaskResponse: "competition/postTaskResponse",
       getTeams: "competition/getTeams"
     }),
-
+    handleUpload: function() {
+      this.dialog = false;
+      this.$refs.dropzone.processQueue();
+      this.file_name = "";
+    },
     handleBatal: async function() {
       this.dialog = false;
       this.$refs.dropzone.removeAllFiles(true);
