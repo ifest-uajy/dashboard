@@ -222,6 +222,7 @@ class AddAnggotaTim(views.APIView):
             email=request_serializer.validated_data['email'],
             nomor_id=request_serializer.validated_data['nomor_id'],
             tanggal_lahir=request_serializer.validated_data['tanggal_lahir'],
+            alamat=request_serializer.validated_data['alamat'],
         )
         return Response(
             {

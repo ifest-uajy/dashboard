@@ -53,7 +53,7 @@ export default {
     }
   },
   actions: {
-    async addMember({commit}, {team_id, full_name, email, id_line, nomor_telepon, nomor_id, tanggal_lahir}) {
+    async addMember({commit}, {team_id, full_name, email, id_line, nomor_telepon, nomor_id, tanggal_lahir, alamat}) {
       try {
         commit("setLoading", true);
         commit("resetError");
@@ -64,7 +64,8 @@ export default {
           id_line,
           nomor_telepon,
           nomor_id,
-          tanggal_lahir
+          tanggal_lahir,
+          alamat
         });
         if (response.status === 200) {
           commit("setMessage", response.data);

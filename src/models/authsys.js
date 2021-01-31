@@ -207,8 +207,7 @@ export default {
         full_name,
         id_line,
         nomor_telepon,
-        alergic,
-        is_vege,
+        alamat,
         nomor_id,
         tanggal_lahir
       }
@@ -222,8 +221,7 @@ export default {
           full_name,
           id_line,
           nomor_telepon,
-          alergic,
-          is_vege,
+          alamat,
           nomor_id,
           tanggal_lahir
         });

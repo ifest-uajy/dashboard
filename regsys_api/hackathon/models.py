@@ -144,7 +144,7 @@ class HackathonTeams(models.Model):
 
     @property
     def bisa_up_task(self):
-        if (self.members.count() >= self.track.team_min_member):
+        if HackathonTeamsMember.objects.filter(team=self.pk).count() >= self.track.team_min_member:
             return True
         else:
             return False
@@ -221,6 +221,7 @@ class HackathonTeamsMember(models.Model):
     email = models.EmailField(_('email address'), blank=True)
     nomor_id = models.CharField(max_length=50, blank=True)
     tanggal_lahir = models.DateField(default=None, null=True, blank=True)
+    alamat = models.CharField(max_length=250, blank=True)
 
     # Attribut kontak user
     id_line = models.CharField(max_length=30, blank=True)
@@ -254,6 +255,7 @@ class TeamMember(models.Model):
     email = models.EmailField(_('email address'))
     nomor_identitas = models.CharField(max_length=50)
     tanggal_lahir = models.DateField(default=None)
+    alamat = models.CharField(max_length=250)
 
     # Attribut kontak user
     id_line = models.CharField(max_length=30)

@@ -34,7 +34,7 @@ iZmlsbDojRkY0NzU3IiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCI+PC9wYXRoPgoJPC9nPgo8L2c+PC9
               rel="noopener noreferrer"
               class="LinkToHome"
             >
-              <span class="footer-text">Informatics Festival (IFest) #8</span>
+              <span class="footer-text">Informatics Festival (IFest) #9</span>
             </a>
           </p>
         </v-flex>

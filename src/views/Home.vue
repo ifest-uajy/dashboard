@@ -26,7 +26,7 @@
         <h1 class="judul">
           Dashboard
           <br />
-          <span class="judul-span">Informatics Festival #8</span>
+          <span class="judul-span">Informatics Festival #9</span>
         </h1>
         <p class="mb-3">
           Selamat datang di Sistem Registrasi Kompetisi Informatics Festival #8.

@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             'full_name', 'email',
             'is_staff', 'is_confirmed', 'last_login', 'date_joined', 'isProfileComplete',
             'is_vege', 'alergic', 'is_buktiUploaded', 'id_line', 'nomor_telepon',
-            'nomor_id', 'id_line', 'tanggal_lahir'
+            'nomor_id', 'id_line', 'tanggal_lahir', 'alamat'
 
         )
         read_only_fields = (
@@ -62,7 +62,6 @@ class UpdateProfileSerializer(serializers.Serializer):
     full_name = serializers.CharField()
     id_line = serializers.CharField(required=False, allow_blank=True)
     nomor_telepon = serializers.CharField()
-    is_vege = serializers.BooleanField(required=False)
-    alergic = serializers.CharField(required=False, allow_blank=True)
     nomor_id = serializers.CharField()
     tanggal_lahir = serializers.DateField()
+    alamat = serializers.CharField(max_length=250, required=False, allow_blank=True)

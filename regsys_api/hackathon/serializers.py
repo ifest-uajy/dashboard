@@ -404,12 +404,13 @@ class AddAnggotaSerializer(serializers.Serializer):
     nomor_telepon = serializers.CharField()
     nomor_id = serializers.CharField()
     tanggal_lahir = serializers.DateField()
+    alamat = serializers.CharField()
 
     class Meta:
         model = TeamMember
         fields = (
             'nama_lengkap', 'email', 'nomor_identitas', 'tanggal_lahir',
-            'id_line' 'nomor_telepon'
+            'id_line' 'nomor_telepon', 'alamat'
         )
 
 
@@ -420,3 +421,4 @@ class UserSerializer(serializers.Serializer):
     nomor_telepon = serializers.CharField()
     nomor_id = serializers.CharField()
     tanggal_lahir = serializers.DateField()
+    alamat = serializers.CharField()

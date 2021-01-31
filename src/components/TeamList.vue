@@ -34,12 +34,17 @@
         <d-card-body :subtitle="c.asal" :title="c.nama" class="pt-0 mt-0">
           <hr/>
           <div class="row">
-            <div class="col">
+            <div class="col-md-6  ">
               <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Detail Tim</p>
               <label>Alamat Institusi Tim</label>
-             <p>{{c.alamat}}</p>
+              <d-form-textarea
+              :value.prop="c.alamat"
+              readonly
+              :max-rows="4"
+              :rows="4">
+          </d-form-textarea>
             </div>
-            <div class="col">
+            <div class="col-md-6">
               <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Informasi Pendamping</p>
               <div>
                 <label>Nama Pembimbing</label>
@@ -47,7 +52,7 @@
                     v-model="c.pembimbing.nama"
                     disabled=""
                 />
-                <label class="mt-4">Kontak Pembimbing</label>
+                <label class="mt-3">Kontak Pembimbing</label>
                 <d-input
                     v-model="c.pembimbing.telepon"
                     disabled=""
@@ -78,6 +83,9 @@
                     <vs-th>
                       Tanggal Lahir
                     </vs-th>
+                    <vs-th>
+                      Alamat
+                    </vs-th>
                   </vs-tr>
                 </template>
                 <template #tbody>
@@ -103,6 +111,9 @@
                     </vs-td>
                      <vs-td>
                        {{ moment(String(u.tanggal_lahir)).format("DD MMM YYYY") }}
+                    </vs-td>
+                    <vs-td>
+                      {{ u.alamat }}
                     </vs-td>
                   </vs-tr>
                 </template>
@@ -232,12 +243,18 @@
             <d-input v-model="data.nomor_id"/>
           <label class="pt-3">Email</label>
             <d-input type="email" v-model="data.email"/>
+          <label class="pt-3">Tanggal Lahir</label>
+            <d-input type="date" class="mb-3" v-model="data.tanggal_lahir"/>
+          <label>Alamat</label>
+          <d-form-textarea
+              v-model="data.alamat"
+              :max-rows="3"
+              :rows="2">
+          </d-form-textarea>
           <label class="pt-3">Nomor Telepon</label>
             <d-input type="tel" v-model="data.nomor_telepon"/>
           <label class="pt-3">ID Line</label>
             <d-input v-model="data.id_line"/>
-          <label class="pt-3">Tanggal Lahir</label>
-            <d-input type="date" class="mb-5" v-model="data.tanggal_lahir"/>
           <d-button @click="sendData(c.id)" block-level class="mt-5 mb-1">Tambah</d-button>
         </d-modal-body>
     </d-modal>
@@ -264,7 +281,8 @@ export default {
       id_line: "",
       nomor_telepon: "",
       nomor_id: "",
-      tanggal_lahir: ""
+      tanggal_lahir: "",
+      alamat: ""
     }
   }),
   computed: mapState({
@@ -288,6 +306,7 @@ export default {
             this.data.nomor_telepon = ""
             this.data.nomor_id = ""
             this.data.tanggal_lahir = ""
+            this.data.alamat = ""
         },
     ...mapActions({
       addMember: "competition/addMember",
@@ -296,9 +315,10 @@ export default {
     sendData(data) {
       this.data.team_id = data
       this.addMember(this.data).then(
-          this.handleClose,
+          this.handleClose
+      ).then(
+          this.getTeams
       )
-      this.getTeams()
     }
   }
 };

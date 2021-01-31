@@ -459,7 +459,7 @@ class UpdateProfileView(APIView):
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(never_cache)
     def post(self, request):
-        if(not request.user):
+        if not request.user:
             return Response(
                 {
                     'message': 'Error No User Supplied',
@@ -474,8 +474,7 @@ class UpdateProfileView(APIView):
         full_name = request_serializer.validated_data['full_name']
         id_line = request_serializer.validated_data['id_line']
         nomor_telepon = request_serializer.validated_data['nomor_telepon']
-        is_vege = request_serializer.validated_data['is_vege']
-        alergic = request_serializer.validated_data['alergic']
+        alamat = request_serializer.validated_data['alamat']
         nomor_id = request_serializer.validated_data['nomor_id']
         tanggal_lahir = request_serializer.validated_data['tanggal_lahir']
 
@@ -486,8 +485,7 @@ class UpdateProfileView(APIView):
             u.full_name = full_name
             u.id_line = id_line
             u.nomor_telepon = nomor_telepon
-            u.is_vege = is_vege
-            u.alergic = alergic
+            u.alamat = alamat
             u.tanggal_lahir = tanggal_lahir
             u.nomor_id = nomor_id
             u.save()

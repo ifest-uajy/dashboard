@@ -11,7 +11,7 @@
           >Registrasi</v-card-title
         >
         <v-card-subtitle class="subtitle_card_cloverleaf"
-          >Informatics Festival (IFest) #8</v-card-subtitle
+          >Informatics Festival (IFest) #9</v-card-subtitle
         >
         <v-card-text v-if="!messages.message" class="mb-7">
           <v-form ref="form" @submit.prevent="register">

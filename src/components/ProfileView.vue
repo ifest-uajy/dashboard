@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-alert
-      class="mx-auto"
-      prominent
-      outlined
-      type="error"
-      v-if="!user.isProfileComplete"
-      max-width="600px"
+        v-if="!user.isProfileComplete"
+        class="mx-auto"
+        max-width="600px"
+        outlined
+        prominent
+        type="error"
     >
       <p class="font-weight-bold mb-0">Profil akun kamu belum lengkap</p>
       <p class="black--text text--darken-2 mb-1">
@@ -16,12 +16,12 @@
     </v-alert>
 
     <v-alert
-      class="mx-auto"
-      prominent
-      outlined
-      type="success"
-      v-if="alertShow"
-      max-width="600px"
+        v-if="alertShow"
+        class="mx-auto"
+        max-width="600px"
+        outlined
+        prominent
+        type="success"
     >
       <p class="font-weight-bold mb-0">Profil kamu berhasil di perbaharui</p>
       <p class="black--text text--darken-2 mb-1">
@@ -30,164 +30,119 @@
     </v-alert>
 
     <v-card
-      outlined
-      max-width="600"
-      class="card_cloverleaf mb-5 mt-10 px-5 mr-auto ml-auto"
+        class="card_cloverleaf mb-5 mt-10 px-5 mr-auto ml-auto"
+        max-width="600"
+        outlined
     >
       <v-card-text class="text-center">
         <vue-letter-avatar
-          class="mb-5 mt-5"
-          :name="user.full_name"
-          size="90"
-          :rounded="true"
+            :name="user.full_name"
+            :rounded="true"
+            class="mb-5 mt-5"
+            size="90"
         />
         <p class="display-1 text--primary mb-0">{{ user.full_name }}</p>
         <p class="subtitle-2 text--primary mb-0">{{ user.email }}</p>
         <p class="font-weight-medium mt-2 mb-0">
-          <router-link to="profile/changepassword" class="link_clover"
-            >Ganti Password?</router-link
+          <router-link class="link_clover" to="profile/changepassword"
+          >Ganti Password?
+          </router-link
           >
         </p>
       </v-card-text>
-      <v-card-text>
-        <div class="columns-e">
-          <div class="column-e">
-            <p class="span-info">Informasi Umum</p>
-            <span class="entity-name">Nama Lengkap</span>
-            <br />
-            {{ user.full_name }}
-            <br />
-            <span class="entity-name">Email</span>
-            <br />
-            {{ user.email }}
-            <br />
-            <span class="entity-name">Tanggal Lahir</span>
-            <br />
-            {{ moment(String(user.tanggal_lahir)).format("DD MMMM YYYY") }}
-            <br />
-            <span class="entity-name">Nomor Kartu Pelajar/KTM</span>
-            <br />
-            {{ user.nomor_id }}
-            <br />
-            <br />
-          </div>
-          <div class="column-e">
-            <p class="span-info">Kontak</p>
-            <span class="entity-name">Nomor Telepon</span>
-            <br />
-            +62 {{ user.nomor_telepon }}
-            <br />
-            <span class="entity-name">ID Line</span>
-            <br />
-            {{ user.id_line }}
-            <br />
-            <br />
-          </div>
-        </div>
-      </v-card-text>
-      <v-card-text v-if="editing" class="pb-10">
+      <v-card-text class="pb-10">
         <v-form ref="form" @submit.prevent="update">
           <v-container class="px-0 grey--text text--darken-4 title"
-            >Informasi Peserta</v-container
+          >Informasi Peserta
+          </v-container
           >
-
-          <v-text-field
-            v-model="nama_lengkap"
-            label="Nama Lengkap"
-            :error="errors.full_name"
-            :error-messages="errors.full_name"
-            hint="Gunakan nama dengan singkatan seminimal mungkin."
-            required
-          ></v-text-field>
-          <v-menu
-            v-model="fromDateMenu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                :error="errors.tanggal_lahir"
-                :error-messages="errors.tanggal_lahir"
-                label="Tanggal Lahir"
-                readonly
-                :value="fromDateDisp"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="fromDateVal"
-              no-title
-              @input="fromDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-          <v-text-field
-            :error="errors.nomor_id"
-            v-model="nomor_id"
-            :error-messages="errors.nomor_id"
-            :counter="50"
-            label="Nomor Kartu Pelajar/KTM"
-          ></v-text-field>
-          <v-container class="px-0 grey--text text--darken-4 title"
-            >Kontak Peserta</v-container
-          >
-          <v-text-field
-            v-model="user.email"
-            label="Email"
-            type="email"
-            disabled
-            :persistent-hint="true"
-            hint="Email yang sudah didaftarkan tidak dapat diganti."
-          ></v-text-field>
-          <v-text-field
-            v-model="id_line"
-            :counter="50"
-            label="ID Line"
-          ></v-text-field>
-          <v-text-field
-            v-model="nomor_telepon"
-            :error="errors.nomor_telepon"
-            :error-messages="errors.nomor_telepon"
-            prefix="+62"
-            label="Nomor Telepon"
-            :persistent-hint="true"
-            hint="Diutamakan untuk mengisi nomor telepon yang terhubung dengan WhatsApp."
-          ></v-text-field>
-          <center>
-            <v-btn
-              large
-              color="primary"
-              type="submit"
-              outlined
-              class="mt-5 mr-5"
-              :loading="loading"
-              :disabled="loading"
-              >Perbaharui Profil</v-btn
-            >
-            <v-btn
-              large
-              @click="editing = !editing"
-              outlined
-              v-if="!loading"
-              class="mt-5"
-              >Batal</v-btn
-            >
-          </center>
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <d-input
+                v-model="profilUser.full_name"
+                :state="errors.full_name ? 'invalid' : 'null'"
+                class=""
+                :disabled="isEditing"
+                type="text"
+            />
+            <d-form-invalid-feedback>Isian ini tidak boleh kosong.</d-form-invalid-feedback>
+          </div>
+          <div class="form-group">
+            <label>Tanggal Lahir</label>
+            <d-input
+                v-model="profilUser.tanggal_lahir"
+                :state="errors.tanggal_lahir ? 'invalid' : 'null'"
+                class=""
+                :disabled="isEditing"
+                type="date"
+            />
+            <d-form-invalid-feedback>Isian ini tidak boleh kosong.</d-form-invalid-feedback>
+          </div>
+          <div class="form-group">
+            <label>Nomor Identitas</label>
+            <d-input
+                v-model="profilUser.nomor_id"
+                :state="errors.nomor_id ? 'invalid' : 'null'"
+                :disabled="isEditing"
+                class=""
+            />
+            <d-form-invalid-feedback>Isian ini tidak boleh kosong.</d-form-invalid-feedback>
+            <small class="form-text text-muted mb-2 mt-0 pt-0">Kamu bisa mengisi dengan nomor kartu pelajar atau kartu
+              mahasiswa.</small>
+          </div>
+          <label>Alamat Rumah</label>
+          <d-form-textarea
+              v-model="profilUser.alamat"
+              :value.prop="profilUser.alamat"
+              :disabled="isEditing"
+              :max-rows="3"
+              :rows="2">
+          </d-form-textarea>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>LINE ID</label>
+                <d-input
+                    v-model="profilUser.id_line"
+                    :disabled="isEditing"
+                    class=""
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Nomor Telepon</label>
+                <d-input
+                    v-model="profilUser.nomor_telepon"
+                    :disabled="isEditing"
+                    :state="errors.nomor_telepon ? 'invalid' : 'null'"
+                    class=""
+                />
+                <d-form-invalid-feedback>Isian ini tidak boleh kosong.</d-form-invalid-feedback>
+              </div>
+            </div>
+          </div>
         </v-form>
+        <div v-if="!isEditing">
+          <div class="row">
+          <div class="col-md-6 py-0">
+            <d-btn block-level theme="secondary" @click="batalUbahProfil">Batal</d-btn>
+          </div>
+          <div class="col-md-6 py-0">
+            <d-btn block-level @click="update">Simpan</d-btn>
+          </div>
+        </div>
+        </div>
+        <div v-else>
+          <d-btn block-level @click="isEditing = false">Perbaharui Profil</d-btn>
+        </div>
       </v-card-text>
-      <v-card-actions v-if="!editing" class="justify-center">
-        <v-btn outlined class="mb-5" @click="editing = !editing"
-          >Ubah Profil</v-btn
-        >
-      </v-card-actions>
     </v-card>
   </v-container>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 import moment from "moment";
 
 moment.locale("id");
@@ -196,6 +151,7 @@ export default {
   data: () => ({
     moment: moment,
     editing: false,
+    isEditing: true,
     nama_lengkap: "",
     vege: false,
     alergi: "",
@@ -204,7 +160,15 @@ export default {
     nomor_id: "",
     fromDateMenu: false,
     fromDateVal: null,
-    alertShow: false
+    alertShow: false,
+    profilUser: {
+      full_name: "",
+      tanggal_lahir: "",
+      nomor_id: "",
+      alamat: "",
+      nomor_telepon: "",
+      id_line: ""
+    }
   }),
   computed: {
     ...mapState({
@@ -235,36 +199,35 @@ export default {
       clear: "authsys/clear"
     }),
 
+    editProfilUser() {
+      this.isEditing = true
+    },
+
     passStateToProps() {
-      (this.nama_lengkap = this.user.full_name),
-        (this.id_line = this.user.id_line),
-        (this.nomor_telepon = this.user.nomor_telepon),
-        (this.alergi = this.user.alergic),
-        (this.nomor_id = this.user.nomor_id),
-        (this.fromDateVal = this.user.tanggal_lahir),
-        (this.is_vege = this.user.is_vege);
+      this.profilUser.full_name = this.user.full_name
+      this.profilUser.tanggal_lahir = this.user.tanggal_lahir
+      this.profilUser.nomor_id = this.user.nomor_id
+      this.profilUser.alamat = this.user.alamat
+      this.profilUser.nomor_telepon = this.user.nomor_telepon
+      this.profilUser.id_line = this.user.id_line
+    },
+
+    batalUbahProfil() {
+      this.passStateToProps()
+      this.isEditing = true
     },
 
     async update() {
       this.clear();
-      await this.updateProfile({
-        full_name: this.nama_lengkap,
-        id_line: this.id_line,
-        nomor_telepon: this.nomor_telepon,
-        alergic: this.alergi,
-        is_vege: this.is_vege,
-        nomor_id: this.nomor_id,
-        tanggal_lahir: this.fromDateVal
-      }); //,
-      //
+      await this.updateProfile(this.profilUser);
       this.scrollToTop();
       if (!this.success) {
         //console.log("A");
-        this.editing = true;
+        this.isEditing = false;
       } else {
         //console.log("B");
         this.alertShow = true;
-        this.editing = false;
+        this.isEditing = true;
         await setTimeout(() => (this.alertShow = false), 2000);
         this.clear();
       }
@@ -286,7 +249,9 @@ export default {
 .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 

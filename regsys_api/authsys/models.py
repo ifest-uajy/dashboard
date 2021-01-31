@@ -82,6 +82,7 @@ class User(AbstractUser):
     nomor_id = models.CharField(max_length=50)
     tanggal_lahir = models.DateField(default=None, null=True)
     is_confirmed = models.BooleanField(default=False)
+    alamat = models.CharField(max_length=250)
 
     """
     Field ini untuk kebutuhan kosumsi
@@ -113,7 +114,7 @@ class User(AbstractUser):
 
     @property
     def isProfileComplete(self):
-        if(not self.nomor_id or not self.tanggal_lahir or not self.nomor_telepon):
+        if not self.nomor_id or not self.tanggal_lahir or not self.nomor_telepon:
             return False
         else:
             return True
