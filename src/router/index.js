@@ -41,17 +41,17 @@ const routes = [
   },
   {
     path: "/",
-    title: "Informatics Festival (IFest) #8",
+    title: "Informatics Festival (IFest) #9",
     component: HomeComponent,
     meta: {
-      title: "Dashboard - Informatics Festival (IFest) #8"
+      title: "Dashboard - Informatics Festival (IFest) #9"
     }
   },
   {
     name: "kontak-kami",
     path: "/contact",
     meta: {
-      title: "Kontak Kami - Informatics Festival (IFest) #8"
+      title: "Kontak Kami - Informatics Festival (IFest) #9"
     },
     component: KontakKamiView
   },
@@ -60,7 +60,7 @@ const routes = [
     path: "/administrasi",
     component: PanitiaView,
     meta: {
-      title: "Administrasi Data - Informatics Festival (IFest) #8"
+      title: "Administrasi Data - Informatics Festival (IFest) #9"
     },
     beforeEnter: reqLogin
   },
@@ -68,7 +68,7 @@ const routes = [
     path: "/administrasi/competition/:slug",
     component: SekretView,
     meta: {
-      title: "Administrasi Data - Informatics Festival (IFest) #8"
+      title: "Administrasi Data - Informatics Festival (IFest) #9"
     },
     beforeEnter: reqLogin
   },
@@ -77,7 +77,7 @@ const routes = [
     path: "/login",
     component: LoginComponent,
     meta: {
-      title: "Masuk - Informatics Festival (IFest) #8"
+      title: "Masuk - Informatics Festival (IFest) #9"
     },
     beforeEnter: reqAnonymous
   },
@@ -86,7 +86,7 @@ const routes = [
     component: RegistrationComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Pendaftaran - Informatics Festival (IFest) #8"
+      title: "Pendaftaran - Informatics Festival (IFest) #9"
     }
   },
   {
@@ -94,7 +94,7 @@ const routes = [
     component: ResendActivation,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Kirim Ulang Email Aktivasi - Informatics Festival (IFest) #8"
+      title: "Kirim Ulang Email Aktivasi - Informatics Festival (IFest) #9"
     }
   },
   {
@@ -107,7 +107,7 @@ const routes = [
         name: "dashboard",
         component: PemberitahuanComponent,
         meta: {
-          title: "Pengumuman - Informatics Festival (IFest) #8"
+          title: "Pengumuman - Informatics Festival (IFest) #9"
         }
       },
       {
@@ -115,7 +115,7 @@ const routes = [
         name: "kompetisi",
         component: CompetitionListComponent,
         meta: {
-          title: "Kompetisi - Informatics Festival (IFest) #8"
+          title: "Kompetisi - Informatics Festival (IFest) #9"
         }
       },
       {
@@ -123,7 +123,7 @@ const routes = [
         name: "profil",
         component: ProfileComponent,
         meta: {
-          title: "Profil - Informatics Festival (IFest) #8"
+          title: "Profil - Informatics Festival (IFest) #9"
         }
       },
       {
@@ -131,7 +131,7 @@ const routes = [
         name: "teams",
         component: TeamListView,
         meta: {
-          title: "Tim - Informatics Festival (IFest) #8"
+          title: "Tim - Informatics Festival (IFest) #9"
         }
       },
       {
@@ -139,7 +139,7 @@ const routes = [
         name: "register_competition",
         component: CompetitionRegisterComponent,
         meta: {
-          title: "Daftar Kompetisi - Informatics Festival (IFest) #8"
+          title: "Daftar Kompetisi - Informatics Festival (IFest) #9"
         }
       },
       {
@@ -147,7 +147,7 @@ const routes = [
         name: "changepassword",
         component: changePasswordComponent,
         meta: {
-          title: "Ganti Password - Informatics Festival (IFest) #8"
+          title: "Ganti Password - Informatics Festival (IFest) #9"
         }
       }
     ]
@@ -157,7 +157,7 @@ const routes = [
     component: ConfirmComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Konfirmasi Email - Informatics Festival (IFest) #8"
+      title: "Konfirmasi Email - Informatics Festival (IFest) #9"
     }
   },
   {
@@ -165,7 +165,7 @@ const routes = [
     component: ResetPasswordHandlerComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Reset Password - Informatics Festival (IFest) #8"
+      title: "Reset Password - Informatics Festival (IFest) #9"
     }
   },
   {
@@ -173,14 +173,14 @@ const routes = [
     component: ResetPasswordComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Reset Password - Informatics Festival (IFest) #8"
+      title: "Reset Password - Informatics Festival (IFest) #9"
     }
   },
   {
     path: "*",
     component: NotFoundComponent,
     meta: {
-      title: "Halaman Tidak Ditemukan - Informatics Festival (IFest) #8"
+      title: "Halaman Tidak Ditemukan - Informatics Festival (IFest) #9"
     }
   }
 ];
