@@ -6,73 +6,62 @@
     </div>
 
     <v-container>
-      <div class="header-box">
-        <img
-            class="circle-top"
-            src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png"
-        />
-        <img
-            class="circle-top"
-            src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png"
-        />
-        <img
-            class="circle-top"
-            src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"
-        />
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <div class="header-box">
+            <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"/>
+          </div>
+        </div>
+        <div class="col pl-0">
+          <h3 class="judul mb-0 font-weight-bold">Dashboard</h3>
+          <h5 class="font-weight-bold mb-0">Informatics Festival (IFest) #9</h5>
+        </div>
       </div>
-      <v-container>
-        <h2 class="judul">Dashboard IFest #9</h2>
+      <v-container class="px-0">
+
         <h1 class="title sub-judul">
           Selamat datang,
           <span class="font-weight-bold">{{ user.full_name }}</span
           >!
         </h1>
       </v-container>
-      <div v-if="!isMobile()">
+      <div v-if="!isMobile()" class="mb-5">
         <v-tabs :show-arrows="true" grow>
-          <v-tab to="/dashboard">
-            <div class="pr-5">
-              <v-badge class="mt-2">
-                <template v-if="anouncementsCount !== 0" v-slot:badge>{{
-                    anouncementsCount
-                  }}
-                </template>
-                Pengumuman
-              </v-badge>
-            </div>
+          <v-tab to="/dashboard" style="text-decoration: none">
+            <v-badge
+              color="blue"
+              :content="anouncementsCount"
+              :value="anouncementsCount"
+            >
+              Announcements
+            </v-badge>
           </v-tab>
-          <v-tab to="/dashboard/competition">
-            <div class="pr-5">
-              <v-badge class="mt-2">
-                <template v-if="competitionsCount !== 0" v-slot:badge>{{
-                    competitionsCount
-                  }}
-                </template>
-                Kompetisi
-              </v-badge>
-            </div>
+          <v-tab to="/dashboard/competition" style="text-decoration: none">
+            <v-badge
+              color="blue"
+              :content="competitionsCount"
+              :value="competitionsCount"
+            >
+              Competitions
+            </v-badge>
           </v-tab>
-          <v-tab to="/dashboard/teams">
-            <div class="pr-5">
-              <v-badge class="mt-2">
-                <template v-if="teamsCount !== 0" v-slot:badge>{{
-                    teamsCount
-                  }}
-                </template>
-                Tim
-              </v-badge>
-            </div>
+          <v-tab to="/dashboard/teams" style="text-decoration: none">
+            <v-badge
+              color="blue"
+              :content="teamsCount"
+              :value="teamsCount"
+            >
+              My Teams
+            </v-badge>
           </v-tab>
-          <v-tab to="/dashboard/profile">
-            <div class="pr-5">
-              <v-badge class="mt-2" color="red">
-                <template v-if="user.isProfileComplete !== true" v-slot:badge
-                >!
-                </template
-                >
-                Profil
-              </v-badge>
-            </div>
+          <v-tab to="/dashboard/profile" style="text-decoration: none">
+            <v-badge
+              color="red"
+              :content="`!`"
+              :value="!user.isProfileComplete"
+            >
+              Profile
+            </v-badge>
           </v-tab>
         </v-tabs>
       </div>
@@ -212,8 +201,8 @@ export default {
 .circle-top {
   margin: auto 10px;
   /* padding: 10px; */
-  height: 50px;
-  width: 50px;
+  height: 75px;
+  width: 75px;
   background: white;
   border-radius: 100%;
 }
@@ -222,7 +211,7 @@ export default {
   font-family: "Roboto", sans-serif;
   line-height: 1.1em;
   font-size: 30pt;
-  color: #0f4c75;
+  color: #1d3557;
   font-weight: 500;
 }
 
@@ -233,10 +222,4 @@ export default {
   font-weight: 500;
   margin-bottom: 20px;
 }
-
-.bg-img {
-  width: 100%;
-  background: url("https://ifest-uajy.com/assets/email/bg_top2.jpg") no-repeat;
-}
-
 </style>

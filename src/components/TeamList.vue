@@ -1,33 +1,7 @@
 <template>
-  <v-container class="px-0 mx-0">
-    <!--   <v-container class="mb-0 pb-0">
-     <v-badge class="mb-5">
-        <template
-          v-if="Object.keys(competitions).length !== 0"
-          v-slot:badge
-        >{{Object.keys(competitions).length}}</template>
-        <h3 class="subtitle pb-0 mb-0">Kompetisi</h3>
-      </v-badge>
-    </v-container>
-    -->
-    <v-container v-if="Object.keys(teams).length === 0">
-      <v-content>
-        <v-alert outlined prominent>
-          <p class="font-weight-bold mb-0">
-            Wah, sepertinya kamu belum mendaftar kompetisi apapun.
-          </p>
-          <p class="black--text text--darken-2 mb-1">
-            Untuk dapat mulai berkompetisi lengkapi profil kamu di tab profil
-            dan daftarkan tim kamu di tab kompetisi atau gunakan kode undangan
-            dari ketua tim kamu di form dibawah ini.
-          </p>
-        </v-alert>
-      </v-content>
-    </v-container>
-
-
-    <v-container>
-      <d-card v-for="c in teams" :key="c.id">
+  <v-container class="px-0 pt-0 mx-0">
+    <v-container v-if="Object.keys(teams).length > 0">
+      <d-card v-for="(c, k) in teams" :key="k">
         <d-card-body class="pb-0 mb-3">
           <d-badge class="font-weight-bold" theme="primary">{{ c.kompetisi.name }}</d-badge>
         </d-card-body>
@@ -90,8 +64,8 @@
                 </template>
                 <template #tbody>
                   <vs-tr
-                      v-for="u in c.anggota"
-                      :key="u"
+                      v-for="(u, k) in c.anggota"
+                      :key="k"
                       :data="u"
                   >
                     <vs-td>
@@ -261,6 +235,15 @@
       </d-card>
 
     </v-container>
+    <v-container v-else>
+      <div class="pb-3 text-center">
+        <div class="px-5 pt-5">
+          <img :src="images.noTeams"/>
+          <p class="font-weight-bold mb-0" style="font-size: 26pt; color: #1d3557 !important;">Whoops...</p>
+          <p class="black--text text--darken-2 mb-1" style="opacity: 0.8;">Kamu belum mendaftar kompetisi apapun saat ini</p>
+        </div>
+      </div>
+    </v-container>
   </v-container>
 </template>
 
@@ -283,6 +266,9 @@ export default {
       nomor_id: "",
       tanggal_lahir: "",
       alamat: ""
+    },
+    images: {
+        noTeams: require('@/assets/Progress _Two Color.svg')
     }
   }),
   computed: mapState({

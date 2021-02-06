@@ -322,7 +322,7 @@ class GetTeamById(views.APIView):
             id=self.kwargs['id']
         )
 
-        response_serializer = AdminTeamDetailSerializer(team)
+        response_serializer = TeamDetailSerializer(team)
 
         return Response(
             data=response_serializer.data, status=status.HTTP_200_OK

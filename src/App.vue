@@ -1,8 +1,8 @@
 <template>
   <v-app id="main" style="background: #fff">
-    <v-content class="content">
+    <v-main class="content">
       <router-view />
-    </v-content>
+    </v-main>
     <Footer />
   </v-app>
 </template>
@@ -24,7 +24,5 @@ export default {
 </script>
 
 <style scoped>
-#main {
-  clear: both;
-}
+
 </style>

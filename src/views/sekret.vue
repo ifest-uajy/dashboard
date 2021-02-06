@@ -103,60 +103,62 @@
                       </v-row>
                       <!-- </v-container> -->
                       <p class="title-inner">Informasi Anggota</p>
-                      <v-simple-table>
-                        <template v-slot:default>
-                          <thead>
-                            <tr>
-                              <th class="text-left">#</th>
-                              <th class="text-left">Nama</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-left">Nomor ID</th>
-                              <th class="text-left">Tanggal Lahir</th>
-                              <th class="text-left">Telepon</th>
-                              <th class="text-left">ID Line</th>
-                              <th class="text-center">Vege?</th>
-                              <th class="text-left">Alergi</th>
-                              <!-- <th class="text-left">Tanggal Daftar</th> -->
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              v-for="(item, key) in detail.anggota"
-                              :key="key"
-                            >
-                              <td>{{ key + 1 }}</td>
-                              <td v-if="item.nama == detail.ketua">
-                                <b>{{ item.nama }} (Ketua)</b>
-                              </td>
-                              <td v-else>{{ item.nama }}</td>
-                              <td>{{ item.email }}</td>
-                              <td>{{ item.nomor_id }}</td>
-                              <td>
-                                {{
-                                  moment(String(item.tanggal_lahir)).format(
-                                    "DD MMM YYYY"
-                                  )
-                                }}
-                              </td>
-                              <td>{{ item.nomor_telepon }}</td>
-                              <td>{{ item.id_line }}</td>
-                              <td class="text-center">
-                                <span v-if="item.is_vege === true">
-                                  <v-icon color="green"
-                                    >mdi-check-circle</v-icon
-                                  >
-                                </span>
-
-                                <span v-else>
-                                  <v-icon color="red">mdi-close-circle</v-icon>
-                                </span>
-                              </td>
-                              <td>{{ item.alergic }}</td>
-                              <!-- <td>{{moment(String(item.date_joined)).format("DD MMMM YYYY hh:mm A ")}}</td> -->
-                            </tr>
-                          </tbody>
+                      <vs-table>
+                        <template #thead>
+                          <vs-tr>
+                            <vs-th>
+                              Nomor Identitas
+                            </vs-th>
+                            <vs-th>
+                              Nama Lengkap
+                            </vs-th>
+                            <vs-th>
+                              Email
+                            </vs-th>
+                            <vs-th>
+                              No Telepon
+                            </vs-th>
+                            <vs-th>
+                              ID Line
+                            </vs-th>
+                            <vs-th>
+                              Tanggal Lahir
+                            </vs-th>
+                            <vs-th>
+                              Alamat
+                            </vs-th>
+                          </vs-tr>
                         </template>
-                      </v-simple-table>
+                        <template #tbody>
+                          <vs-tr
+                              v-for="u in detail.anggota"
+                              :key="u"
+                              :data="u"
+                          >
+                            <vs-td>
+                              {{ u.nomor_id }}
+                            </vs-td>
+                            <vs-td>
+                              {{ u.full_name }}
+                            </vs-td>
+                            <vs-td>
+                              {{ u.email }}
+                            </vs-td>
+                            <vs-td>
+                              {{ u.nomor_telepon }}
+                            </vs-td>
+                            <vs-td>
+                              {{ u.id_line }}
+                            </vs-td>
+                             <vs-td>
+                               {{ moment(String(u.tanggal_lahir)).format("DD MMM YYYY") }}
+                            </vs-td>
+                            <vs-td>
+                              {{ u.alamat }}
+                            </vs-td>
+                          </vs-tr>
+                        </template>
+                      </vs-table>
                       <p class="title-inner">Informasi Task Lomba</p>
                       <span class="subtitle-inner">Task Saat Ini</span>
                       <p class="subtitle-outer">

@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import "./plugins/shards";
 import '@/plugins/vuesax'
+import '@/plugins/fontawesome'
 import vuetify from "@/plugins/vuetify";
 import VueLetterAvatar from "vue-letter-avatar";
 import VueAnalytics from "vue-analytics";
