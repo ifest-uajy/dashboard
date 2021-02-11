@@ -1,8 +1,6 @@
-# Cloverleaf 🍀
+# Dashboard Informatics Festival
 
-![Screenshoot](./screenshoot.png)
-
-Cloverleaf 🍀 adalah sebuah sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan dan memverifikasi pembayaran.
+Sistem berbasis web yang memungkinkan beberapa pengguna untuk melakukan aktifitas seperti mendaftar dalam perlombaan. Serta memiliki fungsi untuk mengumpulkan submisi tugas dari setiap perlombaan dan memverifikasi pembayaran.
 
 ## Tech Stack
 1. Django
@@ -73,7 +71,7 @@ Development steps below using `pipenv` and `npm`. If you want to use others deve
 This is a source code repository for a registration system that uses in a event. You could take a look to this work but cannot do anything with this code. This code was have no license, so you could read more in [here](https://choosealicense.com/no-permission/) what could you do and don't.
 
 ## Author
-- Vriyas Hartama A (haruute0) - Full Stack Developer
+- Vriyas Hartama (liehart) - Full Stack Developer
 
 ## Notes
-This web app is build to fullfill the need of event registration system of [Informatics Festival (IFest) #8](https://ifest-uajy.com/) hosted by [Himaforka UAJY](https://himaforka-uajy.org).
+This web app is build to fullfill the need of event registration system of [Informatics Festival](https://ifest-uajy.com/) by [Himaforka UAJY](https://himaforka-uajy.org).
