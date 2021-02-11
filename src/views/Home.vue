@@ -32,14 +32,14 @@
           Selamat datang di Sistem Registrasi Kompetisi Informatics Festival (IFest) #9.
         </p>
         <router-link to="/register">
-          <v-btn class="btn daftar">
-            <span>Daftar Sekarang!</span>
-          </v-btn>
+          <d-btn class="mr-3">
+            Buat Akun
+          </d-btn>
         </router-link>
         <router-link to="/login">
-          <v-btn class="btn login">
-            <span>Masuk</span>
-          </v-btn>
+          <d-btn theme="secondary">
+            Masuk
+          </d-btn>
         </router-link>
       </div>
     </div>
@@ -73,93 +73,28 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Amiri&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
-.header_big {
-  margin-top: 40px;
-  font-size: 80pt;
-}
-
-.subheader_big {
-  font-size: 60pt;
-  margin-bottom: 40px;
-}
-
-.link_clover {
-  font-size: 25pt;
-  text-decoration: unset !important;
-}
-
-.link_clover:hover {
-  color: cornflowerblue;
-}
-
-.boxed-center {
-  margin: auto;
-  margin-top: 80px;
-  width: 700px;
-}
-
-.image-center {
-  max-height: 200px;
-}
-
 .circle-top {
   margin: auto 10px;
   padding: 10px;
   height: 50px;
   width: 50px;
-  background: white;
+  background: #ffffff;
   border-radius: 100%;
 }
 
 .header-box {
   display: flex;
-  background: #1b262c;
+  background: #01497c;
   justify-content: center;
   height: 100px;
 }
 
 .body2 {
-  background-color: #0f4c75;
+  background-color: #f7f7ff;
   min-height: 100%;
-  color: #dfdbdb;
+  color: #323232;
   font-family: "Roboto", sans-serif;
   clear: both;
-}
-
-.alur-pendaftaran {
-  min-height: 200px;
-  margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  display: flex;
-  justify-content: space-around;
-  align-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  max-width: 1000px;
-}
-
-.cara-pendaftaran {
-  background-color: #263b68;
-  font-family: "Amiri", serif;
-  display: flex;
-  padding-top: 20px;
-  margin-top: 50px;
-  justify-content: center;
-}
-
-.sub {
-  padding: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-  background: #fff;
-  border-radius: 2px;
-  display: inline-block;
-  border-radius: 8px;
-  margin: 1rem;
-  position: relative;
-  width: 300px;
-  color: #1b262c;
 }
 
 .columns-a {
@@ -187,20 +122,11 @@ export default {
 }
 
 .judul {
-  color: #ffffff;
+  color: #1d1d1d;
   font-family: "Amiri", serif;
   line-height: 1.1em;
   font-size: 30pt;
   font-weight: 500;
-}
-
-.sub-judul {
-  color: #ffffff;
-  font-family: "Amiri", serif;
-  line-height: 1.1em;
-  font-size: 24pt;
-  font-weight: 500;
-  padding: 20px;
 }
 
 .judul-span {
@@ -213,12 +139,6 @@ export default {
 
 .daftar {
   margin-right: 20px;
-}
-
-.link-hubungi {
-  margin-top: 15px;
-  font-size: 10pt;
-  color: #fff !important;
 }
 
 a {
@@ -268,25 +188,5 @@ a:active {
     margin: auto;
     max-width: 350px;
   }
-}
-
-.number-sub {
-  font-weight: 700;
-  font-size: 20pt;
-}
-
-.container-dash {
-  margin: auto;
-  max-width: 900px;
-}
-
-.competition-box {
-  min-height: 300px;
-  background-color: white;
-  box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
-  outline: none;
-  border: none !important;
-  border-radius: 8px !important;
-  max-width: 1000px;
 }
 </style>

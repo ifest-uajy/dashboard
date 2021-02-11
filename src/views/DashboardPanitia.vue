@@ -1,87 +1,59 @@
 <template>
-  <v-layout pt-12 class="bg-img">
+  <v-layout class="bg-img" pt-12>
     <!-- /* LOGOUT BUTTON */ -->
-    <div @click="logoutActions" class="logout-btn">
+    <div class="logout-btn" @click="logoutActions">
       <a>Keluar</a>
     </div>
 
-    <v-container>
-      <div class="header-box">
-        <img
-          class="circle-top"
-          src="https://dashboard.ifest-uajy.com/assets/atma_jaya5050.png"
-        />
-        <img
-          class="circle-top"
-          src="https://dashboard.ifest-uajy.com/assets/himaforka5050.png"
-        />
-        <img
-          class="circle-top"
-          src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"
-        />
+    <v-container class="mb-5 pb-5">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <div class="header-box">
+            <img class="circle-top" src="https://dashboard.ifest-uajy.com/assets/ifest5050.png"/>
+          </div>
+        </div>
+        <div class="col pl-0">
+          <h3 class="judul mb-0 font-weight-bold">Dashboard Panitia</h3>
+          <h5 class="font-weight-bold mb-0">Informatics Festival (IFest) #9</h5>
+        </div>
       </div>
-      <v-container>
-        <h2 class="judul">Dashboard Panitia</h2>
-        <h1 class="title sub-judul mb-0">
-          Selamat datang,
-          <span class="font-weight-bold">{{ user.full_name }}</span
-          >!
-        </h1>
-      </v-container>
 
       <v-container class="pt-0 mt-0">
-        <h1 class="title">Rekap Data Peserta Lomba</h1>
-        <p>
-          Menu ini adalah menu untuk menyajikan data peserta dalam tim yang
-          sudah mendaftar dalam masing-masing kompetisi.
-        </p>
-
-        <div v-if="loading">
-          <v-row style="background: #fff">
-            <v-col key="0" cols="12" sm="4">
-              <v-card class="pa-2 pb-5" outlined>
-                <v-skeleton-loader
-                  class="mt-5 ml-5 pb-5"
-                  type="heading"
-                ></v-skeleton-loader>
-                <v-skeleton-loader
-                  type="text"
-                  class="ml-5 pb-5"
-                  max-width="250"
-                ></v-skeleton-loader>
-                <v-skeleton-loader
-                  type="button"
-                  class="ml-5 pb-3"
-                ></v-skeleton-loader>
-              </v-card>
-            </v-col>
-          </v-row>
-        </div>
-        <div v-else>
-          <v-row>
-            <v-col v-for="c in competitions" :key="c.id" cols="12" sm="4">
-              <v-card class="pa-2 pb-5" outlined>
-                <v-card-title class="mb-0">
-                  <span class="wordBreak">{{ c.name }}</span>
-                </v-card-title>
-
-                <v-card-subtitle class="pb-0 pt-1 pb-3">
-                  Jumlah Pendaftar :
-                  <strong>Undefined</strong> Tim
-                </v-card-subtitle>
-
-                <v-card-actions>
-                  <v-btn
-                    class="ml-2 mt-0"
-                    outlined
-                    :to="`/administrasi/competition/` + c.slug_name + `/`"
-                    color="black"
-                    >Lihat Data</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
+        <div class="mt-5 pt-5">
+          <div class="row">
+            <div class="col-sm-4" v-if="loading">
+              <d-card>
+                <d-card-body>
+                   <v-skeleton-loader
+                      class="pb-5"
+                      type="heading"
+                    ></v-skeleton-loader>
+                    <v-skeleton-loader
+                        class="pb-5"
+                        max-width="250"
+                        type="text"
+                    ></v-skeleton-loader>
+                    <v-skeleton-loader
+                        class="pb-3"
+                        type="button"
+                    ></v-skeleton-loader>
+                </d-card-body>
+              </d-card>
+            </div>
+            <div class="col-sm-4" v-for="(competition, k) in competitions" :key="k" v-else>
+              <d-card>
+                <d-card-body>
+                  <d-badge class="mb-3 mr-1">Competition</d-badge>
+                  <d-badge v-if="competition.isExpired" theme="danger" class="mb-3">Closed</d-badge>
+                  <p class="font-weight-bold">{{competition.name}}</p>
+                  <router-link :to="`/administrasi/competition/` + competition.slug_name + `/`">
+                    <d-btn theme="light">Lihat Data &rarr;
+                    </d-btn>
+                  </router-link>
+                </d-card-body>
+              </d-card>
+            </div>
+          </div>
         </div>
       </v-container>
     </v-container>
@@ -89,7 +61,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   data: () => ({}),
@@ -104,7 +76,7 @@ export default {
     if (this.user.is_staff) {
       this.getCompetition();
     } else {
-      this.$router.push({ name: "dashboard" });
+      this.$router.push({name: "dashboard"});
     }
   },
   methods: {
@@ -133,6 +105,7 @@ export default {
   z-index: 15;
   border-radius: 8px 0px 0px 8px;
 }
+
 .logout-btn a {
   margin: auto 10px;
   margin-top: 25px;
@@ -140,43 +113,13 @@ export default {
   color: rgb(119, 170, 241);
   text-decoration: none;
 }
+
 .logout-btn a:visited {
   text-decoration: none;
 }
+
 .logout-btn:hover {
   background: rgb(13, 34, 65);
-}
-
-.subtitle-inner {
-  font-size: 9pt;
-  margin: 0;
-  font-weight: bold;
-  color: rgb(0, 11, 32);
-}
-
-.subtitle-outer {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 10px;
-}
-
-.title-inner {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 10px;
-  font-size: 14pt;
-  font-weight: bold;
-  margin-top: 25px;
-}
-
-.outer-link {
-  text-decoration: none !important;
-  font-size: 16pt;
-  margin-top: 10px;
-}
-
-.wordBreak {
-  word-break: normal !important;
 }
 
 .circle-top {
@@ -194,18 +137,5 @@ export default {
   font-size: 30pt;
   color: #0f4c75;
   font-weight: 500;
-}
-
-.sub-judul {
-  font-family: "Roboto", sans-serif;
-  line-height: 1.1em;
-  font-size: 24pt;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-
-.bg-img {
-  width: 100%;
-  background: url("https://ifest-uajy.com/assets/email/bg_top2.jpg") no-repeat;
 }
 </style>

@@ -19,17 +19,17 @@
 
 <style scoped>
 .ifest-footer {
-  background-color: #1d3557 !important;
-  color: #FFFFFF !important;
+  background-color: #012a4a !important;
+  color: #fbfbff !important;
   font-size: 10pt;
 }
 .ifest-icon {
   height: 30px;
   width: 30px;
-  background-color: #152844;
+  background-color: #001f54;
   padding: 4px;
   border-radius: 4px;
-  color: #5d7eb5;
+  color: #fbfbff;
   margin-left: 8px;
 }
 </style>

@@ -31,6 +31,7 @@ import SekretView from "../views/sekret.vue";
 import PanitiaView from "../views/DashboardPanitia.vue";
 
 import { reqLogin, reqAnonymous } from "../control/userhandle";
+import HelpDesk from "@/views/HelpDesk";
 
 Vue.use(VueRouter);
 
@@ -77,16 +78,19 @@ const routes = [
     path: "/login",
     component: LoginComponent,
     meta: {
-      title: "Masuk - Informatics Festival (IFest) #9"
+      title: "Masuk - Informatics Festival (IFest) #9",
+      hideFooter: true
     },
     beforeEnter: reqAnonymous
   },
   {
+    name: "register",
     path: "/register",
     component: RegistrationComponent,
     beforeEnter: reqAnonymous,
     meta: {
-      title: "Pendaftaran - Informatics Festival (IFest) #9"
+      title: "Pendaftaran - Informatics Festival (IFest) #9",
+      hideFooter: true
     }
   },
   {
@@ -148,6 +152,14 @@ const routes = [
         component: changePasswordComponent,
         meta: {
           title: "Ganti Password - Informatics Festival (IFest) #9"
+        }
+      },
+      {
+        path: "helpdesk",
+        name: "Help Desk",
+        component: HelpDesk,
+        meta: {
+          title: "Help Desk - Informatics Festival (IFesst) #9"
         }
       }
     ]

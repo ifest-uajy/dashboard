@@ -90,7 +90,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-
 export default {
   data: () => ({
     btnDisabled: true,
@@ -126,7 +125,6 @@ export default {
       registerAction: "authsys/register",
       clear: "authsys/clear"
     }),
-
     register() {
       this.registerAction({
         full_name: this.full_name,
@@ -151,27 +149,22 @@ export default {
   min-height: 100vh;
   max-height: 100vh;
 }
-
 .card_cloverleaf {
   box-shadow: 0 10px 20px 0 rgba(53, 64, 90, 0.2);
   outline: none;
   border: none !important;
   border-radius: 8px !important;
 }
-
 .title_card_cloverleaf {
   font-size: 20pt;
   margin-top: 10px;
 }
-
 .subtitle_card_cloverleaf {
   font-size: 15pt;
 }
-
 .link_clover {
   text-decoration: unset !important;
 }
-
 .link_clover:hover {
   color: cornflowerblue;
 }
