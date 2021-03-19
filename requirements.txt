@@ -5,7 +5,7 @@ django-rest-framework==0.1.0
 django-smtp-ssl==1.0
 django-user-agents==0.4.0
 django-webpack-loader==0.6.0
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 idna==2.8
 mysqlclient==1.4.6
 python-dotenv==0.11.0
