@@ -1,7 +1,7 @@
 <template>
   <v-container class="px-0 pt-0 mx-0">
     <v-container v-if="Object.keys(teams).length > 0">
-      <d-card v-for="(c, k) in teams" :key="k">
+      <d-card v-for="(c, k) in teams" :key="k" class="mb-5">
         <d-card-body class="pb-0 mb-3">
           <d-badge class="font-weight-bold" theme="primary">{{ c.kompetisi.name }}</d-badge>
         </d-card-body>
@@ -92,7 +92,7 @@
                   </vs-tr>
                 </template>
               </vs-table>
-              <d-btn :hidden="c.is_full" @click.native="handleClick" size="sm" class="mt-3">Tambah Data Anggota</d-btn>
+              <d-btn :hidden="c.is_full" @click.native="handleClick(c.id)" size="sm" class="mt-3">Tambah Data Anggota</d-btn>
           <hr/>
           <p class="font-weight-bold mb-3">ℹ️&nbsp;️&nbsp;️&nbsp;Task Kompetisi</p>
 
@@ -206,7 +206,7 @@
             </div>
           </div>
         </d-card-body>
-        <d-modal v-if="showModal" @close="handleClose">
+        <d-modal v-if="showModal === c.id" @close="handleClose">
         <d-modal-header>
             <d-modal-title>Tambah Data Anggota</d-modal-title>
         </d-modal-header>
@@ -256,7 +256,7 @@ moment.locale("id");
 
 export default {
   data: () => ({
-    showModal: false,
+    showModal: -1,
     data: {
       team_id: "",
       full_name: "",
@@ -280,11 +280,11 @@ export default {
   },
   methods: {
     moment,
-     handleClick() {
-            this.showModal = true
+     handleClick(c) {
+            this.showModal = c
         },
     handleClose() {
-            this.showModal = false
+            this.showModal = -1
             this.data.team_id = ""
             this.data.full_name = ""
             this.data.email = ""
