@@ -16,7 +16,7 @@
     "core-js": "^3.3.2",
     "js-cookie": "^2.2.1",
     "luxon": "^1.21.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "vue": "^2.6.10",
     "vue-analytics": "^5.22.1",
     "vue-datetime": "^1.0.0-beta.11",
